@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+    app:
+        build:
+            context: ./
+            target: development
+            args:
+                USER: "${DOCKER_UID:-1000}"
+        environment:
+            - HOME=/tmp
+            - APP_ENV=${APP_ENV:-dev}
+            - PHP_PCOV_ENABLED=${PHP_PCOV_ENABLED:-0}
+            - PHP_XDEBUG_MODE=${PHP_XDEBUG_MODE:-off}
+            - PHP_XDEBUG_CLIENT_HOST=${PHP_XDEBUG_CLIENT_HOST:-172.17.0.1}
+            - PHP_XDEBUG_CLIENT_PORT=${PHP_XDEBUG_CLIENT_PORT:-9003}
+            - PHP_IDE_CONFIG=serverName=docker-php-server
+            - XDEBUG_CONFIG=idekey=docker-php-server
+        volumes:
+            - "./:/srv/app:rw"
+        user: "${DOCKER_UID:-1000}"
+        restart: unless-stopped
+        ports:
+            - "${DOCKER_PORT_HTTP:-8080}:8080"
+        networks:
+            - default
+
+networks:
+    default: ~
