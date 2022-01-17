@@ -23,8 +23,11 @@ make destroy # remove all containers, all volumes, all docker images
 
 make tests # launch all the tests
 
+docker-compose run --rm app yarn watch # watch scss & js changes
+
 docker-compose run --rm app bin/console [cmd] # execute a symfony command
 docker-compose run --rm app composer [cmd] # execute a composer command
+docker-compose run --rm app yarn [cmd] # execute a yarn command
 ```
 
 ## Production
