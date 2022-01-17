@@ -124,6 +124,7 @@ tests-unit: PHP_PCOV_ENABLED=1
 tests-unit: PHP_XDEBUG_MODE=off
 tests-unit:
 	$(PHP) vendor/bin/phpunit --testsuite "Unit" \
+		--log-junit var/tests/unit.xml \
 		--coverage-html coverage/unit/ \
 		--coverage-clover coverage/unit/coverage.xml
 
@@ -133,5 +134,6 @@ tests-integration: PHP_PCOV_ENABLED=1
 tests-integration: PHP_XDEBUG_MODE=off
 tests-integration:
 	$(PHP) vendor/bin/phpunit --testsuite "Integration" \
+		--log-junit var/tests/integration.xml \
 		--coverage-html coverage/integration/ \
 		--coverage-clover coverage/integration/coverage.xml
