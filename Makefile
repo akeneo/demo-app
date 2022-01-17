@@ -23,6 +23,7 @@ endif
 DOCKER_COMPOSE = docker-compose
 COMPOSER = $(DOCKER_COMPOSE) run --rm --no-deps app composer $(COMPOSER_ARGS)
 PHP = $(DOCKER_COMPOSE) run --rm --no-deps app
+YARN = $(DOCKER_COMPOSE) run --rm --no-deps app yarn
 
 # Export all variables so they are accessible in the shells created by make
 export
@@ -80,6 +81,7 @@ dependencies:
 		--no-ansi \
 		--prefer-dist \
 		--optimize-autoloader
+	$(YARN) install --frozen-lockfile
 
 ##
 ## Misc

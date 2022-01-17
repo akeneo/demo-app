@@ -27,6 +27,9 @@ RUN apt-get update \
         git \
         unzip \
         curl \
+        nodejs \
+        npm \
+    && npm install -g yarn \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -47,6 +50,9 @@ RUN composer install \
         --optimize-autoloader \
         --no-dev
 
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+
 ###############################################################################
 
 FROM core AS production
@@ -61,6 +67,7 @@ ENV APP_ENV=$APP_ENV
 
 COPY . .
 COPY --from=vendors /srv/app/vendor vendor
+COPY --from=vendors /srv/app/node_modules node_modules
 
 RUN cp -n .env.dist .env \
     && php bin/console cache:warmup \
