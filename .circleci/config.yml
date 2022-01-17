@@ -1,0 +1,52 @@
+version: 2.1
+
+jobs:
+  checkout:
+    machine:
+      image: ubuntu-2004:202101-01
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
+
+  tests:
+    machine:
+      image: ubuntu-2004:202101-01
+    environment:
+      BUILDKIT_PROGRESS: "plain"
+      DOCKER_UID: "1001" # The circleci user has uid 1001, not 1000
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Build docker images, install dependencies, warmup cache & start containers
+          command: make up
+      - run:
+          name: Run tests
+          command: make tests
+      - store_test_results:
+          path: var/tests
+
+  pull_request_success:
+    docker:
+      - image: alpine/git
+    steps:
+      - run:
+          name: Success
+          command: echo "The workflow was successful!"
+
+workflows:
+  pull_request:
+    when:
+      not:
+        equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+    jobs:
+      - checkout
+      - tests:
+          requires:
+            - checkout
+      - pull_request_success:
+          requires:
+            - tests
