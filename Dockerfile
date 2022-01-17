@@ -50,8 +50,14 @@ RUN composer install \
         --optimize-autoloader \
         --no-dev
 
+###############################################################################
+
+FROM dev-tools AS frontend
+
+WORKDIR /srv/app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
+RUN yarn build
 
 ###############################################################################
 
@@ -67,7 +73,7 @@ ENV APP_ENV=$APP_ENV
 
 COPY . .
 COPY --from=vendors /srv/app/vendor vendor
-COPY --from=vendors /srv/app/node_modules node_modules
+COPY --from=frontend /srv/app/public/build public/build
 
 RUN cp -n .env.dist .env \
     && php bin/console cache:warmup \

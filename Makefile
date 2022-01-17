@@ -47,6 +47,7 @@ build:
 	$(MAKE) dependencies
 	$(MAKE) cache
 	$(PHP) bin/console assets:install public
+	$(YARN) build
 
 .PHONY: down
 down:
