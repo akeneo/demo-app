@@ -11,7 +11,7 @@ jobs:
           paths:
             - project
 
-  build:
+  tests:
     machine:
       image: ubuntu-2004:202101-01
     environment:
@@ -21,43 +21,7 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
-          name: Create hash key for docker image
-          command: find Dockerfile docker-compose.yml docker/ -type f -print0 | sort -z | xargs -0 sha1sum | sha1sum > ~/docker-image.hash
-      - restore_cache:
-          name: Restore docker image cache
-          key: docker-image-{{ checksum "~/docker-image.hash" }}
-      - run:
-          name: Load docker image cache
-          command: ls docker-image.tar && docker load -i docker-image.tar || true
-      - run:
-          name: Build docker images, install dependencies & warmup cache
-          command: make build
-      - run:
-          name: Create docker image cache
-          command: ls docker-image.tar || docker save -o docker-image.tar project_app:latest
-      - save_cache:
-          name: Save docker image cache
-          key: docker-image-{{ checksum "~/docker-image.hash" }}
-          paths:
-            - docker-image.tar
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project
-
-  tests:
-    machine:
-      image: ubuntu-2004:202101-01
-    environment:
-      DOCKER_UID: "1001" # The circleci user has uid 1001, not 1000
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Load docker image cache
-          command: docker load -i docker-image.tar
-      - run:
-          name: Start containers
+          name: Build docker images, install dependencies, warmup cache & start containers
           command: make up
       - run:
           name: Run tests
@@ -80,12 +44,9 @@ workflows:
         equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
     jobs:
       - checkout
-      - build:
-          requires:
-            - checkout
       - tests:
           requires:
-            - build
+            - checkout
       - pull_request_success:
           requires:
             - tests
