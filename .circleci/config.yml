@@ -14,6 +14,9 @@ jobs:
   build:
     machine:
       image: ubuntu-2004:202101-01
+    environment:
+      BUILDKIT_PROGRESS: "plain"
+      DOCKER_UID: "1001" # The circleci user has uid 1001, not 1000
     steps:
       - attach_workspace:
           at: ~/
@@ -28,6 +31,8 @@ jobs:
   tests:
     machine:
       image: ubuntu-2004:202101-01
+    environment:
+      DOCKER_UID: "1001" # The circleci user has uid 1001, not 1000
     steps:
       - attach_workspace:
           at: ~/
