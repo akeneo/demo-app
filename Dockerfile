@@ -57,6 +57,9 @@ FROM dev-tools AS frontend
 WORKDIR /srv/app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
+
+COPY assets assets
+COPY webpack.config.js tsconfig.json ./
 RUN yarn build
 
 ###############################################################################

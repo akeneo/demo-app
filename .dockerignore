@@ -2,6 +2,12 @@
 .idea/
 .editorconfig
 
+/.circleci/
+/coverage/
+/node_modules/
+/tests/
+/var/
+/vendor/
 /*.cache
 /.gitignore
 /.env
@@ -10,13 +16,9 @@
 /.env.*.local
 /.env.test
 /.php-cs-fixer.dist.php
+/docker-compose.yml
 /Dockerfile
 /Makefile
-/README.md
-/coverage
-/docker-compose.yml
 /phpunit.xml.dist
 /psalm.xml
-/tests
-/var/
-/vendor/
+/README.md
