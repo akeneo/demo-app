@@ -18,7 +18,7 @@ class WelcomeAction
     }
 
     #[Route('/', name: 'welcome')]
-    public function __invoke()
+    public function __invoke(): Response
     {
         return new Response($this->twig->render('welcome.html.twig'));
     }
