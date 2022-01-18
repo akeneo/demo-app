@@ -4,7 +4,9 @@
 
 /.circleci/
 /coverage/
+/deployments/
 /node_modules/
+/public/build/
 /tests/
 /var/
 /vendor/
