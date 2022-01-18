@@ -14,6 +14,7 @@ jobs:
   tests:
     machine:
       image: ubuntu-2004:202101-01
+      docker_layer_caching: true
     environment:
       BUILDKIT_PROGRESS: "plain"
       DOCKER_UID: "1001" # The circleci user has uid 1001, not 1000
@@ -28,6 +29,55 @@ jobs:
           command: make tests
       - store_test_results:
           path: var/tests
+
+  validate_terraform:
+    machine:
+      image: ubuntu-2004:202101-01
+    steps:
+      - checkout
+      - run:
+          name: Install terraform
+          command: |
+            curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            sudo apt-get update && sudo apt-get install terraform
+      - run:
+          name: Terraform lint
+          command: make terraform.lint
+
+  deploy_dev:
+    machine:
+      image: ubuntu-2004:202101-01
+      docker_layer_caching: true
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
+      GCP_APP_NAME: demo-app-${CIRCLE_WORKFLOW_ID}
+      GCP_PROJECT: ${DEV_GCP_PROJECT}
+      GCP_TERRAFORM_BUCKET: ${DEV_GCP_TERRAFORM_BUCKET}
+    steps:
+      - checkout
+      - run:
+          name: Load GCP credentials
+          command: |
+            cat \<< EOF > ${GOOGLE_APPLICATION_CREDENTIALS}
+            ${DEV_GCP_SERVICE_KEY}
+            EOF
+      - run:
+          name: Install terraform
+          command: |
+            curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            sudo apt-get update && sudo apt-get install terraform
+      - run:
+          name: Install gcloud
+          command: |
+            sudo apt-get install apt-transport-https ca-certificates gnupg
+            echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+            sudo apt-get update && sudo apt-get install google-cloud-sdk
+      - run:
+          name: Deploy
+          command: make terraform.deploy.application
 
   pull_request_success:
     docker:
@@ -47,6 +97,14 @@ workflows:
       - tests:
           requires:
             - checkout
+      - validate_terraform:
+          requires:
+            - checkout
+      - deploy_dev:
+          requires:
+            - tests
+            - validate_terraform
       - pull_request_success:
           requires:
             - tests
+            - validate_terraform

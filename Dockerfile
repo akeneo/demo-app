@@ -74,9 +74,9 @@ WORKDIR /srv/app
 USER $USER
 ENV APP_ENV=$APP_ENV
 
-COPY . .
 COPY --from=vendors /srv/app/vendor vendor
 COPY --from=frontend /srv/app/public/build public/build
+COPY . .
 
 RUN cp -n .env.dist .env \
     && php bin/console cache:warmup \

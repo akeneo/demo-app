@@ -29,6 +29,12 @@ YARN = $(DOCKER_COMPOSE) run --rm --no-deps app yarn
 export
 
 ##
+## Deployments
+##
+
+include deployments/terraform.mk
+
+##
 ## Entrypoints
 ##
 
@@ -70,6 +76,10 @@ docker-image:
 		--build-arg USER=www-data \
 		--target production \
 		-t $(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_VERSION)
+
+.PHONY: docker-push
+docker-push:
+	docker push $(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_VERSION)
 
 ##
 ## Dependencies
