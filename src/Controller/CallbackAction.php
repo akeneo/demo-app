@@ -51,7 +51,7 @@ class CallbackAction
     private function fetchAccessToken(mixed $pimUrl, float|bool|int|string $authorizationCode): string
     {
         $codeIdentifier = \bin2hex(\random_bytes(30));
-        $codeChallenge = \hash('sha256', $codeIdentifier . $this->akeneoClientSecret);
+        $codeChallenge = \hash('sha256', $codeIdentifier.$this->akeneoClientSecret);
 
         $accessTokenRequestPayload = [
             'grant_type' => 'authorization_code',

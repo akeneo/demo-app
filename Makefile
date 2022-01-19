@@ -117,9 +117,12 @@ tests:
 .PHONY: tests-static
 tests-static:
 	$(PHP) vendor/bin/php-cs-fixer fix --dry-run --diff
-	$(PHP) vendor/bin/phpstan analyse --level 8 src
-	$(PHP) vendor/bin/phpstan analyse --level 6 tests
-	$(PHP) vendor/bin/psalm
+	$(PHP) vendor/bin/phpstan analyse --no-progress --level 8 src
+	$(PHP) vendor/bin/phpstan analyse --no-progress --level 6 tests
+	$(PHP) vendor/bin/psalm --no-progress
+	$(PHP) bin/console lint:container
+	$(PHP) bin/console lint:yaml config/
+	$(PHP) bin/console lint:twig templates/
 
 .PHONY: tests-unit
 tests-unit: APP_ENV=test

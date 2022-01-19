@@ -15,8 +15,7 @@ class WelcomeAction
     public function __construct(
         private \Twig\Environment $twig,
         private RouterInterface $router,
-    )
-    {
+    ) {
     }
 
     #[Route('/', name: 'welcome')]

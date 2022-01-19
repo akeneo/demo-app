@@ -24,64 +24,74 @@ class CookieSessionHandler implements \SessionHandlerInterface
         return $this->cookie;
     }
 
-    public function close()
+    public function close(): bool
     {
         return true;
     }
 
-    public function destroy($id)
+    /**
+     * @param string $id
+     */
+    public function destroy($id): bool
     {
         $this->cookie = Cookie::create(
             self::COOKIE_NAME,
-            \json_encode([]),
-            $this->cookie->getExpiresTime(),
-            $this->cookie->getPath(),
-            $this->cookie->getDomain(),
-            $this->cookie->isSecure(),
-            $this->cookie->isHttpOnly(),
-            $this->cookie->isRaw(),
-            $this->cookie->getSameSite(),
+            \json_encode([], JSON_THROW_ON_ERROR),
         );
 
         return true;
     }
 
-    public function gc($max_lifetime)
+    /**
+     * @param int $max_lifetime
+     */
+    public function gc($max_lifetime): int|false
+    {
+        return 0;
+    }
+
+    /**
+     * @param string $path
+     * @param string $name
+     */
+    public function open($path, $name): bool
     {
         return true;
     }
 
-    public function open($path, $name)
+    /**
+     * @param string $id
+     */
+    public function read($id): string
     {
-        return true;
-    }
+        if (null !== $this->cookie) {
+            $cookieValue = (string) $this->cookie->getValue();
+            $session = \json_decode($cookieValue, true, 512, JSON_THROW_ON_ERROR);
 
-    public function read($id)
-    {
-        $session = \json_decode($this->cookie->getValue(), true);
-
-        if (\array_key_exists($id, $session)) {
-            return $session[$id];
+            if (\array_key_exists($id, $session)) {
+                return $session[$id];
+            }
         }
 
         return '';
     }
 
-    public function write($id, $data)
+    /**
+     * @param string $id
+     * @param string $data
+     */
+    public function write($id, $data): bool
     {
-        $session = \json_decode($this->cookie->getValue(), true, 512, JSON_THROW_ON_ERROR);
+        $session = [];
+        if (null !== $this->cookie) {
+            $cookieValue = (string) $this->cookie->getValue();
+            $session = \json_decode($cookieValue, true, 512, JSON_THROW_ON_ERROR);
+        }
         $session[$id] = $data;
 
         $this->cookie = Cookie::create(
             self::COOKIE_NAME,
             \json_encode($session, JSON_THROW_ON_ERROR),
-            $this->cookie->getExpiresTime(),
-            $this->cookie->getPath(),
-            $this->cookie->getDomain(),
-            $this->cookie->isSecure(),
-            $this->cookie->isHttpOnly(),
-            $this->cookie->isRaw(),
-            $this->cookie->getSameSite(),
         );
 
         return true;

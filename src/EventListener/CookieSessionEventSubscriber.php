@@ -22,7 +22,7 @@ class CookieSessionEventSubscriber implements EventSubscriberInterface
         return [
             KernelEvents::REQUEST => 'onRequest',
             // low priority to come right after session has been saved by
-            /** @see \Symfony\Component\HttpKernel\EventListener\AbstractSessionListener */
+            /* @see \Symfony\Component\HttpKernel\EventListener\AbstractSessionListener */
             KernelEvents::RESPONSE => ['onResponse', -1001],
         ];
     }
@@ -34,6 +34,7 @@ class CookieSessionEventSubscriber implements EventSubscriberInterface
         }
 
         $session = $requestEvent->getRequest()->cookies->get(CookieSessionHandler::COOKIE_NAME);
+        $session = null !== $session ? (string) $session : null;
 
         $this->cookieSessionHandler->initCookie($session);
     }
@@ -44,8 +45,9 @@ class CookieSessionEventSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (null !== $this->cookieSessionHandler->getCookie()) {
-            $responseEvent->getResponse()->headers->setCookie($this->cookieSessionHandler->getCookie());
+        $cookie = $this->cookieSessionHandler->getCookie();
+        if (null !== $cookie) {
+            $responseEvent->getResponse()->headers->setCookie($cookie);
         }
     }
 }
