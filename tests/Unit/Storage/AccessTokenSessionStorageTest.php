@@ -5,11 +5,13 @@ namespace App\Tests\Unit\Storage;
 use App\Storage\AccessTokenSessionStorage;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class AccessTokenSessionStorageTest extends TestCase
 {
     private SessionInterface|MockObject $session;
+    private RequestStack|MockObject $requestStack;
     private ?AccessTokenSessionStorage $sessionStorage;
 
     protected function setUp(): void
@@ -19,7 +21,13 @@ class AccessTokenSessionStorageTest extends TestCase
             ->getMock()
         ;
 
-        $this->sessionStorage = new AccessTokenSessionStorage($this->session);
+        $this->requestStack = $this->getMockBuilder(RequestStack::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $this->requestStack->method('getSession')->willReturn($this->session);
+
+        $this->sessionStorage = new AccessTokenSessionStorage($this->requestStack);
     }
 
     protected function tearDown(): void

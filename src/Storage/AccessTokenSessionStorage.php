@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Storage;
 
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * **************************************************
@@ -19,17 +19,17 @@ class AccessTokenSessionStorage implements AccessTokenStorageInterface
     private const ACCESS_TOKEN_SESSION_KEY = 'akeneo_pim_access_token';
 
     public function __construct(
-        private SessionInterface $session
+        private RequestStack $requestStack
     ) {
     }
 
     public function getAccessToken(): ?string
     {
-        return $this->session->get(self::ACCESS_TOKEN_SESSION_KEY);
+        return $this->requestStack->getSession()->get(self::ACCESS_TOKEN_SESSION_KEY);
     }
 
     public function setAccessToken(string $accessToken): void
     {
-        $this->session->set(self::ACCESS_TOKEN_SESSION_KEY, $accessToken);
+        $this->requestStack->getSession()->set(self::ACCESS_TOKEN_SESSION_KEY, $accessToken);
     }
 }
