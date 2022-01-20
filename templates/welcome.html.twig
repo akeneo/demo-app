@@ -1,6 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Welcome</h1>
+{% block title %}{{ 'page.welcome.title' | trans }}{% endblock %}
 
+{% block body %}
+    <div class="welcome">
+        <div class="welcome__container">
+            <section class="connect-container">
+                <div class="connect-container__logo">
+                    <img src="{{ asset('build/images/logo-demoapp.svg') }}"
+                         alt="{{ 'page.welcome.connect.logo_alt' | trans }}">
+                </div>
+                <p class="connect-container__message">{{ 'page.welcome.connect.message' | trans }}</p>
+                <a class="connect-container__connect-button"
+                   href="http://localhost:8081">{{ 'page.welcome.connect.button' | trans }}</a>
+            </section>
+
+            <a href="https://www.akeneo.com" class="akeneo-solution">
+                <p class="akeneo-solution__powered-by">
+                    {{ 'page.welcome.akeneo_solution.powered_by' | trans }}
+                    <img class="akeneo-solution__logo" src="{{ asset('build/images/logo-akeneo.svg') }}"
+                         alt="{{ 'page.welcome.akeneo_solution.logo_alt' | trans }}">
+                </p>
+                <p class="akeneo-solution__baseline">{{ 'page.welcome.akeneo_solution.baseline' | trans }}</p>
+            </a>
+        </div>
+        <div class="welcome__illustration"></div>
+    </div>
 {% endblock %}

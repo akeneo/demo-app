@@ -1,0 +1,33 @@
+@use "../base/variables";
+
+.error-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.error {
+  text-align: center;
+
+  &__illustration {
+    height: 205px;
+    width: 422px;
+  }
+
+  &__title {
+    margin-top: 38px;
+    margin-bottom: 10px;
+    font-size: variables.$fontSizeTitle;
+    font-weight: normal;
+    color: variables.$colorDarkPurple;
+
+  }
+
+  &__description {
+    font-size: variables.$fontSizeBig;
+    font-weight: normal;
+    color: variables.$colorGrey120;
+  }
+}
