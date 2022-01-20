@@ -99,9 +99,6 @@ cache:
 .PHONY: cs-fix
 cs-fix:
 	$(PHP) vendor/bin/php-cs-fixer fix
-
-.PHONY: css-fix
-css-fix:
 	$(YARN) stylelint "assets/styles/**/*.scss" --fix
 
 ##
