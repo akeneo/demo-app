@@ -30,11 +30,12 @@ jobs:
       - store_test_results:
           path: var/tests
 
-  validate_terraform:
+  validate_deployment:
     machine:
       image: ubuntu-2004:202101-01
     steps:
-      - checkout
+      - attach_workspace:
+          at: ~/
       - run:
           name: Install terraform
           command: |
@@ -74,10 +75,38 @@ jobs:
             export GCP_APP_VERSION=${CIRCLE_SHA1}
             make terraform.deploy.application
 
-  upgrade_dev_infrastructure:
+  deploy_prod:
     machine:
       image: ubuntu-2004:202101-01
       docker_layer_caching: true
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
+      GCP_PROJECT: ${PROD_GCP_PROJECT}
+      GCP_TERRAFORM_BUCKET: ${PROD_GCP_TERRAFORM_BUCKET}
+    steps:
+      - checkout
+      - run:
+          name: Load GCP credentials
+          command: |
+            cat \<< EOF > ${GOOGLE_APPLICATION_CREDENTIALS}
+            ${PROD_GCP_SERVICE_KEY}
+            EOF
+      - run:
+          name: Install terraform
+          command: |
+            curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            sudo apt-get update && sudo apt-get install terraform
+      - run:
+          name: Deploy
+          command: |
+            export GCP_APP_NAME=demo-app
+            export GCP_APP_VERSION=${CIRCLE_SHA1}
+            make terraform.deploy.application
+
+  upgrade_dev_infrastructure:
+    machine:
+      image: ubuntu-2004:202101-01
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
       GCP_PROJECT: ${DEV_GCP_PROJECT}
@@ -100,6 +129,31 @@ jobs:
           name: Upgrade infrastructure
           command: make terraform.deploy.infrastructure
 
+  upgrade_prod_infrastructure:
+    machine:
+      image: ubuntu-2004:202101-01
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
+      GCP_PROJECT: ${PROD_GCP_PROJECT}
+      GCP_TERRAFORM_BUCKET: ${PROD_GCP_TERRAFORM_BUCKET}
+    steps:
+      - checkout
+      - run:
+          name: Load GCP credentials
+          command: |
+            cat \<< EOF > ${GOOGLE_APPLICATION_CREDENTIALS}
+            ${PROD_GCP_SERVICE_KEY}
+            EOF
+      - run:
+          name: Install terraform
+          command: |
+            curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            sudo apt-get update && sudo apt-get install terraform
+      - run:
+          name: Upgrade infrastructure
+          command: make terraform.deploy.infrastructure
+
   pull_request_success:
     docker:
       - image: alpine/git
@@ -109,28 +163,40 @@ jobs:
           command: echo "The workflow was successful!"
 
 workflows:
-  pull_request:
-    when:
-      not:
-        equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+  test:
     jobs:
-      - checkout
+      - checkout:
+          filters:
+            branches:
+              ignore: main
       - run_tests:
           requires:
             - checkout
-      - validate_terraform:
+      - validate_deployment:
           requires:
             - checkout
-      - deploy_dev:
-          requires:
-            - run_tests
-            - validate_terraform
       - pull_request_success:
           requires:
-            - deploy_dev
-      - upgrade_dev_infrastructure?:
+            - run_tests
+            - validate_deployment
+
+  deploy:
+    jobs:
+      - deploy_dev?:
           type: approval
-      - upgrade_dev_infrastructure:
+          filters:
+            branches:
+              ignore: main
+      - deploy_dev:
           requires:
-            - upgrade_dev_infrastructure?
-            - validate_terraform
+            - deploy_dev?
+      - upgrade_dev_infrastructure:
+          filters:
+            branches:
+              only: main
+#      - upgrade_prod_infrastructure:
+#          requires:
+#            - upgrade_dev_infrastructure
+#      - deploy_prod:
+#          requires:
+#            - upgrade_prod_infrastructure
