@@ -6,7 +6,7 @@ namespace App\Storage;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 
-/**
+/*
  * **************************************************
  * * /!\ DO NOT USE in a production environment /!\ *
  * **************************************************
