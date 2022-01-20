@@ -100,6 +100,10 @@ cache:
 cs-fix:
 	$(PHP) vendor/bin/php-cs-fixer fix
 
+.PHONY: css-fix
+css-fix:
+	$(YARN) stylelint "assets/styles/**/*.scss" --fix
+
 ##
 ## Tests
 ##
@@ -120,6 +124,7 @@ tests-static:
 	$(PHP) vendor/bin/phpstan analyse --level 8 src
 	$(PHP) vendor/bin/phpstan analyse --level 6 tests
 	$(PHP) vendor/bin/psalm
+	$(YARN) stylelint "assets/styles/**/*.scss"
 
 .PHONY: tests-unit
 tests-unit: APP_ENV=test
