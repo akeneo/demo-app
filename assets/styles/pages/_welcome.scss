@@ -1,0 +1,91 @@
+@use "../base/variables";
+
+.welcome {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 4fr 6fr;
+
+  @media (max-width: variables.$breakpointSmall) {
+    grid-template-columns: 1fr;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 234px;
+  }
+
+  &__illustration {
+    background-color: #f9f9fb;
+    background-image: url('/assets/images/welcome.png');
+    background-repeat: no-repeat;
+    background-size: 600px;
+    background-position: center;
+    height: 100%;
+    padding: 180px 120px 244px 120px;
+
+    @media (max-width: variables.$breakpointSmall) {
+      display: none;
+    }
+  }
+}
+
+.connect-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__logo {
+    width: 180px;
+    height: 47px;
+  }
+
+  &__message {
+    width: 300px;
+    margin-top: 26px;
+    margin-bottom: 40px;
+    font-size: variables.$fontSizeBig;
+    color: variables.$colorGrey120;
+  }
+
+  &__connect-button {
+    width: 94px;
+    height: 32px;
+    background-color: variables.$colorDemoBlue;
+    color: white;
+    border-radius: 16px;
+    padding: 8px 15px;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+  }
+}
+
+.akeneo-solution {
+  margin-top: auto;
+  margin-bottom: 49px;
+  text-decoration: none;
+
+  &__powered-by {
+    text-transform: capitalize;
+    color: variables.$colorGrey140;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  &__logo {
+    width: 125px;
+    height: 47px;
+    margin-left: 0.5em;
+    transform: translateY(12px);
+  }
+
+  &__baseline {
+    color: variables.$colorPurple100;
+    text-align: center;
+    padding: 8px;
+  }
+}

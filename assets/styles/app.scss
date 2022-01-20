@@ -1,6 +1,5 @@
-body {
-    background-color: lightgray;
-    h1 {
-      color: red;
-    }
-}
+@use 'base/variables';
+@use 'base/base';
+
+@use 'pages/welcome';
+@use 'pages/error';

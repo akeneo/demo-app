@@ -2,6 +2,7 @@
     "devDependencies": {
         "@symfony/webpack-encore": "^1.7.0",
         "core-js": "^3.0.0",
+        "file-loader": "^6.0.0",
         "fork-ts-checker-webpack-plugin": "^6.0.0",
         "regenerator-runtime": "^0.13.2",
         "sass": "^1.48.0",
