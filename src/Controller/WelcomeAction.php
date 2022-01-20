@@ -9,11 +9,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
+use Twig\Environment as TwigEnvironment;
 
 class WelcomeAction
 {
     public function __construct(
-        private \Twig\Environment $twig,
+        private TwigEnvironment $twig,
         private RouterInterface $router,
     ) {
     }
@@ -30,10 +31,13 @@ class WelcomeAction
 
         $pimUrl = $request->query->get('pim_url');
         if (empty($pimUrl)) {
-            throw new \LogicException('Missing PIM URL in the query');
+            throw new \LogicException('Missing PIM url in the query.');
+        }
+        if (false === \filter_var($pimUrl, FILTER_VALIDATE_URL)) {
+            throw new \LogicException('PIM url is not valid.');
         }
 
-        $session->set('pim_url', $pimUrl);
+        $session->set('pim_url', \rtrim((string) $pimUrl, '/'));
 
         return new Response($this->twig->render('welcome.html.twig'));
     }

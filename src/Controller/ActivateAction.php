@@ -27,7 +27,7 @@ class ActivateAction
 
         $pimUrl = $session->get('pim_url');
         if (empty($pimUrl)) {
-            throw new \LogicException('Could not retrieve PIM URL, please restart the authorization process');
+            throw new \LogicException('Could not retrieve PIM URL, please restart the authorization process.');
         }
 
         $state = \bin2hex(\random_bytes(10));
@@ -40,7 +40,7 @@ class ActivateAction
             'state' => $state,
         ]);
 
-        $authorizeUrl = \rtrim($pimUrl, '/').'/connect/apps/v1/authorize?'.$authorizeUrlParams;
+        $authorizeUrl = $pimUrl.'/connect/apps/v1/authorize?'.$authorizeUrlParams;
 
         return new RedirectResponse($authorizeUrl);
     }
