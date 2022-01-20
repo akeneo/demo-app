@@ -13,8 +13,6 @@ APP_ENV ?= dev
 DOCKER_PORT_HTTP ?= 8080
 DOCKER_BUILDKIT ?= 1
 
-DOCKER_IMAGE_VERSION ?= latest
-
 ifeq ($(APP_ENV), prod)
 	COMPOSER_ARGS += --no-dev
 endif
@@ -68,8 +66,9 @@ destroy:
 ##
 
 .PHONY: docker-image
-docker-image: PHP_PCOV_ENABLED=0
-docker-image: PHP_XDEBUG_MODE=off
+docker-image: PHP_PCOV_ENABLED = 0
+docker-image: PHP_XDEBUG_MODE = off
+docker-image: DOCKER_IMAGE_VERSION ?= latest
 docker-image:
 	docker build . \
 		--build-arg APP_ENV=prod \
@@ -78,6 +77,7 @@ docker-image:
 		-t $(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_VERSION)
 
 .PHONY: docker-push
+docker-push: DOCKER_IMAGE_VERSION ?= latest
 docker-push:
 	docker push $(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_VERSION)
 

@@ -11,7 +11,7 @@ jobs:
           paths:
             - project
 
-  tests:
+  run_tests:
     machine:
       image: ubuntu-2004:202101-01
       docker_layer_caching: true
@@ -51,7 +51,6 @@ jobs:
       docker_layer_caching: true
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
-      GCP_APP_NAME: demo-app-${CIRCLE_WORKFLOW_ID}
       GCP_PROJECT: ${DEV_GCP_PROJECT}
       GCP_TERRAFORM_BUCKET: ${DEV_GCP_TERRAFORM_BUCKET}
     steps:
@@ -69,15 +68,11 @@ jobs:
             sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
             sudo apt-get update && sudo apt-get install terraform
       - run:
-          name: Install gcloud
-          command: |
-            sudo apt-get install apt-transport-https ca-certificates gnupg
-            echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-            sudo apt-get update && sudo apt-get install google-cloud-sdk
-      - run:
           name: Deploy
-          command: make terraform.deploy.application
+          command: |
+            export GCP_APP_NAME=demo-app-pr-${CIRCLE_PULL_REQUEST##*/}
+            export GCP_APP_VERSION=${CIRCLE_SHA1}
+            make terraform.deploy.application
 
   pull_request_success:
     docker:
@@ -94,7 +89,7 @@ workflows:
         equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
     jobs:
       - checkout
-      - tests:
+      - run_tests:
           requires:
             - checkout
       - validate_terraform:
@@ -102,9 +97,8 @@ workflows:
             - checkout
       - deploy_dev:
           requires:
-            - tests
+            - run_tests
             - validate_terraform
       - pull_request_success:
           requires:
-            - tests
-            - validate_terraform
+            - deploy_dev
