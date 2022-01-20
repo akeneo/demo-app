@@ -8,6 +8,7 @@ TERRAFORM_MODULES := $(shell find $(PWD)/deployments/terraform -maxdepth 1 -mind
 GCP_DOCKER_REGISTRY ?= eu.gcr.io
 GCP_REGION ?= europe-west1
 GCP_APP_NAME ?= demo-app
+GCP_APP_VERSION ?= latest
 GCP_DOCKER_IMAGE_NAME = $(GCP_DOCKER_REGISTRY)/$(GCP_PROJECT)/$(GCP_APP_NAME)
 
 ##
@@ -67,16 +68,15 @@ terraform.deploy.infrastructure: deploy.check
 terraform.deploy.application: TF_VAR_gcp_project_id = $(GCP_PROJECT)
 terraform.deploy.application: TF_VAR_gcp_region = $(GCP_REGION)
 terraform.deploy.application: TF_VAR_app_name = $(GCP_APP_NAME)
+terraform.deploy.application: TF_VAR_app_version = $(GCP_APP_VERSION)
 terraform.deploy.application: export DOCKER_IMAGE_NAME ?= $(GCP_DOCKER_IMAGE_NAME)
-terraform.deploy.application: export DOCKER_IMAGE_VERSION ?= latest
+terraform.deploy.application: export DOCKER_IMAGE_VERSION ?= $(GCP_APP_VERSION)
 terraform.deploy.application: deploy.check
 	$(MAKE) docker-image
 	cat $(GOOGLE_APPLICATION_CREDENTIALS) | docker login -u _json_key --password-stdin https://$(GCP_DOCKER_REGISTRY)
 	$(MAKE) docker-push
 	terraform -chdir=deployments/terraform/application/ init -reconfigure -backend-config="bucket=$(GCP_TERRAFORM_BUCKET)" -backend-config="prefix=tfstate/application/$(GCP_APP_NAME)"
 	terraform -chdir=deployments/terraform/application/ apply -auto-approve
-	gcloud auth activate-service-account --key-file $(GOOGLE_APPLICATION_CREDENTIALS)
-	gcloud --project $(GCP_PROJECT) run deploy $(GCP_APP_NAME) --image $(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_VERSION) --region $(GCP_REGION) --platform managed
 
 .PHONY: terraform.destroy
 terraform.deploy: TF_VAR_gcp_project_id = $(GCP_PROJECT)
