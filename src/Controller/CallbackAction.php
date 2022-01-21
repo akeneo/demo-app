@@ -30,7 +30,7 @@ class CallbackAction
 
         $pimUrl = $session->get('pim_url');
         if (empty($pimUrl)) {
-            throw new \LogicException('Could not retrieve PIM URL, please restart the authorization process.');
+            throw new \LogicException('Can\'t retrieve PIM url, please restart the authorization process.');
         }
 
         $state = $request->query->get('state');

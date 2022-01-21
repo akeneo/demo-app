@@ -19,3 +19,7 @@ services:
         resource: '../src/Controller/**/*Action.php'
         tags:
             - { name: 'controller.service_arguments' }
+
+    Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
+        class: 'Akeneo\Pim\ApiClient\AkeneoPimClientInterface'
+        factory: '@App\PimApi\PimApiClientFactory'
