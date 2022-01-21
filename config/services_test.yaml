@@ -1,0 +1,4 @@
+services:
+    Symfony\Component\HttpClient\MockHttpClient: ~
+
+    Symfony\Contracts\HttpClient\HttpClientInterface: '@Symfony\Component\HttpClient\MockHttpClient'
