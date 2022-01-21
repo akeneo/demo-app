@@ -71,7 +71,7 @@ class CookieSessionEventSubscriberTest extends TestCase
     /**
      * @test
      */
-    public function itNotCallsInitCookieMethodWhenTheOnRequestEventIsDispatchedWithASubRequest(): void
+    public function itDoesNotCallsInitCookieMethodWhenTheOnRequestEventIsDispatchedWithASubRequest(): void
     {
         $event = new RequestEvent($this->kernel, new Request(), HttpKernelInterface::SUB_REQUEST);
 
@@ -95,7 +95,7 @@ class CookieSessionEventSubscriberTest extends TestCase
     /**
      * @test
      */
-    public function itNotCallsGetCookieMethodWhenTheOnResponseEventIsDispatchedWithASubRequest(): void
+    public function itDoesNotCallsGetCookieMethodWhenTheOnResponseEventIsDispatchedWithASubRequest(): void
     {
         $event = new ResponseEvent($this->kernel, new Request(), HttpKernelInterface::SUB_REQUEST, new Response());
 

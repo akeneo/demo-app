@@ -13,7 +13,7 @@ class WelcomeActionTest extends AbstractActionTest
      */
     public function itRedirectsToTheProductsPageWhenTheAccessTokenIsSet(): void
     {
-        $client = $this->getClientWithSession(['akeneo_pim_access_token' => 'random_token']);
+        $client = self::createClientWithSession(['akeneo_pim_access_token' => 'random_token']);
         $client->request('GET', '/?pim_url=https://httpd');
         $this->assertResponseRedirects('/products', Response::HTTP_FOUND);
     }
@@ -21,9 +21,9 @@ class WelcomeActionTest extends AbstractActionTest
     /**
      * @test
      */
-    public function itThrowsAExceptionWhenThePimUrlIsMissing(): void
+    public function itThrowsAnExceptionWhenThePimUrlIsMissing(): void
     {
-        $client = $this->getClientWithSession([]);
+        $client = self::createClientWithSession([]);
         $client->request('GET', '/');
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
     }
@@ -33,7 +33,7 @@ class WelcomeActionTest extends AbstractActionTest
      */
     public function itSavesThePimUrlInSessionAndRenderTheWelcomePage(): void
     {
-        $client = $this->getClientWithSession([]);
+        $client = self::createClientWithSession([]);
         $client->request('GET', '/?pim_url=https://httpd');
         $this->assertEquals('https://httpd', $client->getRequest()->getSession()->get('pim_url'));
         $this->assertResponseIsSuccessful();

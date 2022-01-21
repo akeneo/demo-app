@@ -1,6 +1,3 @@
-parameters:
-    akeneoClientId: '%env(string:AKENEO_CLIENT_ID)%'
-
 services:
     _defaults:
         autowire: true

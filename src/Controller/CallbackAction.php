@@ -73,7 +73,7 @@ class CallbackAction
         $content = $response->getContent();
 
         $payload = \json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-        if (!array_key_exists('access_token', $payload)) {
+        if (!\array_key_exists('access_token', $payload)) {
             throw new \LogicException('Missing access token in response');
         }
 

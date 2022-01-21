@@ -14,7 +14,7 @@ abstract class AbstractActionTest extends WebTestCase
     /**
      * @param array<string, string> $data
      */
-    protected function getClientWithSession(array $data): KernelBrowser
+    protected static function createClientWithSession(array $data): KernelBrowser
     {
         $client = static::createClient();
 

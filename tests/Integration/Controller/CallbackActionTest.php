@@ -14,9 +14,9 @@ class CallbackActionTest extends AbstractActionTest
     /**
      * @test
      */
-    public function itThrowsAExceptionWhenThePimUrlIsMissingInSession(): void
+    public function itThrowsAnExceptionWhenThePimUrlIsMissingInSession(): void
     {
-        $client = $this->getClientWithSession([]);
+        $client = self::createClientWithSession([]);
         $client->request('GET', '/authorization/activate');
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
     }
@@ -24,9 +24,9 @@ class CallbackActionTest extends AbstractActionTest
     /**
      * @test
      */
-    public function itThrowsAExceptionWhenTheStateIsInvalid(): void
+    public function itThrowsAnExceptionWhenTheStateIsInvalid(): void
     {
-        $client = $this->getClientWithSession([
+        $client = self::createClientWithSession([
             'pim_url' => 'https://httpd/',
             'state' => 'random_state_123456789',
         ]);
@@ -39,18 +39,18 @@ class CallbackActionTest extends AbstractActionTest
     /**
      * @test
      */
-    public function itThrowsAExceptionWhenTheCodeIsMissingInUrl(): void
+    public function itThrowsAnExceptionWhenTheCodeIsMissingInUrl(): void
     {
-        $client = $this->getClientWithSession([
+        $client = self::createClientWithSession([
             'pim_url' => 'https://example.com',
             'state' => 'random_state_123456789',
         ]);
 
         $httpClient = $client->getContainer()->get(HttpClientInterface::class);
-        assert($httpClient instanceof MockHttpClient);
+        \assert($httpClient instanceof MockHttpClient);
 
         $httpClient->setResponseFactory([
-            new MockResponse(\json_encode(['access_token' => 'titi'])),
+            new MockResponse(\json_encode(['access_token' => 'access_token'])),
         ]);
         $client->request('GET', '/callback?state=random_state_123456789');
 
@@ -60,15 +60,15 @@ class CallbackActionTest extends AbstractActionTest
     /**
      * @test
      */
-    public function itThrowsAExceptionWhenAccessTokenIsMissing(): void
+    public function itThrowsAnExceptionWhenAccessTokenIsMissing(): void
     {
-        $client = $this->getClientWithSession([
+        $client = self::createClientWithSession([
             'pim_url' => 'https://httpd/',
             'state' => 'random_state_123456789',
         ]);
 
         $httpClient = $client->getContainer()->get(HttpClientInterface::class);
-        assert($httpClient instanceof MockHttpClient);
+        \assert($httpClient instanceof MockHttpClient);
 
         $httpClient->setResponseFactory([
             new MockResponse(\json_encode([])),
@@ -84,7 +84,7 @@ class CallbackActionTest extends AbstractActionTest
      */
     public function itRedirectsToTheAuthorizeUrlWithQueryParameters(): void
     {
-        $client = $this->getClientWithSession([
+        $client = self::createClientWithSession([
             'pim_url' => 'https://httpd/',
             'state' => 'random_state_123456789',
         ]);

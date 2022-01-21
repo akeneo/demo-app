@@ -11,9 +11,9 @@ class ActivateActionTest extends AbstractActionTest
     /**
      * @test
      */
-    public function itThrowsAExceptionWhenThePimUrlIsMissingInSession(): void
+    public function itThrowsAnExceptionWhenThePimUrlIsMissingInSession(): void
     {
-        $client = $this->getClientWithSession([]);
+        $client = self::createClientWithSession([]);
         $client->request('GET', '/authorization/activate');
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
     }
@@ -24,7 +24,7 @@ class ActivateActionTest extends AbstractActionTest
     public function itRedirectsToTheAuthorizeUrlWithQueryParameters(): void
     {
         $pimUrl = 'https://httpd/';
-        $client = $this->getClientWithSession(['pim_url' => $pimUrl]);
+        $client = self::createClientWithSession(['pim_url' => $pimUrl]);
 
         $client->request('GET', '/authorization/activate');
 
