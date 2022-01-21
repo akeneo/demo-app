@@ -35,7 +35,7 @@ class ActivateActionTest extends AbstractActionTest
             'state' => $client->getRequest()->getSession()->get('state'),
         ]);
 
-        $expectedAuthorizeUrl = \rtrim($pimUrl, '/').'/connect/apps/v1/authorize?'.$expectedAuthorizeUrlParams;
+        $expectedAuthorizeUrl = $pimUrl.'/connect/apps/v1/authorize?'.$expectedAuthorizeUrlParams;
 
         $this->assertResponseRedirects($expectedAuthorizeUrl, Response::HTTP_FOUND);
     }

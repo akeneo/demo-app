@@ -37,6 +37,6 @@ class WelcomeActionTest extends AbstractActionTest
         $client->request('GET', '/?pim_url=https://httpd');
         $this->assertEquals('https://httpd', $client->getRequest()->getSession()->get('pim_url'));
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Welcome');
+        $this->assertSelectorTextContains('.connect-container__connect-button', 'Connect');
     }
 }
