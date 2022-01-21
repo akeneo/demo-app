@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Storage\AccessTokenStorageInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,7 @@ class CallbackAction
         private string $akeneoClientId,
         private string $akeneoClientSecret,
         private HttpClientInterface $client,
+        private AccessTokenStorageInterface $accessTokenStorage,
         private RouterInterface $router,
     ) {
     }
@@ -43,7 +45,7 @@ class CallbackAction
 
         $accessToken = $this->fetchAccessToken($pimUrl, $authorizationCode);
 
-        $session->set('akeneo_pim_access_token', $accessToken);
+        $this->accessTokenStorage->setAccessToken($accessToken);
 
         return new RedirectResponse($this->router->generate('products'));
     }
