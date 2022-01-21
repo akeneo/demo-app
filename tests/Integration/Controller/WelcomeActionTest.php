@@ -1,14 +1,12 @@
 <?php
 
-namespace Integration\Controller;
+declare(strict_types=1);
 
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\Cookie;
+namespace App\Tests\Integration\Controller;
+
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionFactoryInterface;
 
-class WelcomeActionTest extends WebTestCase
+class WelcomeActionTest extends AbstractActionTest
 {
     /**
      * @test
@@ -23,7 +21,7 @@ class WelcomeActionTest extends WebTestCase
     /**
      * @test
      */
-    public function itThrowsALogicExceptionWhenThePimUrlIsEmpty(): void
+    public function itThrowsAExceptionWhenThePimUrlIsMissing(): void
     {
         $client = $this->getClientWithSession([]);
         $client->request('GET', '/');
@@ -40,24 +38,5 @@ class WelcomeActionTest extends WebTestCase
         $this->assertEquals('https://httpd', $client->getRequest()->getSession()->get('pim_url'));
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'Welcome');
-    }
-
-    /**
-     * @param array<string, string> $data
-     */
-    private function getClientWithSession(array $data): KernelBrowser
-    {
-        $client = static::createClient();
-
-        /** @var SessionFactoryInterface $sessionFactory */
-        $sessionFactory = $client->getContainer()->get('session.factory');
-        $session = $sessionFactory->createSession();
-
-        $session->replace($data);
-        $session->save();
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $client->getCookieJar()->set($cookie);
-
-        return $client;
     }
 }
