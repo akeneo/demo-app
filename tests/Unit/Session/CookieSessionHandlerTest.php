@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\Session;
+namespace App\Tests\Unit\Session;
 
 use App\Session\CookieSessionHandler;
 use PHPUnit\Framework\TestCase;
@@ -23,7 +23,7 @@ class CookieSessionHandlerTest extends TestCase
     /**
      * @test
      */
-    public function itInitCookie(): void
+    public function itInitsCookie(): void
     {
         $cookieValue = '{"foo": "bar"}';
         $this->cookieSessionHandler->initCookie($cookieValue);
@@ -35,7 +35,7 @@ class CookieSessionHandlerTest extends TestCase
     /**
      * @test
      */
-    public function itGetCookie(): void
+    public function itGetsCookie(): void
     {
         $this->assertEquals(null, $this->cookieSessionHandler->getCookie());
 
@@ -49,7 +49,7 @@ class CookieSessionHandlerTest extends TestCase
     /**
      * @test
      */
-    public function itCloseAndReturnTrue(): void
+    public function itClosesAndReturnTrue(): void
     {
         $this->assertEquals(true, $this->cookieSessionHandler->close());
     }
@@ -57,7 +57,7 @@ class CookieSessionHandlerTest extends TestCase
     /**
      * @test
      */
-    public function itDestroyCookieAndReturnTrue(): void
+    public function itDestroysCookieAndReturnTrue(): void
     {
         $cookieValue = '{"foo": "bar"}';
         $this->cookieSessionHandler->initCookie($cookieValue);
@@ -72,7 +72,7 @@ class CookieSessionHandlerTest extends TestCase
     /**
      * @test
      */
-    public function itReturnZeroOnGarbageCollector(): void
+    public function itReturnsZeroOnGarbageCollector(): void
     {
         $this->assertEquals(0, $this->cookieSessionHandler->gc(1234));
     }
@@ -80,7 +80,7 @@ class CookieSessionHandlerTest extends TestCase
     /**
      * @test
      */
-    public function itOpenAndReturnTrue(): void
+    public function itOpensAndReturnTrue(): void
     {
         $this->assertEquals(true, $this->cookieSessionHandler->open('randomPath', 'randomName'));
     }
@@ -88,7 +88,7 @@ class CookieSessionHandlerTest extends TestCase
     /**
      * @test
      */
-    public function itRead(): void
+    public function itReads(): void
     {
         $cookieValue = '{"foo": "bar"}';
         $this->cookieSessionHandler->initCookie($cookieValue);
@@ -100,7 +100,7 @@ class CookieSessionHandlerTest extends TestCase
     /**
      * @test
      */
-    public function itWriteAndReturnTrue(): void
+    public function itWritesAndReturnTrue(): void
     {
         $this->cookieSessionHandler->write('bar', 'baz');
         $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, '{"bar":"baz"}');

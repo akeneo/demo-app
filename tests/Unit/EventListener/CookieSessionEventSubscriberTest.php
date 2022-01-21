@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\EventListener;
+namespace App\Tests\Unit\EventListener;
 
 use App\EventListener\CookieSessionEventSubscriber;
 use App\Session\CookieSessionHandler;
