@@ -1,13 +1,15 @@
-@use 'variables';
+@use "variables";
+
 @font-face {
-  font-family: 'Lato';
-  src: url('/assets/fonts/Lato-Regular.ttf') format('truetype');
+  font-family: Lato;
+  src: url("/assets/fonts/Lato-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
-  font-family: 'Lato';
-  src: url('/assets/fonts/Lato-Bold.ttf') format('truetype');
+  font-family: Lato;
+  src: url("/assets/fonts/Lato-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
@@ -28,8 +30,8 @@ body {
   box-sizing: border-box;
   background-color: white;
   min-width: 980px;
-  font-family: variables.$defaultFontFamily;
-  font-size: variables.$fontSizeDefault;
+  font-family: variables.$default-font-family;
+  font-size: variables.$font-size-default;
   font-weight: normal;
   height: 100%;
 }
