@@ -99,6 +99,7 @@ cache:
 .PHONY: cs-fix
 cs-fix:
 	$(PHP) vendor/bin/php-cs-fixer fix
+	$(YARN) stylelint "assets/styles/**/*.scss" --fix
 
 ##
 ## Tests
@@ -123,6 +124,7 @@ tests-static:
 	$(PHP) bin/console lint:container
 	$(PHP) bin/console lint:yaml config/
 	$(PHP) bin/console lint:twig templates/
+	$(YARN) stylelint "assets/styles/**/*.scss"
 
 .PHONY: tests-unit
 tests-unit: APP_ENV=test

@@ -6,7 +6,7 @@
   display: grid;
   grid-template-columns: 4fr 6fr;
 
-  @media (max-width: variables.$breakpointSmall) {
+  @media (max-width: variables.$breakpoint-small) {
     grid-template-columns: 1fr;
   }
 
@@ -19,14 +19,14 @@
 
   &__illustration {
     background-color: #f9f9fb;
-    background-image: url('/assets/images/welcome.png');
+    background-image: url("/assets/images/welcome.png");
     background-repeat: no-repeat;
     background-size: 600px;
     background-position: center;
     height: 100%;
-    padding: 180px 120px 244px 120px;
+    padding: 180px 120px 244px;
 
-    @media (max-width: variables.$breakpointSmall) {
+    @media (max-width: variables.$breakpoint-small) {
       display: none;
     }
   }
@@ -46,14 +46,14 @@
     width: 300px;
     margin-top: 26px;
     margin-bottom: 40px;
-    font-size: variables.$fontSizeBig;
-    color: variables.$colorGrey120;
+    font-size: variables.$font-size-big;
+    color: variables.$color-grey-120;
   }
 
   &__connect-button {
     width: 94px;
     height: 32px;
-    background-color: variables.$colorDemoBlue;
+    background-color: variables.$color-demo-blue;
     color: white;
     border-radius: 16px;
     padding: 8px 15px;
@@ -70,7 +70,7 @@
 
   &__powered-by {
     text-transform: capitalize;
-    color: variables.$colorGrey140;
+    color: variables.$color-grey-140;
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -84,7 +84,7 @@
   }
 
   &__baseline {
-    color: variables.$colorPurple100;
+    color: variables.$color-purple-100;
     text-align: center;
     padding: 8px;
   }

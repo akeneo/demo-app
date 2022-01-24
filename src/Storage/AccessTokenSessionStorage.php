@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * **************************************************
  *
  * This storage class is a simple implementation for the demo app purpose only.
- * Each access token must be related to the user connected to the app.
+ * Each access token should be stored securely in your storage solution, like a database.
  */
 class AccessTokenSessionStorage implements AccessTokenStorageInterface
 {
