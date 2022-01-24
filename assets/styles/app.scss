@@ -1,5 +1,8 @@
 @use 'base/variables';
 @use 'base/base';
 
+@use 'components/header';
+
 @use 'pages/welcome';
 @use 'pages/error';
+@use 'pages/products';

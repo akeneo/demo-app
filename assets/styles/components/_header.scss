@@ -1,0 +1,50 @@
+@use "../base/variables";
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 34px;
+
+  &__logo {
+    width: 200px;
+    height: 52px;
+    margin-right: 170px;
+  }
+
+}
+
+.main-navigation {
+  &__link {
+    margin-right: 50px;
+    font-size: variables.$fontSizeBig;
+    color: variables.$colorGrey140;
+
+    &--active {
+      color: variables.$colorDemoBlue;
+      font-weight: bold;
+    }
+    &--external {
+      color: variables.$colorGrey120;
+    }
+  }
+}
+
+.user {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+
+  &__name {
+    color: variables.$colorDemoBlue;
+    font-weight: bold;
+    font-style: italic;
+    margin-right: 15px;
+  }
+
+  &__logo {
+    width: 32px;
+    height: 32px;
+    background-color: variables.$colorGrey100;
+    border-radius: 50%;
+  }
+}

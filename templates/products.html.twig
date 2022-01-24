@@ -1,0 +1,43 @@
+{% extends 'connected-base.html.twig' %}
+
+{% block title %} heyy tests{% endblock %}
+
+{% block content %}
+<div class="products">
+    <aside class="product-filters">
+        <h3 class="product-filters__heading">Filters</h3>
+        <ol class="product-filters__list">
+            {% for i in 0..3 %}
+                <li class="product-filter">
+                    <h4 class="product-filter__label"> Locale</h4>
+                    <div class="product-filter__value"> French</div>
+                </li>
+            {% endfor %}
+        </ol>
+    </aside>
+    <section class="product-grid">
+        <header class="product-grid__header">
+            <div class="product-searchbar">
+                <input type="text" placeholder="Search" class="product-searchbar__input">
+                <button class="product-searchbar__button">search</button>
+            </div>
+            <div class="product-grid__info">
+                <span class="product-grid__total">10 results</span>
+            </div>
+        </header>
+        <div class="product-grid__list">
+            {% for i in 0..10 %}
+                <article class="product-card">
+                    <a href="#{{ i }}">
+                        <div class="product-card__image">
+                            <img src="{{ asset('build/images/ziggy.png') }}" alt="{{ i }}"  />
+
+                        </div>
+                        <p class="product-card__title">Nike M2K TEKNO</p>
+                    </a>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}

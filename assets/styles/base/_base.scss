@@ -33,3 +33,14 @@ body {
   font-weight: normal;
   height: 100%;
 }
+
+a{
+  text-decoration: none;
+  font-family: variables.$defaultFontFamily;
+  font-size: variables.$fontSizeDefault;
+  color: variables.$colorPurple100;
+}
+
+.connected-base {
+  padding: 31px 100px 0 50px;
+}
