@@ -23,7 +23,7 @@ class ActivateActionTest extends AbstractActionTest
      */
     public function itRedirectsToTheAuthorizeUrlWithQueryParameters(): void
     {
-        $pimUrl = 'https://httpd/';
+        $pimUrl = 'https://httpd';
         $client = self::createClientWithSession(['pim_url' => $pimUrl]);
 
         $client->request('GET', '/authorization/activate');
@@ -31,7 +31,7 @@ class ActivateActionTest extends AbstractActionTest
         $expectedAuthorizeUrlParams = \http_build_query([
             'response_type' => 'code',
             'client_id' => $client->getKernel()->getContainer()->getParameter('akeneoClientId'),
-            'scope' => 'read_products',
+            'scope' => 'read_products read_channel_localization',
             'state' => $client->getRequest()->getSession()->get('state'),
         ]);
 
