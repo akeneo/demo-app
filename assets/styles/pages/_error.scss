@@ -19,15 +19,14 @@
   &__title {
     margin-top: 38px;
     margin-bottom: 10px;
-    font-size: variables.$fontSizeTitle;
+    font-size: variables.$font-size-title;
     font-weight: normal;
-    color: variables.$colorDarkPurple;
-
+    color: variables.$color-dark-purple;
   }
 
   &__description {
-    font-size: variables.$fontSizeBig;
+    font-size: variables.$font-size-big;
     font-weight: normal;
-    color: variables.$colorGrey120;
+    color: variables.$color-grey-120;
   }
 }
