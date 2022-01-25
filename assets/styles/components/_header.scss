@@ -25,6 +25,12 @@
 
     &--external {
       color: variables.$color-grey-120;
+
+      &::after {
+        margin-left: 6px;
+        content: url("/assets/images/return.svg");
+        vertical-align: middle;
+      }
     }
   }
 }
