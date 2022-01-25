@@ -1,4 +1,4 @@
-# Deployments
+# Infra
 
 ## Prerequisites
 

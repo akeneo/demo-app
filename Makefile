@@ -27,10 +27,10 @@ YARN = $(DOCKER_COMPOSE) run --rm --no-deps app yarn
 export
 
 ##
-## Deployments
+## Infra
 ##
 
-include deployments/terraform.mk
+include infra/terraform.mk
 
 ##
 ## Entrypoints

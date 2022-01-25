@@ -4,7 +4,7 @@
 
 /.circleci/
 /coverage/
-/deployments/
+/infra/
 /node_modules/
 /public/build/
 /tests/
