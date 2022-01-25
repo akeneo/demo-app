@@ -1,18 +1,22 @@
 {% extends 'connected-base.html.twig' %}
+{% import './macros/localeToFlag.html.twig' as localeToFlag %}
 
 {% block title %}{{ 'page.products.title' | trans }}{% endblock %}
 
 {% block content %}
-<div class="products">
+
+    {# TO REPLACE #}
+    {% set products = 0..9 %}
+    {# END TO REPLACE #}
+
+    <div class="products">
     <aside class="product-filters">
         <h3 class="product-filters__heading">{{ 'page.products.product-filters.filters' | trans }}</h3>
         <ol class="product-filters__list">
-            {% for i in 0..3 %}
-                <li class="product-filter">
-                    <h4 class="product-filter__label">{{ 'page.products.product-filters.locale' | trans }}</h4>
-                    <div class="product-filter__value">{{ locale }}</div>
-                </li>
-            {% endfor %}
+            <li class="product-filter">
+                <h4 class="product-filter__label">{{ 'page.products.product-filters.locale' | trans }}</h4>
+                <div class="product-filter__value">{{ localeToFlag.getFlag('en_US') }}</div>
+            </li>
         </ol>
     </aside>
     <section class="product-grid">
@@ -20,32 +24,40 @@
 
             <div class="product-searchbar">
                 <div class="product-searchbar__container">
-                    <img class="product-searchbar__icon" src="{{ asset('build/images/search.svg') }}" alt="search" />
-                    <input class="product-searchbar__input" type="text" placeholder="{{ 'page.products.product-searchbar.placeholder' | trans }}">
+                    <img class="product-searchbar__icon" src="{{ asset('build/images/search.svg') }}" alt="{{ 'page.products.product-searchbar.icon-alt' | trans }}" />
+                    <input class="product-searchbar__input" type="text" disabled="disabled" placeholder="{{ 'page.products.product-searchbar.placeholder' | trans }}">
                     <button class="product-searchbar__button" disabled="true" aria-disabled="true" role="button" type="button" >{{ 'page.products.product-searchbar.search' | trans }}</button>
                     <div class="product-searchbar__separator"></div>
-                    <span class="product-searchbar__result-count">{{ 'page.products.product-searchbar.count-results' | trans({'%count%': 10}) }}</span>
+                    <span class="product-searchbar__result-count">{{ 'page.products.product-searchbar.count-results' | trans({'%count%': products|length}) }}</span>
                 </div>
             </div>
 
-            {% embed './common/information.html.twig' with {helperTitle: 'page.products.information.helper-title' | trans } %}
+            {% embed './commons/information.html.twig' with {helperTitle: 'page.products.information.helper-title' | trans({'%count%': products|length}) } %}
                 {%  block informationContent %}
                     {{ 'page.products.information.content' | trans }}
                 {% endblock %}
             {% endembed %}
 
         </header>
-        <div class="product-grid__list">
-            {% for i in 0..9 %}
+
+        <div class="product-grid__{{ products|length > 0 ? 'list' : 'no-products' }}">
+            {% for i in products %}
                 <article class="product-card">
                     <a href="#{{ i }}">
                         <div class="product-card__image">
                             <img src="{{ asset('build/images/ziggy.png') }}" alt="{{ i }}"  />
-
                         </div>
                         <p class="product-card__title">Nike M2K TEKNO</p>
                     </a>
                 </article>
+            {% else %}
+                <section class="no-products">
+                    <img class="no-products__illustration"
+                         src="{{ asset('build/images/draft.svg') }}"
+                         alt="{{ 'page.error.illustration_alt' | trans }}">
+                    <h3 class="no-products__title">{{ 'page.products.no-products.title' | trans }}</h3>
+                    <p class="no-products__description">{{ 'page.products.no-products.description' | trans }}</p>
+                </section>
             {% endfor %}
         </div>
     </section>

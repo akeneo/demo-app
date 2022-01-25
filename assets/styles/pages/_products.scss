@@ -58,6 +58,36 @@
     grid-gap: 40px;
     grid-template-columns: repeat(auto-fill, 200px);
   }
+
+  &__no-products {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.no-products {
+  max-width: 486px;
+  margin-top: 30px;
+  text-align: center;
+
+  &__illustration {
+    height: 205px;
+    width: 422px;
+  }
+
+  &__title {
+    margin-top: 38px;
+    margin-bottom: 10px;
+    font-size: variables.$font-size-title;
+    font-weight: normal;
+    color: variables.$color-dark-purple;
+  }
+
+  &__description {
+    font-size: variables.$font-size-big;
+    font-weight: normal;
+    color: variables.$color-grey-120;
+  }
 }
 
 .product-card {
@@ -107,8 +137,13 @@
     color: variables.$color-grey-100;
     outline: none;
 
-    ::placeholder {
+    &::placeholder {
       color: variables.$color-grey-100;
+    }
+
+    &:disabled {
+      background: variables.$color-white;
+      cursor: not-allowed;
     }
   }
 
