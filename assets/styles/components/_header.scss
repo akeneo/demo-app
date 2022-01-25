@@ -10,21 +10,21 @@
     height: 52px;
     margin-right: 170px;
   }
-
 }
 
 .main-navigation {
   &__link {
     margin-right: 50px;
-    font-size: variables.$fontSizeBig;
-    color: variables.$colorGrey140;
+    font-size: variables.$font-size-big;
+    color: variables.$color-grey-140;
 
     &--active {
-      color: variables.$colorDemoBlue;
+      color: variables.$color-demo-blue;
       font-weight: bold;
     }
+
     &--external {
-      color: variables.$colorGrey120;
+      color: variables.$color-grey-120;
     }
   }
 }
@@ -35,7 +35,7 @@
   align-items: center;
 
   &__name {
-    color: variables.$colorDemoBlue;
+    color: variables.$color-demo-blue;
     font-weight: bold;
     font-style: italic;
     margin-right: 15px;
@@ -44,7 +44,7 @@
   &__logo {
     width: 32px;
     height: 32px;
-    background-color: variables.$colorGrey100;
+    background-color: variables.$color-grey-100;
     border-radius: 50%;
   }
 }

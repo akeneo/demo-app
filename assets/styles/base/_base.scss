@@ -36,11 +36,11 @@ body {
   height: 100%;
 }
 
-a{
+a {
   text-decoration: none;
-  font-family: variables.$defaultFontFamily;
-  font-size: variables.$fontSizeDefault;
-  color: variables.$colorPurple100;
+  font-family: variables.$default-font-family;
+  font-size: variables.$font-size-default;
+  color: variables.$color-purple-100;
 }
 
 .connected-base {

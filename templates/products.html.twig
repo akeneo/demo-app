@@ -17,13 +17,17 @@
     </aside>
     <section class="product-grid">
         <header class="product-grid__header">
+
             <div class="product-searchbar">
-                <input type="text" placeholder="Search" class="product-searchbar__input">
-                <button class="product-searchbar__button">search</button>
+                <div class="product-searchbar__container">
+                    <img class="product-searchbar__icon" src="{{ asset('build/images/search.svg') }}" />
+                    <input class="product-searchbar__input" type="text" placeholder="Search">
+                    <button class="product-searchbar__button" disabled="true" aria-disabled="true" role="button" type="button" >search</button>
+                    <div class="product-searchbar__separator"></div>
+                    <span class="product-searchbar__result-count">10 results</span>
+                </div>
             </div>
-            <div class="product-grid__info">
-                <span class="product-grid__total">10 results</span>
-            </div>
+
         </header>
         <div class="product-grid__list">
             {% for i in 0..10 %}

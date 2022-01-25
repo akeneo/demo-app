@@ -7,16 +7,17 @@
 }
 
 .product-filters {
-  color: variables.$colorDemoBlue;
+  color: variables.$color-demo-blue;
 
   &__heading {
     font-size: variables.$font-size-small;
     font-weight: normal;
-    color: variables.$colorDemoBlue;
+    color: variables.$color-demo-blue;
     text-transform: uppercase;
     padding: 16px 0;
-    border-bottom: 1px solid variables.$colorDemoBlue;
+    border-bottom: 1px solid variables.$color-demo-blue;
   }
+
   &__list {
     padding: 30px;
     list-style: none;
@@ -28,33 +29,27 @@
 }
 
 .product-filter {
-   &__label {
-     font-size: variables.$font-size-small;
-     font-weight: normal;
-     color: variables.$colorGrey120;
-     text-transform: uppercase;
-   }
+  &__label {
+    font-size: variables.$font-size-small;
+    font-weight: normal;
+    color: variables.$color-grey-120;
+    text-transform: uppercase;
+  }
 
   &__value {
-    color: variables.$colorDemoBlue;
+    color: variables.$color-demo-blue;
   }
 }
 
 .product-grid {
-  &__header {
-    border-bottom: 1px solid variables.$colorGrey100;
-    display: flex;
-
-  }
-
   &__info {
-    border-left: 1px solid variables.$colorGrey100;
+    border-left: 1px solid variables.$color-grey-100;
     padding-left: 4px;
   }
 
   &__total {
     text-align: right;
-    color: variables.$colorDemoBlue;
+    color: variables.$color-demo-blue;
   }
 
   &__list {
@@ -67,10 +62,11 @@
 
 .product-card {
   display: inline;
+
   &__image {
     width: 200px;
     height: 200px;
-    border: 1px solid variables.$colorGrey100;
+    border: 1px solid variables.$color-grey-100;
     border-radius: 0;
     display: flex;
     justify-content: center;
@@ -84,10 +80,70 @@
 
   &__title {
     padding-top: 7px;
-    color: variables.$colorGrey120;
+    color: variables.$color-grey-120;
   }
 }
 
 .product-searchbar {
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid variables.$color-grey-100;
+  background: variables.$color-white;
+  height: 44px;
+  box-sizing: border-box;
+  gap: 10px;
+
+  &__container {
+    display: flex;
+    flex: 1;
+    align-items: center;
+  }
+
+  &__input {
+    border: none;
+    flex: 1;
+    margin-left: 6px;
+    color: variables.$color-grey-100;
+    outline: none;
+
+    ::placeholder {
+      color: variables.$color-grey-100;
+    }
+  }
+
+  &__separator {
+    margin-left: 10px;
+    border-left: 1px variables.$color-grey-100 solid;
+    height: 24px;
+    display: flex;
+  }
+
+  &__result-count {
+    white-space: nowrap;
+    color: variables.$color-demo-blue;
+    margin-left: 10px;
+    line-height: 16px;
+    text-transform: none;
+  }
+
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border-width: 1px;
+    font-size: variables.$default-font-size;
+    font-weight: 400;
+    text-transform: uppercase;
+    border-radius: 16px;
+    border-style: solid;
+    padding: 10px;
+    height: 24px;
+    cursor: not-allowed;
+    font-family: inherit;
+    transition: background-color 0.1s ease;
+    outline-style: none;
+    text-decoration: none;
+    white-space: nowrap;
+  }
 }
