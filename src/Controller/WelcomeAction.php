@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Storage\AccessTokenSessionStorage;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,7 @@ class WelcomeAction
     public function __construct(
         private TwigEnvironment $twig,
         private RouterInterface $router,
+        private AccessTokenSessionStorage $accessTokenSessionStorage,
     ) {
     }
 
@@ -23,11 +25,6 @@ class WelcomeAction
     public function __invoke(Request $request): Response
     {
         $session = $request->getSession();
-
-        $accessToken = $session->get('akeneo_pim_access_token');
-        if (null !== $accessToken) {
-            return new RedirectResponse($this->router->generate('products'));
-        }
 
         $pimUrl = $request->query->get('pim_url');
         if (empty($pimUrl)) {
@@ -38,6 +35,11 @@ class WelcomeAction
         }
 
         $session->set('pim_url', \rtrim((string) $pimUrl, '/'));
+
+        $accessToken = $this->accessTokenSessionStorage->getAccessToken();
+        if (null !== $accessToken) {
+            return new RedirectResponse($this->router->generate('products'));
+        }
 
         return new Response($this->twig->render('welcome.html.twig'));
     }

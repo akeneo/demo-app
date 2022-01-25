@@ -27,7 +27,7 @@ class CallbackActionTest extends AbstractActionTest
     public function itThrowsAnExceptionWhenTheStateIsInvalid(): void
     {
         $client = self::createClientWithSession([
-            'pim_url' => 'https://httpd/',
+            'pim_url' => 'https://httpd',
             'state' => 'random_state_123456789',
         ]);
 
@@ -63,7 +63,7 @@ class CallbackActionTest extends AbstractActionTest
     public function itThrowsAnExceptionWhenAccessTokenIsMissing(): void
     {
         $client = self::createClientWithSession([
-            'pim_url' => 'https://httpd/',
+            'pim_url' => 'https://httpd',
             'state' => 'random_state_123456789',
         ]);
 
@@ -85,7 +85,7 @@ class CallbackActionTest extends AbstractActionTest
     public function itRedirectsToTheAuthorizeUrlWithQueryParameters(): void
     {
         $client = self::createClientWithSession([
-            'pim_url' => 'https://httpd/',
+            'pim_url' => 'https://httpd',
             'state' => 'random_state_123456789',
         ]);
 
