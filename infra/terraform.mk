@@ -1,5 +1,5 @@
 PWD := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-TERRAFORM_MODULES := $(shell find $(PWD)/deployments/terraform -maxdepth 1 -mindepth 1 -type d -exec basename {} \;)
+TERRAFORM_MODULES := $(shell find $(PWD)/infra/terraform -maxdepth 1 -mindepth 1 -type d -exec basename {} \;)
 
 ##
 ## GCP values to override
@@ -19,15 +19,15 @@ define terraform-module
 
 .PHONY: terraform.lint.$1
 terraform.lint.$1:
-	cd $(PWD)/deployments/terraform/$1 && terraform init -reconfigure -backend=false
-	cd $(PWD)/deployments/terraform/$1 && terraform validate
+	cd $(PWD)/infra/terraform/$1 && terraform init -reconfigure -backend=false
+	cd $(PWD)/infra/terraform/$1 && terraform validate
 
 .PHONY: terraform.destroy.$1
 terraform.destroy.$1: TF_VAR_gcp_project_id = $(GCP_PROJECT)
 terraform.destroy.$1: TF_VAR_gcp_region = $(GCP_REGION)
 terraform.destroy.$1: deploy.check
 terraform.destroy.$1:
-	cd $(PWD)/deployments/terraform/$1 && terraform apply -destroy -auto-approve
+	cd $(PWD)/infra/terraform/$1 && terraform apply -destroy -auto-approve
 
 endef
 $(foreach module,$(TERRAFORM_MODULES),$(eval $(call terraform-module,$(module))))
@@ -38,7 +38,7 @@ $(foreach module,$(TERRAFORM_MODULES),$(eval $(call terraform-module,$(module)))
 
 .PHONY: terraform.lint
 terraform.lint: $(addprefix terraform.lint.,$(TERRAFORM_MODULES))
-	terraform fmt --diff --check --recursive deployments/
+	terraform fmt --diff --check --recursive infra/
 
 .PHONY: deploy.check
 deploy.check:
@@ -61,8 +61,8 @@ terraform.deploy: deploy.check
 terraform.deploy.infrastructure: TF_VAR_gcp_project_id = $(GCP_PROJECT)
 terraform.deploy.infrastructure: TF_VAR_gcp_region = $(GCP_REGION)
 terraform.deploy.infrastructure: deploy.check
-	terraform -chdir=deployments/terraform/infrastructure/ init -reconfigure -backend-config="bucket=$(GCP_TERRAFORM_BUCKET)"
-	terraform -chdir=deployments/terraform/infrastructure/ apply -auto-approve
+	terraform -chdir=infra/terraform/infrastructure/ init -reconfigure -backend-config="bucket=$(GCP_TERRAFORM_BUCKET)"
+	terraform -chdir=infra/terraform/infrastructure/ apply -auto-approve
 
 .PHONY: terraform.deploy.application
 terraform.deploy.application: TF_VAR_gcp_project_id = $(GCP_PROJECT)
@@ -75,8 +75,8 @@ terraform.deploy.application: deploy.check
 	$(MAKE) docker-image
 	cat $(GOOGLE_APPLICATION_CREDENTIALS) | docker login -u _json_key --password-stdin https://$(GCP_DOCKER_REGISTRY)
 	$(MAKE) docker-push
-	terraform -chdir=deployments/terraform/application/ init -reconfigure -backend-config="bucket=$(GCP_TERRAFORM_BUCKET)" -backend-config="prefix=tfstate/application/$(GCP_APP_NAME)"
-	terraform -chdir=deployments/terraform/application/ apply -auto-approve
+	terraform -chdir=infra/terraform/application/ init -reconfigure -backend-config="bucket=$(GCP_TERRAFORM_BUCKET)" -backend-config="prefix=tfstate/application/$(GCP_APP_NAME)"
+	terraform -chdir=infra/terraform/application/ apply -auto-approve
 
 .PHONY: terraform.destroy
 terraform.deploy: TF_VAR_gcp_project_id = $(GCP_PROJECT)
