@@ -1,0 +1,33 @@
+@use "../base/variables";
+
+.information {
+  align-items: center;
+  display: flex;
+  font-weight: 400;
+  padding-right: 15px;
+  color: variables.$color-grey-120;
+  min-height: 100px;
+  background-color: variables.$color-blue-10;
+
+  &__image-container {
+    height: 80px;
+    padding: 0 20px;
+    margin: 20px 15px 20px 0;
+    border-right: 1px solid variables.$color-grey-80;
+  }
+
+  &__image {
+    width: 80px;
+    height: 80px;
+  }
+
+  &__helper-title {
+    color: variables.$color-grey-140;
+    font-size: variables.$font-size-big;
+    font-weight: 700;
+  }
+
+  &__content-container {
+    padding: 10px 0;
+  }
+}

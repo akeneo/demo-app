@@ -1,0 +1,9 @@
+<div class="information">
+    <span class="information__image-container">
+        <img class="information__image" src="{{ asset('build/images/app.svg') }}" alt="app" />
+    </span>
+    <div class="information__content-container">
+        <div class="information__helper-title">{{ helperTitle }}</div>
+        {{ block('informationContent') }}
+    </div>
+</div>
