@@ -13,6 +13,7 @@ class ActivateAction
 {
     private const OAUTH_SCOPES = [
         'read_products',
+        'read_channel_localization',
     ];
 
     public function __construct(
@@ -27,7 +28,7 @@ class ActivateAction
 
         $pimUrl = $session->get('pim_url');
         if (empty($pimUrl)) {
-            throw new \LogicException('Could not retrieve PIM URL, please restart the authorization process.');
+            throw new \LogicException('Can\'t retrieve PIM url, please restart the authorization process.');
         }
 
         $state = \bin2hex(\random_bytes(10));

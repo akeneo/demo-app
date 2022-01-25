@@ -30,7 +30,7 @@ class CallbackAction
 
         $pimUrl = $session->get('pim_url');
         if (empty($pimUrl)) {
-            throw new \LogicException('Could not retrieve PIM URL, please restart the authorization process.');
+            throw new \LogicException('Can\'t retrieve PIM url, please restart the authorization process.');
         }
 
         $state = $request->query->get('state');
@@ -74,6 +74,11 @@ class CallbackAction
 
         $content = $response->getContent();
 
-        return \json_decode($content, true, 512, JSON_THROW_ON_ERROR)['access_token'];
+        $payload = \json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        if (!\array_key_exists('access_token', $payload)) {
+            throw new \LogicException('Missing access token in response');
+        }
+
+        return $payload['access_token'];
     }
 }
