@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class CallbackAction
+final class CallbackAction
 {
     public function __construct(
         private string $akeneoClientId,

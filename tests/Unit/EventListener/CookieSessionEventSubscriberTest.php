@@ -7,6 +7,7 @@ use App\Session\CookieSessionHandler;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -85,11 +86,20 @@ class CookieSessionEventSubscriberTest extends TestCase
      */
     public function itCallsGetCookieMethodWhenTheOnResponseEventIsDispatched(): void
     {
-        $event = new ResponseEvent($this->kernel, new Request(), HttpKernelInterface::MAIN_REQUEST, new Response());
+        $response = new Response();
+        $event = new ResponseEvent($this->kernel, new Request(), HttpKernelInterface::MAIN_REQUEST, $response);
+
+        $cookie = new Cookie('a_cookie');
+        $this->cookieSessionHandler
+            ->method('getCookie')
+            ->willReturn($cookie)
+        ;
 
         $this->cookieSessionHandler->expects($this->once())->method('getCookie');
 
         $this->dispatch($event, KernelEvents::RESPONSE);
+
+        $this->assertContains($cookie, $response->headers->getCookies());
     }
 
     /**

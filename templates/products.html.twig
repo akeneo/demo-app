@@ -2,5 +2,10 @@
 
 {% block body %}
     <h1>Products</h1>
-    <p>{{ locale }}</p>
+    <p class="current-locale">{{ locale }}</p>
+    <ul>
+        {% for product in products %}
+            <li class="product-card">{{ product.identifier }} - {{ product.label }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

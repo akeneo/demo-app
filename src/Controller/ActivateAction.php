@@ -9,10 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ActivateAction
+final class ActivateAction
 {
     private const OAUTH_SCOPES = [
         'read_products',
+        'read_catalog_structure',
         'read_channel_localization',
     ];
 

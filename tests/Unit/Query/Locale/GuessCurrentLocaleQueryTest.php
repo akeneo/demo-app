@@ -5,17 +5,17 @@ namespace App\Tests\Unit\Locale;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Api\LocaleApiInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
-use App\Locale\LocaleGuesser;
+use App\Query\Locale\GuessCurrentLocaleQuery;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class LocaleGuesserTest extends TestCase
+class GuessCurrentLocaleQueryTest extends TestCase
 {
     private RequestStack|MockObject $requestStack;
     private PageInterface|MockObject $pimLocaleApiFirstPage;
-    private ?LocaleGuesser $localeGuesser;
+    private ?GuessCurrentLocaleQuery $guessCurrentLocaleQuery;
 
     protected function setUp(): void
     {
@@ -47,7 +47,7 @@ class LocaleGuesserTest extends TestCase
             ->willReturn($pimLocaleApi)
         ;
 
-        $this->localeGuesser = new LocaleGuesser(
+        $this->guessCurrentLocaleQuery = new GuessCurrentLocaleQuery(
             $this->requestStack,
             $pimApiClient,
         );
@@ -55,7 +55,7 @@ class LocaleGuesserTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->localeGuesser = null;
+        $this->guessCurrentLocaleQuery = null;
     }
 
     /**
@@ -70,7 +70,7 @@ class LocaleGuesserTest extends TestCase
 
         $this->expectExceptionObject(new \LogicException('No PIM locale available.'));
 
-        $this->localeGuesser->guessCurrentLocale();
+        ($this->guessCurrentLocaleQuery)();
     }
 
     /**
@@ -96,7 +96,7 @@ class LocaleGuesserTest extends TestCase
 
         $this->expectExceptionObject(new \LogicException('No main request.'));
 
-        $this->localeGuesser->guessCurrentLocale();
+        ($this->guessCurrentLocaleQuery)();
     }
 
     /**
@@ -135,7 +135,7 @@ class LocaleGuesserTest extends TestCase
             ->willReturn($request)
         ;
 
-        $currentLocale = $this->localeGuesser->guessCurrentLocale();
+        $currentLocale = ($this->guessCurrentLocaleQuery)();
 
         $this->assertEquals('locale_1', $currentLocale);
     }
@@ -173,7 +173,7 @@ class LocaleGuesserTest extends TestCase
             ->willReturn($request)
         ;
 
-        $currentLocale = $this->localeGuesser->guessCurrentLocale();
+        $currentLocale = ($this->guessCurrentLocaleQuery)();
 
         $this->assertEquals('locale_2', $currentLocale);
     }
@@ -211,7 +211,7 @@ class LocaleGuesserTest extends TestCase
             ->willReturn($request)
         ;
 
-        $currentLocale = $this->localeGuesser->guessCurrentLocale();
+        $currentLocale = ($this->guessCurrentLocaleQuery)();
 
         $this->assertEquals('en_US', $currentLocale);
     }
