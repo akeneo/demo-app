@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Locale;
+namespace App\Query\Locale;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class LocaleGuesser
+final class GuessCurrentLocaleQuery
 {
     private const DEFAULT_USER_LANGUAGE = 'en_US';
 
@@ -18,7 +18,7 @@ class LocaleGuesser
     ) {
     }
 
-    public function guessCurrentLocale(): string
+    public function __invoke(): string
     {
         $pimAvailableLocales = $this->fetchPimAvailableLocales();
 

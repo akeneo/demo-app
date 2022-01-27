@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment as TwigEnvironment;
 
-class WelcomeAction
+final class WelcomeAction
 {
     public function __construct(
         private TwigEnvironment $twig,

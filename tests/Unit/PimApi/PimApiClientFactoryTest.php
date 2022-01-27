@@ -21,19 +21,16 @@ class PimApiClientFactoryTest extends TestCase
     {
         $this->session = $this->getMockBuilder(SessionInterface::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $this->requestStack = $this->getMockBuilder(RequestStack::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $this->requestStack->method('getSession')->willReturn($this->session);
 
         $this->accessTokenStorage = $this->getMockBuilder(AccessTokenStorageInterface::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $this->pimApiClientFactory = new PimApiClientFactory(
             $this->requestStack,
@@ -56,8 +53,7 @@ class PimApiClientFactoryTest extends TestCase
         $this->session
             ->method('get')
             ->with('pim_url')
-            ->willReturn(null)
-        ;
+            ->willReturn(null);
 
         $this->expectExceptionObject(new \LogicException('Could not retrieve PIM url, please restart the authorization process.'));
 
@@ -72,13 +68,11 @@ class PimApiClientFactoryTest extends TestCase
         $this->session
             ->method('get')
             ->with('pim_url')
-            ->willReturn('https://example.com')
-        ;
+            ->willReturn('https://example.com');
 
         $this->accessTokenStorage
             ->method('getAccessToken')
-            ->willReturn(null)
-        ;
+            ->willReturn(null);
 
         $this->expectExceptionObject(new AccessDeniedHttpException('Missing Pim API access token.'));
 
@@ -93,13 +87,11 @@ class PimApiClientFactoryTest extends TestCase
         $this->session
             ->method('get')
             ->with('pim_url')
-            ->willReturn('https://example.com')
-        ;
+            ->willReturn('https://example.com');
 
         $this->accessTokenStorage
             ->method('getAccessToken')
-            ->willReturn('TEST_ACCESS_TOKEN')
-        ;
+            ->willReturn('TEST_ACCESS_TOKEN');
 
         $pimApiClient = ($this->pimApiClientFactory)();
 

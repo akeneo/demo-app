@@ -1,0 +1,17 @@
+{
+    "_links": {
+        "first": {
+            "href": ""
+        }
+    },
+    "current_page": 1,
+    "_embedded": {
+        "items": [
+            {
+                "_links": {},
+                "code": "en_US",
+                "enabled": true
+            }
+        ]
+    }
+}
