@@ -88,4 +88,22 @@ class ListProductsActionTest extends AbstractActionTest
 
         $this->assertEquals($pimUrl, $client->getCrawler()->selectLink('Go to Akeneo PIM')->attr('href'));
     }
+
+    // TODO: uncomment this test after the merge of CXP-1082 : https://github.com/akeneo/demo-app/pull/12
+//    /**
+//     * @test
+//     */
+//    public function itRendersGoodLinksInHeader(): void
+//    {
+//        $pimUrl = 'https://httpd';
+//        $client = self::createClientWithSession([
+//            'pim_url' => $pimUrl,
+//            'akeneo_pim_access_token' => 'random_access_token_123456',
+//        ]);
+//
+//        $crawler = $client->request('GET', '/products');
+//
+//        $this->assertEquals($pimUrl, $crawler->selectLink('Go to Akeneo PIM')->attr('href'));
+//        $this->assertEquals('https://marketplace.akeneo.com/extension/app-demo', $crawler->selectLink('Help')->attr('href'));
+//    }
 }
