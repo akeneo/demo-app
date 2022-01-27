@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Product;
+namespace App\Tests\Unit\Query\Product;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Api\FamilyApiInterface;
@@ -22,37 +22,30 @@ class FetchProductsQueryTest extends TestCase
         // mock PIM product API
         $this->pimProductApiFirstPage = $this->getMockBuilder(PageInterface::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $pimProductApi = $this->getMockBuilder(ProductApiInterface::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $pimProductApi
             ->method('listPerPage')
-            ->willReturn($this->pimProductApiFirstPage)
-        ;
+            ->willReturn($this->pimProductApiFirstPage);
 
         // mock PIM family API
         $this->pimFamilyApi = $this->getMockBuilder(FamilyApiInterface::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         // mock PIM API Client
         $pimApiClient = $this->getMockBuilder(AkeneoPimClientInterface::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $pimApiClient
             ->method('getProductApi')
-            ->willReturn($pimProductApi)
-        ;
+            ->willReturn($pimProductApi);
         $pimApiClient
             ->method('getFamilyApi')
-            ->willReturn($this->pimFamilyApi)
-        ;
+            ->willReturn($this->pimFamilyApi);
 
         $this->fetchProductsQuery = new FetchProductsQuery(
             $pimApiClient,
@@ -92,8 +85,7 @@ class FetchProductsQueryTest extends TestCase
 
         $this->pimProductApiFirstPage
             ->method('getItems')
-            ->willReturn($productsMock)
-        ;
+            ->willReturn($productsMock);
 
         $familyMock = [
             'code' => 'family_1',
@@ -103,8 +95,7 @@ class FetchProductsQueryTest extends TestCase
         $this->pimFamilyApi
             ->method('get')
             ->with('family_1')
-            ->willReturn($familyMock)
-        ;
+            ->willReturn($familyMock);
 
         $expectedProduct1 = new Product('product_001', 'Produit 1');
 
@@ -136,8 +127,7 @@ class FetchProductsQueryTest extends TestCase
 
         $this->pimProductApiFirstPage
             ->method('getItems')
-            ->willReturn($productsMock)
-        ;
+            ->willReturn($productsMock);
 
         $familyMock = [
             'code' => 'family_1',
@@ -147,8 +137,7 @@ class FetchProductsQueryTest extends TestCase
         $this->pimFamilyApi
             ->method('get')
             ->with('family_1')
-            ->willReturn($familyMock)
-        ;
+            ->willReturn($familyMock);
 
         $expectedProduct1 = new Product('product_001', 'Produit 1');
 
@@ -174,8 +163,7 @@ class FetchProductsQueryTest extends TestCase
 
         $this->pimProductApiFirstPage
             ->method('getItems')
-            ->willReturn($productsMock)
-        ;
+            ->willReturn($productsMock);
 
         $familyMock = [
             'code' => 'family_1',
@@ -185,8 +173,7 @@ class FetchProductsQueryTest extends TestCase
         $this->pimFamilyApi
             ->method('get')
             ->with('family_1')
-            ->willReturn($familyMock)
-        ;
+            ->willReturn($familyMock);
 
         $expectedProduct1 = new Product('product_001', '[product_001]');
 
@@ -231,8 +218,7 @@ class FetchProductsQueryTest extends TestCase
 
         $this->pimProductApiFirstPage
             ->method('getItems')
-            ->willReturn($productsMock)
-        ;
+            ->willReturn($productsMock);
 
         $familyMock = [
             'code' => 'family_1',
@@ -242,8 +228,7 @@ class FetchProductsQueryTest extends TestCase
         $this->pimFamilyApi
             ->method('get')
             ->with('family_1')
-            ->willReturn($familyMock)
-        ;
+            ->willReturn($familyMock);
 
         $expectedProduct1 = new Product('product_001', 'Produit 1');
 

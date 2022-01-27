@@ -26,8 +26,7 @@ class CookieSessionEventSubscriberTest extends TestCase
     {
         $this->cookieSessionHandler = $this->getMockBuilder(CookieSessionHandler::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $this->subscriber = new CookieSessionEventSubscriber($this->cookieSessionHandler);
 
@@ -92,8 +91,7 @@ class CookieSessionEventSubscriberTest extends TestCase
         $cookie = new Cookie('a_cookie');
         $this->cookieSessionHandler
             ->method('getCookie')
-            ->willReturn($cookie)
-        ;
+            ->willReturn($cookie);
 
         $this->cookieSessionHandler->expects($this->once())->method('getCookie');
 

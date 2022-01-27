@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Locale;
+namespace App\Tests\Unit\Query\Locale;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Api\LocaleApiInterface;
@@ -21,31 +21,25 @@ class GuessCurrentLocaleQueryTest extends TestCase
     {
         $this->requestStack = $this->getMockBuilder(RequestStack::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $this->pimLocaleApiFirstPage = $this->getMockBuilder(PageInterface::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $pimLocaleApi = $this->getMockBuilder(LocaleApiInterface::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $pimLocaleApi
             ->method('listPerPage')
-            ->willReturn($this->pimLocaleApiFirstPage)
-        ;
+            ->willReturn($this->pimLocaleApiFirstPage);
 
         $pimApiClient = $this->getMockBuilder(AkeneoPimClientInterface::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $pimApiClient
             ->method('getLocaleApi')
-            ->willReturn($pimLocaleApi)
-        ;
+            ->willReturn($pimLocaleApi);
 
         $this->guessCurrentLocaleQuery = new GuessCurrentLocaleQuery(
             $this->requestStack,
@@ -65,8 +59,7 @@ class GuessCurrentLocaleQueryTest extends TestCase
     {
         $this->pimLocaleApiFirstPage
             ->method('getItems')
-            ->willReturn([])
-        ;
+            ->willReturn([]);
 
         $this->expectExceptionObject(new \LogicException('No PIM locale available.'));
 
@@ -86,13 +79,11 @@ class GuessCurrentLocaleQueryTest extends TestCase
 
         $this->pimLocaleApiFirstPage
             ->method('getItems')
-            ->willReturn($items)
-        ;
+            ->willReturn($items);
 
         $this->requestStack
             ->method('getMainRequest')
-            ->willReturn(null)
-        ;
+            ->willReturn(null);
 
         $this->expectExceptionObject(new \LogicException('No main request.'));
 
@@ -118,22 +109,18 @@ class GuessCurrentLocaleQueryTest extends TestCase
 
         $this->pimLocaleApiFirstPage
             ->method('getItems')
-            ->willReturn($items)
-        ;
+            ->willReturn($items);
 
         $request = $this->getMockBuilder(Request::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $request
             ->method('getLanguages')
-            ->willReturn(['locale_3', 'locale_1', 'locale_2'])
-        ;
+            ->willReturn(['locale_3', 'locale_1', 'locale_2']);
 
         $this->requestStack
             ->method('getMainRequest')
-            ->willReturn($request)
-        ;
+            ->willReturn($request);
 
         $currentLocale = ($this->guessCurrentLocaleQuery)();
 
@@ -156,22 +143,18 @@ class GuessCurrentLocaleQueryTest extends TestCase
 
         $this->pimLocaleApiFirstPage
             ->method('getItems')
-            ->willReturn($items)
-        ;
+            ->willReturn($items);
 
         $request = $this->getMockBuilder(Request::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $request
             ->method('getLanguages')
-            ->willReturn(['locale_3'])
-        ;
+            ->willReturn(['locale_3']);
 
         $this->requestStack
             ->method('getMainRequest')
-            ->willReturn($request)
-        ;
+            ->willReturn($request);
 
         $currentLocale = ($this->guessCurrentLocaleQuery)();
 
@@ -194,22 +177,18 @@ class GuessCurrentLocaleQueryTest extends TestCase
 
         $this->pimLocaleApiFirstPage
             ->method('getItems')
-            ->willReturn($items)
-        ;
+            ->willReturn($items);
 
         $request = $this->getMockBuilder(Request::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $request
             ->method('getLanguages')
-            ->willReturn([])
-        ;
+            ->willReturn([]);
 
         $this->requestStack
             ->method('getMainRequest')
-            ->willReturn($request)
-        ;
+            ->willReturn($request);
 
         $currentLocale = ($this->guessCurrentLocaleQuery)();
 
