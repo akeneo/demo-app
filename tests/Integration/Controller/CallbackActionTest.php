@@ -17,7 +17,7 @@ class CallbackActionTest extends AbstractActionTest
     public function itThrowsAnExceptionWhenThePimUrlIsMissingInSession(): void
     {
         $client = self::createClientWithSession([]);
-        $client->request('GET', '/authorization/activate');
+        $client->request('GET', '/callback');
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
     }
 
@@ -74,7 +74,7 @@ class CallbackActionTest extends AbstractActionTest
             new MockResponse(\json_encode([])),
         ]);
 
-        $client->request('GET', '/callback?code=code&state=random_state_abcdefgh');
+        $client->request('GET', '/callback?code=code&state=random_state_123456789');
 
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
     }

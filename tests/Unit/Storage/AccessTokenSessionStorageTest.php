@@ -18,13 +18,11 @@ class AccessTokenSessionStorageTest extends TestCase
     {
         $this->session = $this->getMockBuilder(SessionInterface::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $this->requestStack = $this->getMockBuilder(RequestStack::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $this->requestStack->method('getSession')->willReturn($this->session);
 
         $this->sessionStorage = new AccessTokenSessionStorage($this->requestStack);
@@ -43,8 +41,7 @@ class AccessTokenSessionStorageTest extends TestCase
         $this->session
             ->expects($this->once())
             ->method('get')
-            ->with('akeneo_pim_access_token')
-        ;
+            ->with('akeneo_pim_access_token');
 
         $this->sessionStorage->getAccessToken();
     }
@@ -57,8 +54,7 @@ class AccessTokenSessionStorageTest extends TestCase
         $this->session
             ->expects($this->once())
             ->method('set')
-            ->with('akeneo_pim_access_token', 'MY_ACCESS_TOKEN')
-        ;
+            ->with('akeneo_pim_access_token', 'MY_ACCESS_TOKEN');
 
         $this->sessionStorage->setAccessToken('MY_ACCESS_TOKEN');
     }

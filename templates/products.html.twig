@@ -4,18 +4,13 @@
 {% block title %}{{ 'page.products.title' | trans }}{% endblock %}
 
 {% block content %}
-
-    {# TO REPLACE #}
-    {% set products = 0..9 %}
-    {# END TO REPLACE #}
-
     <div class="products">
     <aside class="product-filters">
         <h3 class="product-filters__heading">{{ 'page.products.product-filters.filters' | trans }}</h3>
         <ol class="product-filters__list">
             <li class="product-filter">
                 <h4 class="product-filter__label">{{ 'page.products.product-filters.locale' | trans }}</h4>
-                <div class="product-filter__value">{{ localeToFlag.getFlag('en_US') }}</div>
+                <div class="product-filter__value">{{ localeToFlag.getFlag(locale) }}</div>
             </li>
         </ol>
     </aside>
@@ -47,7 +42,7 @@
                         <div class="product-card__image">
                             <img src="{{ asset('build/images/ziggy.png') }}" alt="{{ i }}"  />
                         </div>
-                        <p class="product-card__title">Nike M2K TEKNO</p>
+                        <p class="product-card__title">{{ product.label }}</p>
                     </a>
                 </article>
             {% else %}

@@ -31,6 +31,17 @@ class WelcomeActionTest extends AbstractActionTest
     /**
      * @test
      */
+    public function itThrowsAnExceptionWhenThePimUrlIsInvalid(): void
+    {
+        $client = self::createClientWithSession([]);
+        $client->request('GET', '/?pim_url=INVALID_URL');
+        $client->request('GET', '/');
+        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
     public function itSavesThePimUrlInSessionAndRenderTheWelcomePage(): void
     {
         $client = self::createClientWithSession([]);

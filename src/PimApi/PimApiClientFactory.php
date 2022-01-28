@@ -7,6 +7,7 @@ namespace App\PimApi;
 use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use App\Storage\AccessTokenStorageInterface;
+use Psr\Http\Client\ClientInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -20,7 +21,7 @@ class PimApiClientFactory
     ) {
     }
 
-    public function __invoke(): AkeneoPimClientInterface
+    public function __invoke(?ClientInterface $httpClient = null): AkeneoPimClientInterface
     {
         $pimUrl = $this->requestStack->getSession()->get('pim_url');
         if (empty($pimUrl)) {
@@ -33,6 +34,10 @@ class PimApiClientFactory
         }
 
         $clientBuilder = new AkeneoPimClientBuilder($pimUrl);
+
+        if (null !== $httpClient) {
+            $clientBuilder->setHttpClient($httpClient);
+        }
 
         return $clientBuilder->buildAuthenticatedByToken($this->akeneoClientId, $this->akeneoClientSecret, $accessToken, '');
     }
