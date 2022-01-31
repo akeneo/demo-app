@@ -36,11 +36,11 @@
         </header>
 
         <div class="product-grid__{{ products|length > 0 ? 'list' : 'no-products' }}">
-            {% for i in products %}
+            {% for product in products %}
                 <article class="product-card">
-                    <a href="#{{ i }}">
+                    <a href="#{{ product.identifier }}">
                         <div class="product-card__image">
-                            <img src="{{ asset('build/images/ziggy.png') }}" alt="{{ i }}"  />
+                            <img src="{{ asset('build/images/ziggy.png') }}" alt="{{ product.label }}"  />
                         </div>
                         <p class="product-card__title">{{ product.label }}</p>
                     </a>
