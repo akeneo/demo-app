@@ -9,6 +9,24 @@ page:
             powered_by: Powered by
             logo_alt: Akeneo
             baseline: Unlocking Growth Through Product Experiences
+
+    products:
+        title: Products | Akeneo app demo
+        product-filters:
+            filters: Filters
+            locale: Locale
+        product-searchbar:
+            icon-alt: Search
+            placeholder: Search
+            search: search
+            count-results: '{0}no results|{1}1 result|]1,Inf[ %count% results'
+        information:
+            helper-title: '{0}No products|{1}We display 1 product we can access|]1,Inf[ We display %count% products we can access'
+            content: Our app demo only displays products you chose to share with us. For now, we don't synchronize product images, but you can click on a product to consult other product data.
+        no-products:
+            title: No products for the moment
+            description: Please, go to your PIM, update the permissions you granted to our App and refresh that page to see your last 10 updated products.
+
     error:
         title: Error
         illustration_alt: Something went wrong
