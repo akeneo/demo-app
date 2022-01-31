@@ -27,6 +27,17 @@ page:
             title: No products for the moment
             description: Please, go to your PIM, update the permissions you granted to our App and refresh that page to see your last 10 updated products.
 
+    product:
+        title: Product | Akeneo app demo
+        information:
+            helper-title: Your product data
+            content: Our app demo only displays values it can access. These values depend on attribute groups and locales you selected in the step-by-step activation process. You can update these permissions in the connected app settings of your PIM.
+            link: Set up connected app permissions
+        locales: Locales
+        sections:
+            marketing: Marketing
+            technical: Technical
+
     error:
         title: Error
         illustration_alt: Something went wrong

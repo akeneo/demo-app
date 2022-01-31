@@ -29,5 +29,13 @@
 
   &__content-container {
     padding: 10px 0;
+
+    p {
+      margin: 5px 0 5px 0;
+    }
+
+    a {
+      text-decoration: underline;
+    }
   }
 }
