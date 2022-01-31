@@ -45,7 +45,7 @@ class ListProductsActionTest extends AbstractActionTest
         $client->request('GET', '/products');
         $this->assertResponseIsSuccessful();
 
-        $this->assertSelectorTextContains('.current-locale', 'en_US');
+        $this->assertSelectorTextContains('.current-locale', '🇺🇸 English (United States)');
         $this->assertCount(10, $client->getCrawler()->filter('.product-card'));
     }
 }
