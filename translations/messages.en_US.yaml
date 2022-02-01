@@ -1,3 +1,11 @@
+common:
+    header:
+        links:
+            catalog: Catalog
+            help: Help
+            go-to-pim-url: Go to Akeneo PIM
+        welcome: 'Welcome %user%'
+
 page:
     welcome:
         title: Akeneo app demo
