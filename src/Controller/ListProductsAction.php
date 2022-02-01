@@ -29,7 +29,6 @@ final class ListProductsAction
             $this->twig->render('products.html.twig', [
                 'locale' => $locale,
                 'products' => ($this->fetchProductsQuery)($locale),
-                'pimUrl' => $request->getSession()->get('pim_url'),
             ])
         );
     }
