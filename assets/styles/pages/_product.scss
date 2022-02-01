@@ -31,11 +31,13 @@
   }
 
   &__title {
-    font-size: variables.$font-size-h1;
+    font-size: variables.$font-size-title;
+    font-weight: normal;
     color: variables.$color-demo-blue;
   }
 
-  &__locales {
+  &__content {
+    margin-top: 30px;
   }
 }
 
@@ -77,8 +79,39 @@
   }
 
   &__language {
-    color: rgb(148, 82, 186);
+    color: rgb(148 82 186);
     margin-right: 5px;
     text-align: left;
+  }
+}
+
+.attribute-group {
+  &__title {
+    border-bottom: 1px solid variables.$color-grey-140;
+    padding-bottom: 13px;
+    font-weight: normal;
+    font-size: variables.$font-size-big;
+    text-transform: uppercase;
+  }
+}
+
+.attribute {
+  margin-top: 30px;
+  max-width: 374px;
+
+  &__label {
+    color: variables.$color-grey-120;
+    font-weight: normal;
+    font-size: variables.$font-size-default;
+    text-transform: capitalize;
+    margin-bottom: 5px;
+  }
+
+  &__value {
+    line-height: 20px;
+  }
+
+  &:last-child {
+    margin-bottom: 42px;
   }
 }

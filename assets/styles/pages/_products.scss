@@ -4,6 +4,7 @@
   display: grid;
   grid-template-columns: 280px 1fr;
   grid-column-gap: 90px;
+
   .product-filters {
     color: variables.$color-demo-blue;
 
@@ -181,4 +182,3 @@
     }
   }
 }
-
