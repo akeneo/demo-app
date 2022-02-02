@@ -5,7 +5,11 @@
     <p class="current-locale">{{ locale }}</p>
     <ul>
         {% for product in products %}
-            <li class="product-card">{{ product.identifier }} - {{ product.label }}</li>
+            <li class="product-card">
+                <a href="{{ path('product', {identifier: product.identifier}) }}">
+                    {{ product.identifier }} - {{ product.label }}
+                </a>
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}

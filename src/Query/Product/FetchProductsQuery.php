@@ -6,37 +6,35 @@ namespace App\Query\Product;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
-use App\Dto\Product\Product;
+use App\PimApi\Model\Product;
+use App\PimApi\Normalizer\ProductNormalizer;
 
 final class FetchProductsQuery
 {
     public function __construct(
         private AkeneoPimClientInterface $pimApiClient,
+        private ProductNormalizer $productNormalizer,
     ) {
     }
 
     /**
      * @return Product[]
      */
-    public function __invoke(string $locale, int $limit = 10): array
+    public function fetch(string $locale): array
     {
         $searchBuilder = new SearchBuilder();
         $searchBuilder->addFilter('enabled', '=', true);
         $searchFilters = $searchBuilder->getFilters();
 
-        $firstPage = $this->pimApiClient->getProductApi()->listPerPage(100, true, ['search' => $searchFilters]);
+        $firstPage = $this->pimApiClient->getProductApi()->listPerPage(10, true, ['search' => $searchFilters]);
+        $rawPimApiProducts = $firstPage->getItems();
+
+        $scope = $this->findFirstAvailableScope($rawPimApiProducts);
 
         $products = [];
 
-        foreach ($firstPage->getItems() as $item) {
-            if ($limit <= \count($products)) {
-                break;
-            }
-
-            $product = new Product(
-                $item['identifier'],
-                $this->getProductLabel($item, $locale),
-            );
+        foreach ($rawPimApiProducts as $item) {
+            $product = $this->productNormalizer->denormalizeFromApi($item, $locale, $scope);
 
             $products[] = $product;
         }
@@ -45,30 +43,20 @@ final class FetchProductsQuery
     }
 
     /**
-     * @param array<mixed> $product
+     * @param array<mixed> $rawPimApiProducts
      */
-    private function getProductLabel(array $product, string $locale): string
+    private function findFirstAvailableScope(array $rawPimApiProducts): ?string
     {
-        $attributeAsLabel = $this->getFamilyAttributeAsLabel($product['family']);
-
-        foreach ($product['values'][$attributeAsLabel] as $value) {
-            if ($locale === $value['locale'] || null === $value['locale']) {
-                return $value['data'];
+        foreach ($rawPimApiProducts as $rawPimApiProduct) {
+            foreach ($rawPimApiProduct['values'] as $values) {
+                foreach ($values as $value) {
+                    if (null !== $value['scope']) {
+                        return $value['scope'];
+                    }
+                }
             }
         }
 
-        return \sprintf('[%s]', $product['identifier']);
-    }
-
-    private function getFamilyAttributeAsLabel(string $familyCode): string
-    {
-        static $familiesAttributesAsLabel = [];
-
-        if (!\array_key_exists($familyCode, $familiesAttributesAsLabel)) {
-            $family = $this->pimApiClient->getFamilyApi()->get($familyCode);
-            $familiesAttributesAsLabel[$familyCode] = $family['attribute_as_label'];
-        }
-
-        return $familiesAttributesAsLabel[$familyCode];
+        return null;
     }
 }

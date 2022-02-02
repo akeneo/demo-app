@@ -63,7 +63,7 @@ class GuessCurrentLocaleQueryTest extends TestCase
 
         $this->expectExceptionObject(new \LogicException('No PIM locale available.'));
 
-        ($this->guessCurrentLocaleQuery)();
+        $this->guessCurrentLocaleQuery->guess();
     }
 
     /**
@@ -87,7 +87,7 @@ class GuessCurrentLocaleQueryTest extends TestCase
 
         $this->expectExceptionObject(new \LogicException('No main request.'));
 
-        ($this->guessCurrentLocaleQuery)();
+        $this->guessCurrentLocaleQuery->guess();
     }
 
     /**
@@ -122,7 +122,7 @@ class GuessCurrentLocaleQueryTest extends TestCase
             ->method('getMainRequest')
             ->willReturn($request);
 
-        $currentLocale = ($this->guessCurrentLocaleQuery)();
+        $currentLocale = $this->guessCurrentLocaleQuery->guess();
 
         $this->assertEquals('locale_1', $currentLocale);
     }
@@ -156,7 +156,7 @@ class GuessCurrentLocaleQueryTest extends TestCase
             ->method('getMainRequest')
             ->willReturn($request);
 
-        $currentLocale = ($this->guessCurrentLocaleQuery)();
+        $currentLocale = $this->guessCurrentLocaleQuery->guess();
 
         $this->assertEquals('locale_2', $currentLocale);
     }
@@ -190,7 +190,7 @@ class GuessCurrentLocaleQueryTest extends TestCase
             ->method('getMainRequest')
             ->willReturn($request);
 
-        $currentLocale = ($this->guessCurrentLocaleQuery)();
+        $currentLocale = $this->guessCurrentLocaleQuery->guess();
 
         $this->assertEquals('en_US', $currentLocale);
     }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Unit\PimApi;
+namespace App\Tests\Unit\PimApi\Client;
 
-use App\PimApi\PimApiClientFactory;
+use App\PimApi\Client\PimApiClientFactory;
 use App\Storage\AccessTokenStorageInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

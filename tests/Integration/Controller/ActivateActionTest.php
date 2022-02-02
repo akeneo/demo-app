@@ -31,7 +31,7 @@ class ActivateActionTest extends AbstractActionTest
         $expectedAuthorizeUrlParams = \http_build_query([
             'response_type' => 'code',
             'client_id' => $client->getKernel()->getContainer()->getParameter('akeneoClientId'),
-            'scope' => 'read_products read_catalog_structure read_channel_localization',
+            'scope' => 'read_products read_catalog_structure read_channel_localization read_attribute_options',
             'state' => $client->getRequest()->getSession()->get('state'),
         ]);
 

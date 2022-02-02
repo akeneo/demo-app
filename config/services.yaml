@@ -22,4 +22,4 @@ services:
 
     Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
         class: 'Akeneo\Pim\ApiClient\AkeneoPimClientInterface'
-        factory: '@App\PimApi\PimApiClientFactory'
+        factory: '@App\PimApi\Client\PimApiClientFactory'

@@ -27,7 +27,7 @@ class ListProductsActionTest extends AbstractActionTest
         $this->mockPimApiClientResponse(
             $client,
             new RequestMatcher('/api/rest/v1/products', 'httpd', ['GET'], ['https']),
-            $this->getPimApiMockResponse('getProductsListWith7TshirtsAnd4Caps.json'),
+            $this->getPimApiMockResponse('getProductsListWith6TshirtsAnd4Caps.json'),
         );
 
         $this->mockPimApiClientResponse(

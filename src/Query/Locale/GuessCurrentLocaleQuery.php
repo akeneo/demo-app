@@ -18,7 +18,7 @@ final class GuessCurrentLocaleQuery
     ) {
     }
 
-    public function __invoke(): string
+    public function guess(): string
     {
         $pimAvailableLocales = $this->fetchPimAvailableLocales();
 

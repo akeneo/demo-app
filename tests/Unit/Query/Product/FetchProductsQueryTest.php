@@ -3,10 +3,10 @@
 namespace App\Tests\Unit\Query\Product;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
-use Akeneo\Pim\ApiClient\Api\FamilyApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
-use App\Dto\Product\Product;
+use App\PimApi\Model\Product;
+use App\PimApi\Normalizer\ProductNormalizer;
 use App\Query\Product\FetchProductsQuery;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 class FetchProductsQueryTest extends TestCase
 {
     private PageInterface|MockObject $pimProductApiFirstPage;
-    private FamilyApiInterface|MockObject $pimFamilyApi;
+    private ProductNormalizer|MockObject $productNormalizer;
     private ?FetchProductsQuery $fetchProductsQuery;
 
     protected function setUp(): void
@@ -31,11 +31,6 @@ class FetchProductsQueryTest extends TestCase
             ->method('listPerPage')
             ->willReturn($this->pimProductApiFirstPage);
 
-        // mock PIM family API
-        $this->pimFamilyApi = $this->getMockBuilder(FamilyApiInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         // mock PIM API Client
         $pimApiClient = $this->getMockBuilder(AkeneoPimClientInterface::class)
             ->disableOriginalConstructor()
@@ -43,12 +38,15 @@ class FetchProductsQueryTest extends TestCase
         $pimApiClient
             ->method('getProductApi')
             ->willReturn($pimProductApi);
-        $pimApiClient
-            ->method('getFamilyApi')
-            ->willReturn($this->pimFamilyApi);
+
+        // mock Product Builder
+        $this->productNormalizer = $this->getMockBuilder(ProductNormalizer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->fetchProductsQuery = new FetchProductsQuery(
             $pimApiClient,
+            $this->productNormalizer,
         );
     }
 
@@ -60,180 +58,117 @@ class FetchProductsQueryTest extends TestCase
     /**
      * @test
      */
-    public function itReturnsProductsWithCorrectLabelForLocalizedLabelAttribute(): void
+    public function itFindsFirstAvailableScope(): void
     {
-        $productsMock = [
-            [
-                'identifier' => 'product_001',
-                'family' => 'family_1',
-                'values' => [
-                    'name' => [
-                        [
-                            'locale' => 'en_US',
-                            'scope' => null,
-                            'data' => 'Product 1',
-                        ],
-                        [
-                            'locale' => 'fr_FR',
-                            'scope' => null,
-                            'data' => 'Produit 1',
-                        ],
+        $rawApiProduct1 = [
+            'identifier' => 'product_001',
+            'family' => 'family_1',
+            'values' => [
+                'name' => [
+                    [
+                        'locale' => null,
+                        'scope' => null,
+                        'data' => 'Produit 1',
                     ],
                 ],
             ],
+        ];
+
+        $rawApiProduct2 = [
+            'identifier' => 'product_002',
+            'family' => 'family_1',
+            'values' => [
+                'name' => [
+                    [
+                        'locale' => null,
+                        'scope' => null,
+                        'data' => 'Produit 2',
+                    ],
+                    [
+                        'locale' => null,
+                        'scope' => 'scope1',
+                        'data' => 'Produit 2',
+                    ],
+                    [
+                        'locale' => null,
+                        'scope' => 'scope2',
+                        'data' => 'Produit 2',
+                    ],
+                ],
+            ],
+        ];
+
+        $productsMock = [
+            $rawApiProduct1,
+            $rawApiProduct2,
         ];
 
         $this->pimProductApiFirstPage
             ->method('getItems')
             ->willReturn($productsMock);
 
-        $familyMock = [
-            'code' => 'family_1',
-            'attribute_as_label' => 'name',
-        ];
+        $this->productNormalizer
+            ->expects($this->exactly(2))
+            ->method('denormalizeFromApi')
+            ->with($this->anything(), 'fr_FR', 'scope1');
 
-        $this->pimFamilyApi
-            ->method('get')
-            ->with('family_1')
-            ->willReturn($familyMock);
-
-        $expectedProduct1 = new Product('product_001', 'Produit 1');
-
-        $productsResult = ($this->fetchProductsQuery)('fr_FR');
-
-        $this->assertEqualsCanonicalizing([$expectedProduct1], $productsResult);
+        $this->fetchProductsQuery->fetch('fr_FR');
     }
 
     /**
      * @test
      */
-    public function itReturnsProductsWithCorrectLabelForNotLocalizedLabelAttribute(): void
+    public function itReturnsProductsDtoFromRawApiResponse(): void
     {
-        $productsMock = [
-            [
-                'identifier' => 'product_001',
-                'family' => 'family_1',
-                'values' => [
-                    'name' => [
-                        [
-                            'locale' => null,
-                            'scope' => null,
-                            'data' => 'Produit 1',
-                        ],
+        $rawApiProduct1 = [
+            'identifier' => 'product_001',
+            'family' => 'family_1',
+            'values' => [
+                'name' => [
+                    [
+                        'locale' => null,
+                        'scope' => 'scope1',
+                        'data' => 'Produit 1',
                     ],
                 ],
             ],
         ];
 
+        $rawApiProduct2 = [
+            'identifier' => 'product_002',
+            'family' => 'family_1',
+            'values' => [
+                'name' => [
+                    [
+                        'locale' => null,
+                        'scope' => 'scope1',
+                        'data' => 'Produit 2',
+                    ],
+                ],
+            ],
+        ];
+
+        $productsMock = [
+            $rawApiProduct1,
+            $rawApiProduct2,
+        ];
+
         $this->pimProductApiFirstPage
             ->method('getItems')
             ->willReturn($productsMock);
-
-        $familyMock = [
-            'code' => 'family_1',
-            'attribute_as_label' => 'name',
-        ];
-
-        $this->pimFamilyApi
-            ->method('get')
-            ->with('family_1')
-            ->willReturn($familyMock);
 
         $expectedProduct1 = new Product('product_001', 'Produit 1');
+        $expectedProduct2 = new Product('product_002', 'Produit 2');
 
-        $productsResult = ($this->fetchProductsQuery)('fr_FR');
+        $this->productNormalizer
+            ->method('denormalizeFromApi')
+            ->willReturnMap([
+                [$rawApiProduct1, 'fr_FR', 'scope1', false, $expectedProduct1],
+                [$rawApiProduct2, 'fr_FR', 'scope1', false, $expectedProduct2],
+            ]);
 
-        $this->assertEqualsCanonicalizing([$expectedProduct1], $productsResult);
-    }
+        $productsResult = $this->fetchProductsQuery->fetch('fr_FR');
 
-    /**
-     * @test
-     */
-    public function itReturnsProductsWithIdentifierAsLabelForMissingLabelAttribute(): void
-    {
-        $productsMock = [
-            [
-                'identifier' => 'product_001',
-                'family' => 'family_1',
-                'values' => [
-                    'name' => [],
-                ],
-            ],
-        ];
-
-        $this->pimProductApiFirstPage
-            ->method('getItems')
-            ->willReturn($productsMock);
-
-        $familyMock = [
-            'code' => 'family_1',
-            'attribute_as_label' => 'name',
-        ];
-
-        $this->pimFamilyApi
-            ->method('get')
-            ->with('family_1')
-            ->willReturn($familyMock);
-
-        $expectedProduct1 = new Product('product_001', '[product_001]');
-
-        $productsResult = ($this->fetchProductsQuery)('fr_FR');
-
-        $this->assertEqualsCanonicalizing([$expectedProduct1], $productsResult);
-    }
-
-    /**
-     * @test
-     */
-    public function itReturnsOnlyTheRequestedNumberOfProducts(): void
-    {
-        $productsMock = [
-            [
-                'identifier' => 'product_001',
-                'family' => 'family_1',
-                'values' => [
-                    'name' => [
-                        [
-                            'locale' => null,
-                            'scope' => null,
-                            'data' => 'Produit 1',
-                        ],
-                    ],
-                ],
-            ],
-            [
-                'identifier' => 'product_002',
-                'family' => 'family_1',
-                'values' => [
-                    'name' => [
-                        [
-                            'locale' => null,
-                            'scope' => null,
-                            'data' => 'Produit 2',
-                        ],
-                    ],
-                ],
-            ],
-        ];
-
-        $this->pimProductApiFirstPage
-            ->method('getItems')
-            ->willReturn($productsMock);
-
-        $familyMock = [
-            'code' => 'family_1',
-            'attribute_as_label' => 'name',
-        ];
-
-        $this->pimFamilyApi
-            ->method('get')
-            ->with('family_1')
-            ->willReturn($familyMock);
-
-        $expectedProduct1 = new Product('product_001', 'Produit 1');
-
-        $productsResult = ($this->fetchProductsQuery)('fr_FR', 1);
-
-        $this->assertEqualsCanonicalizing([$expectedProduct1], $productsResult);
+        $this->assertEqualsCanonicalizing([$expectedProduct1, $expectedProduct2], $productsResult);
     }
 }

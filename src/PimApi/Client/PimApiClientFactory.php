@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\PimApi;
+namespace App\PimApi\Client;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
