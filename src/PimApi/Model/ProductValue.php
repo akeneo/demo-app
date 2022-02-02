@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\PimApi\Model;
 
-class Attribute
+class ProductValue
 {
     public function __construct(
         public readonly string $label,

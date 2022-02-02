@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Query\Locale\GuessCurrentLocaleQuery;
-use App\Query\Product\FetchProductQuery;
+use App\Query\FetchProductQuery;
+use App\Query\GuessCurrentLocaleQuery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,7 +20,7 @@ final class GetProductAction
     ) {
     }
 
-    #[Route('/product/{identifier}', name: 'product', methods: ['GET'])]
+    #[Route('/products/{identifier}', name: 'product', methods: ['GET'])]
     public function __invoke(Request $request, string $identifier): Response
     {
         $locale = $this->guessCurrentLocaleQuery->guess();

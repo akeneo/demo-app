@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Query\Locale;
+namespace App\Query;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
