@@ -81,7 +81,7 @@ final class FetchProductsQuery extends AbstractProductQuery
     private function fetchFamilies(array $rawProducts): array
     {
         $familiesCodes = \array_unique(\array_map(
-            fn(array $rawProduct) => $rawProduct['family'],
+            fn (array $rawProduct) => $rawProduct['family'],
             $rawProducts,
         ));
 
@@ -100,7 +100,7 @@ final class FetchProductsQuery extends AbstractProductQuery
         $rawFamilies = $familyApiResponsePage->getItems();
 
         while (null !== $familyApiResponsePage = $familyApiResponsePage->getNextPage()) {
-            \array_merge($rawFamilies, $familyApiResponsePage->getItems());
+            $rawFamilies = \array_merge($rawFamilies, $familyApiResponsePage->getItems());
         }
 
         return \array_combine(\array_column($rawFamilies, 'code'), $rawFamilies);
