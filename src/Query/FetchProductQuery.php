@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Query;
 
-use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use App\PimApi\Model\Product;
 use App\PimApi\Model\ProductValue;
 
@@ -13,11 +12,6 @@ use App\PimApi\Model\ProductValue;
  */
 final class FetchProductQuery extends AbstractProductQuery
 {
-    public function __construct(
-        private AkeneoPimClientInterface $pimApiClient,
-    ) {
-    }
-
     public function fetch(string $identifier, string $locale): Product
     {
         /** @var RawProduct $rawProduct */
@@ -30,13 +24,12 @@ final class FetchProductQuery extends AbstractProductQuery
         $label = (string) $this->findAttributeValue($rawProduct, $rawFamily['attribute_as_label'], $locale, $scope);
 
         $values = [];
-        $attributes = [];
+        $attributes = $this->fetchAttributes([$rawProduct]);
 
         foreach ($rawProduct['values'] as $attributeIdentifier => $value) {
-            $attribute = $attributes[$attributeIdentifier]
-                ??= $this->pimApiClient->getAttributeApi()->get($attributeIdentifier);
+            $attribute = $attributes[$attributeIdentifier];
 
-            if (!in_array($attribute['type'], self::SUPPORTED_ATTRIBUTE_TYPES)) {
+            if (!\in_array($attribute['type'], self::SUPPORTED_ATTRIBUTE_TYPES)) {
                 continue;
             }
 
@@ -47,7 +40,7 @@ final class FetchProductQuery extends AbstractProductQuery
             }
 
             $values[] = new ProductValue(
-                $attribute['labels'][$locale] ?? sprintf('[%s]', $attribute['code']),
+                $attribute['labels'][$locale] ?? \sprintf('[%s]', $attribute['code']),
                 $attribute['type'],
                 $attributeValue,
             );

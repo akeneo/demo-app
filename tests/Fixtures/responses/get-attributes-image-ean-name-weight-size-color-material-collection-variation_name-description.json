@@ -1,0 +1,469 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://example.com/api/rest/v1/attributes?page=1&limit=100&with_count=false&search=%7B%22code%22:%5B%7B%22operator%22:%22IN%22,%22value%22:%5B%22image%22,%22ean%22,%22name%22,%22weight%22,%22size%22,%22color%22,%22material%22,%22collection%22,%22variation_name%22,%22description%22%5D%7D%5D%7D"
+    },
+    "first": {
+      "href": "https://example.com/api/rest/v1/attributes?page=1&limit=100&with_count=false&search=%7B%22code%22:%5B%7B%22operator%22:%22IN%22,%22value%22:%5B%22image%22,%22ean%22,%22name%22,%22weight%22,%22size%22,%22color%22,%22material%22,%22collection%22,%22variation_name%22,%22description%22%5D%7D%5D%7D"
+    }
+  },
+  "current_page": 1,
+  "_embedded": {
+    "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/attributes/collection"
+          }
+        },
+        "code": "collection",
+        "type": "pim_catalog_multiselect",
+        "group": "marketing",
+        "unique": false,
+        "useable_as_grid_filter": true,
+        "allowed_extensions": [],
+        "metric_family": null,
+        "default_metric_unit": null,
+        "reference_data_name": null,
+        "available_locales": [],
+        "max_characters": null,
+        "validation_rule": null,
+        "validation_regexp": null,
+        "wysiwyg_enabled": null,
+        "number_min": null,
+        "number_max": null,
+        "decimals_allowed": null,
+        "negative_allowed": null,
+        "date_min": null,
+        "date_max": null,
+        "max_file_size": null,
+        "minimum_input_length": null,
+        "sort_order": 2,
+        "localizable": false,
+        "scopable": false,
+        "labels": {
+          "de_DE": "Collection",
+          "en_US": "Collection",
+          "fr_FR": "Collection"
+        },
+        "guidelines": {},
+        "auto_option_sorting": null,
+        "default_value": null,
+        "group_labels": {
+          "en_US": "Marketing",
+          "fr_FR": "Marketing",
+          "de_DE": "Marketing"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/attributes/color"
+          }
+        },
+        "code": "color",
+        "type": "pim_catalog_simpleselect",
+        "group": "product",
+        "unique": false,
+        "useable_as_grid_filter": true,
+        "allowed_extensions": [],
+        "metric_family": null,
+        "default_metric_unit": null,
+        "reference_data_name": null,
+        "available_locales": [],
+        "max_characters": null,
+        "validation_rule": null,
+        "validation_regexp": null,
+        "wysiwyg_enabled": null,
+        "number_min": null,
+        "number_max": null,
+        "decimals_allowed": null,
+        "negative_allowed": null,
+        "date_min": null,
+        "date_max": null,
+        "max_file_size": null,
+        "minimum_input_length": null,
+        "sort_order": 1,
+        "localizable": false,
+        "scopable": false,
+        "labels": {
+          "de_DE": "Color",
+          "en_US": "Color",
+          "fr_FR": "Couleur"
+        },
+        "guidelines": {},
+        "auto_option_sorting": false,
+        "default_value": null,
+        "group_labels": {
+          "en_US": "Product",
+          "fr_FR": "Produit",
+          "de_DE": "Product"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/attributes/description"
+          }
+        },
+        "code": "description",
+        "type": "pim_catalog_textarea",
+        "group": "marketing",
+        "unique": false,
+        "useable_as_grid_filter": true,
+        "allowed_extensions": [],
+        "metric_family": null,
+        "default_metric_unit": null,
+        "reference_data_name": null,
+        "available_locales": [],
+        "max_characters": null,
+        "validation_rule": null,
+        "validation_regexp": null,
+        "wysiwyg_enabled": true,
+        "number_min": null,
+        "number_max": null,
+        "decimals_allowed": null,
+        "negative_allowed": null,
+        "date_min": null,
+        "date_max": null,
+        "max_file_size": null,
+        "minimum_input_length": null,
+        "sort_order": 3,
+        "localizable": true,
+        "scopable": true,
+        "labels": {
+          "de_DE": "Beschreibung",
+          "en_US": "Description",
+          "fr_FR": "Description"
+        },
+        "guidelines": {},
+        "auto_option_sorting": null,
+        "default_value": null,
+        "group_labels": {
+          "en_US": "Marketing",
+          "fr_FR": "Marketing",
+          "de_DE": "Marketing"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/attributes/ean"
+          }
+        },
+        "code": "ean",
+        "type": "pim_catalog_text",
+        "group": "erp",
+        "unique": true,
+        "useable_as_grid_filter": true,
+        "allowed_extensions": [],
+        "metric_family": null,
+        "default_metric_unit": null,
+        "reference_data_name": null,
+        "available_locales": [],
+        "max_characters": null,
+        "validation_rule": null,
+        "validation_regexp": null,
+        "wysiwyg_enabled": null,
+        "number_min": null,
+        "number_max": null,
+        "decimals_allowed": null,
+        "negative_allowed": null,
+        "date_min": null,
+        "date_max": null,
+        "max_file_size": null,
+        "minimum_input_length": null,
+        "sort_order": 0,
+        "localizable": false,
+        "scopable": false,
+        "labels": {
+          "de_DE": "EAN",
+          "en_US": "EAN",
+          "fr_FR": "EAN"
+        },
+        "guidelines": {},
+        "auto_option_sorting": null,
+        "default_value": null,
+        "group_labels": {
+          "en_US": "ERP",
+          "fr_FR": "ERP",
+          "de_DE": "ERP"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/attributes/image"
+          }
+        },
+        "code": "image",
+        "type": "pim_catalog_image",
+        "group": "medias",
+        "unique": false,
+        "useable_as_grid_filter": true,
+        "allowed_extensions": [
+          "png",
+          "jpeg",
+          "jpg"
+        ],
+        "metric_family": null,
+        "default_metric_unit": null,
+        "reference_data_name": null,
+        "available_locales": [],
+        "max_characters": null,
+        "validation_rule": null,
+        "validation_regexp": null,
+        "wysiwyg_enabled": null,
+        "number_min": null,
+        "number_max": null,
+        "decimals_allowed": null,
+        "negative_allowed": null,
+        "date_min": null,
+        "date_max": null,
+        "max_file_size": null,
+        "minimum_input_length": null,
+        "sort_order": 11,
+        "localizable": false,
+        "scopable": false,
+        "labels": {
+          "de_DE": "Model bild",
+          "en_US": "Model picture",
+          "fr_FR": "Image du modèle"
+        },
+        "guidelines": {},
+        "auto_option_sorting": null,
+        "default_value": null,
+        "group_labels": {
+          "en_US": "Media",
+          "fr_FR": "Media",
+          "de_DE": "Media"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/attributes/material"
+          }
+        },
+        "code": "material",
+        "type": "pim_catalog_simpleselect",
+        "group": "product",
+        "unique": false,
+        "useable_as_grid_filter": true,
+        "allowed_extensions": [],
+        "metric_family": null,
+        "default_metric_unit": null,
+        "reference_data_name": null,
+        "available_locales": [],
+        "max_characters": null,
+        "validation_rule": null,
+        "validation_regexp": null,
+        "wysiwyg_enabled": null,
+        "number_min": null,
+        "number_max": null,
+        "decimals_allowed": null,
+        "negative_allowed": null,
+        "date_min": null,
+        "date_max": null,
+        "max_file_size": null,
+        "minimum_input_length": null,
+        "sort_order": 22,
+        "localizable": false,
+        "scopable": false,
+        "labels": {
+          "de_DE": "Material",
+          "en_US": "Material",
+          "fr_FR": "Matière"
+        },
+        "guidelines": {},
+        "auto_option_sorting": null,
+        "default_value": null,
+        "group_labels": {
+          "en_US": "Product",
+          "fr_FR": "Produit",
+          "de_DE": "Product"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/attributes/name"
+          }
+        },
+        "code": "name",
+        "type": "pim_catalog_text",
+        "group": "marketing",
+        "unique": false,
+        "useable_as_grid_filter": true,
+        "allowed_extensions": [],
+        "metric_family": null,
+        "default_metric_unit": null,
+        "reference_data_name": null,
+        "available_locales": [],
+        "max_characters": null,
+        "validation_rule": null,
+        "validation_regexp": null,
+        "wysiwyg_enabled": null,
+        "number_min": null,
+        "number_max": null,
+        "decimals_allowed": null,
+        "negative_allowed": null,
+        "date_min": null,
+        "date_max": null,
+        "max_file_size": null,
+        "minimum_input_length": null,
+        "sort_order": 2,
+        "localizable": false,
+        "scopable": false,
+        "labels": {
+          "de_DE": "Name",
+          "en_US": "Name",
+          "fr_FR": "Nom"
+        },
+        "guidelines": {},
+        "auto_option_sorting": null,
+        "default_value": null,
+        "group_labels": {
+          "en_US": "Marketing",
+          "fr_FR": "Marketing",
+          "de_DE": "Marketing"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/attributes/size"
+          }
+        },
+        "code": "size",
+        "type": "pim_catalog_simpleselect",
+        "group": "product",
+        "unique": false,
+        "useable_as_grid_filter": true,
+        "allowed_extensions": [],
+        "metric_family": null,
+        "default_metric_unit": null,
+        "reference_data_name": null,
+        "available_locales": [],
+        "max_characters": null,
+        "validation_rule": null,
+        "validation_regexp": null,
+        "wysiwyg_enabled": null,
+        "number_min": null,
+        "number_max": null,
+        "decimals_allowed": null,
+        "negative_allowed": null,
+        "date_min": null,
+        "date_max": null,
+        "max_file_size": null,
+        "minimum_input_length": null,
+        "sort_order": 2,
+        "localizable": false,
+        "scopable": false,
+        "labels": {
+          "de_DE": "Size",
+          "en_US": "Size",
+          "fr_FR": "Taille"
+        },
+        "guidelines": {},
+        "auto_option_sorting": null,
+        "default_value": null,
+        "group_labels": {
+          "en_US": "Product",
+          "fr_FR": "Produit",
+          "de_DE": "Product"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/attributes/variation_name"
+          }
+        },
+        "code": "variation_name",
+        "type": "pim_catalog_text",
+        "group": "marketing",
+        "unique": false,
+        "useable_as_grid_filter": true,
+        "allowed_extensions": [],
+        "metric_family": null,
+        "default_metric_unit": null,
+        "reference_data_name": null,
+        "available_locales": [],
+        "max_characters": null,
+        "validation_rule": null,
+        "validation_regexp": null,
+        "wysiwyg_enabled": null,
+        "number_min": null,
+        "number_max": null,
+        "decimals_allowed": null,
+        "negative_allowed": null,
+        "date_min": null,
+        "date_max": null,
+        "max_file_size": null,
+        "minimum_input_length": null,
+        "sort_order": 4,
+        "localizable": true,
+        "scopable": false,
+        "labels": {
+          "de_DE": "Variant Name",
+          "en_US": "Variant Name",
+          "fr_FR": "Nom de la variante"
+        },
+        "guidelines": {},
+        "auto_option_sorting": null,
+        "default_value": null,
+        "group_labels": {
+          "en_US": "Marketing",
+          "fr_FR": "Marketing",
+          "de_DE": "Marketing"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/attributes/weight"
+          }
+        },
+        "code": "weight",
+        "type": "pim_catalog_metric",
+        "group": "technical",
+        "unique": false,
+        "useable_as_grid_filter": true,
+        "allowed_extensions": [],
+        "metric_family": "Weight",
+        "default_metric_unit": "KILOGRAM",
+        "reference_data_name": null,
+        "available_locales": [],
+        "max_characters": null,
+        "validation_rule": null,
+        "validation_regexp": null,
+        "wysiwyg_enabled": null,
+        "number_min": null,
+        "number_max": null,
+        "decimals_allowed": true,
+        "negative_allowed": false,
+        "date_min": null,
+        "date_max": null,
+        "max_file_size": null,
+        "minimum_input_length": null,
+        "sort_order": 1,
+        "localizable": false,
+        "scopable": false,
+        "labels": {
+          "de_DE": "Gewicht",
+          "en_US": "Weight",
+          "fr_FR": "Poids"
+        },
+        "guidelines": {},
+        "auto_option_sorting": null,
+        "default_value": null,
+        "group_labels": {
+          "en_US": "Technical",
+          "fr_FR": "Technique",
+          "de_DE": "Technische"
+        }
+      }
+    ]
+  }
+}

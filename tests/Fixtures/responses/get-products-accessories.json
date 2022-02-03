@@ -1,10 +1,10 @@
 {
   "_links": {
     "self": {
-      "href": "http://localhost:8080/api/rest/v1/products?page=1&with_count=false&pagination_type=page&limit=10&search=%7B%22enabled%22:%5B%7B%22operator%22:%22%3D%22,%22value%22:true%7D%5D,%22family%22:%5B%7B%22operator%22:%22IN%22,%22value%22:%5B%22accessories%22%5D%7D%5D%7D&locales=en_US"
+      "href": "https://example.com/api/rest/v1/products?page=1&with_count=false&pagination_type=page&limit=10&search=%7B%22enabled%22:%5B%7B%22operator%22:%22%3D%22,%22value%22:true%7D%5D,%22family%22:%5B%7B%22operator%22:%22IN%22,%22value%22:%5B%22accessories%22%5D%7D%5D%7D&locales=en_US"
     },
     "first": {
-      "href": "http://localhost:8080/api/rest/v1/products?page=1&with_count=false&pagination_type=page&limit=10&search=%7B%22enabled%22:%5B%7B%22operator%22:%22%3D%22,%22value%22:true%7D%5D,%22family%22:%5B%7B%22operator%22:%22IN%22,%22value%22:%5B%22accessories%22%5D%7D%5D%7D&locales=en_US"
+      "href": "https://example.com/api/rest/v1/products?page=1&with_count=false&pagination_type=page&limit=10&search=%7B%22enabled%22:%5B%7B%22operator%22:%22%3D%22,%22value%22:true%7D%5D,%22family%22:%5B%7B%22operator%22:%22IN%22,%22value%22:%5B%22accessories%22%5D%7D%5D%7D&locales=en_US"
     }
   },
   "current_page": 1,
@@ -13,7 +13,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/products/1111111171"
+            "href": "https://example.com/api/rest/v1/products/1111111171"
           }
         },
         "identifier": "1111111171",
@@ -34,7 +34,7 @@
               "data": "e/3/7/6/e376eacb684f7ce69c13a65379f04b01e4d7c872_bag.jpg",
               "_links": {
                 "download": {
-                  "href": "http://localhost:8080/api/rest/v1/media-files/e/3/7/6/e376eacb684f7ce69c13a65379f04b01e4d7c872_bag.jpg/download"
+                  "href": "https://example.com/api/rest/v1/media-files/e/3/7/6/e376eacb684f7ce69c13a65379f04b01e4d7c872_bag.jpg/download"
                 }
               }
             }
@@ -93,7 +93,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/products/1111111172"
+            "href": "https://example.com/api/rest/v1/products/1111111172"
           }
         },
         "identifier": "1111111172",
@@ -114,7 +114,7 @@
               "data": "d/2/8/1/d28125a34c95adf86073d76b424de05dd34b60cc_belt.jpg",
               "_links": {
                 "download": {
-                  "href": "http://localhost:8080/api/rest/v1/media-files/d/2/8/1/d28125a34c95adf86073d76b424de05dd34b60cc_belt.jpg/download"
+                  "href": "https://example.com/api/rest/v1/media-files/d/2/8/1/d28125a34c95adf86073d76b424de05dd34b60cc_belt.jpg/download"
                 }
               }
             }
@@ -173,7 +173,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/products/braided-hat-m"
+            "href": "https://example.com/api/rest/v1/products/braided-hat-m"
           }
         },
         "identifier": "braided-hat-m",
@@ -222,7 +222,7 @@
               "data": "9/a/2/d/9a2d039eb0f80983b0e88391ba3fafb9989c5ffc_braided_hat.jpg",
               "_links": {
                 "download": {
-                  "href": "http://localhost:8080/api/rest/v1/media-files/9/a/2/d/9a2d039eb0f80983b0e88391ba3fafb9989c5ffc_braided_hat.jpg/download"
+                  "href": "https://example.com/api/rest/v1/media-files/9/a/2/d/9a2d039eb0f80983b0e88391ba3fafb9989c5ffc_braided_hat.jpg/download"
                 }
               }
             }

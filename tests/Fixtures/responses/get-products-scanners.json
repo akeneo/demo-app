@@ -1,13 +1,13 @@
 {
   "_links": {
     "self": {
-      "href": "http://localhost:8080/api/rest/v1/products?page=1&with_count=false&pagination_type=page&limit=10&search=%7B%22enabled%22:%5B%7B%22operator%22:%22%3D%22,%22value%22:true%7D%5D,%22family%22:%5B%7B%22operator%22:%22IN%22,%22value%22:%5B%22scanners%22%5D%7D%5D%7D&locales=en_US"
+      "href": "https://example.com/api/rest/v1/products?page=1&with_count=false&pagination_type=page&limit=10&search=%7B%22enabled%22:%5B%7B%22operator%22:%22%3D%22,%22value%22:true%7D%5D,%22family%22:%5B%7B%22operator%22:%22IN%22,%22value%22:%5B%22scanners%22%5D%7D%5D%7D&locales=en_US"
     },
     "first": {
-      "href": "http://localhost:8080/api/rest/v1/products?page=1&with_count=false&pagination_type=page&limit=10&search=%7B%22enabled%22:%5B%7B%22operator%22:%22%3D%22,%22value%22:true%7D%5D,%22family%22:%5B%7B%22operator%22:%22IN%22,%22value%22:%5B%22scanners%22%5D%7D%5D%7D&locales=en_US"
+      "href": "https://example.com/api/rest/v1/products?page=1&with_count=false&pagination_type=page&limit=10&search=%7B%22enabled%22:%5B%7B%22operator%22:%22%3D%22,%22value%22:true%7D%5D,%22family%22:%5B%7B%22operator%22:%22IN%22,%22value%22:%5B%22scanners%22%5D%7D%5D%7D&locales=en_US"
     },
     "next": {
-      "href": "http://localhost:8080/api/rest/v1/products?page=2&with_count=false&pagination_type=page&limit=10&search=%7B%22enabled%22:%5B%7B%22operator%22:%22%3D%22,%22value%22:true%7D%5D,%22family%22:%5B%7B%22operator%22:%22IN%22,%22value%22:%5B%22scanners%22%5D%7D%5D%7D&locales=en_US"
+      "href": "https://example.com/api/rest/v1/products?page=2&with_count=false&pagination_type=page&limit=10&search=%7B%22enabled%22:%5B%7B%22operator%22:%22%3D%22,%22value%22:true%7D%5D,%22family%22:%5B%7B%22operator%22:%22IN%22,%22value%22:%5B%22scanners%22%5D%7D%5D%7D&locales=en_US"
     }
   },
   "current_page": 1,
@@ -16,7 +16,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/products/1004114"
+            "href": "https://example.com/api/rest/v1/products/1004114"
           }
         },
         "identifier": "1004114",
@@ -37,7 +37,7 @@
               "data": "2/6/8/c/268c277ec016b8be9a29890d95dc7af2923292df_1004114_4416.jpg",
               "_links": {
                 "download": {
-                  "href": "http://localhost:8080/api/rest/v1/media-files/2/6/8/c/268c277ec016b8be9a29890d95dc7af2923292df_1004114_4416.jpg/download"
+                  "href": "https://example.com/api/rest/v1/media-files/2/6/8/c/268c277ec016b8be9a29890d95dc7af2923292df_1004114_4416.jpg/download"
                 }
               }
             }
@@ -100,7 +100,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/products/10649473"
+            "href": "https://example.com/api/rest/v1/products/10649473"
           }
         },
         "identifier": "10649473",
@@ -121,7 +121,7 @@
               "data": "a/9/c/8/a9c8402e11050df07363921409dd8de1a2713776_10649473_8098.jpg",
               "_links": {
                 "download": {
-                  "href": "http://localhost:8080/api/rest/v1/media-files/a/9/c/8/a9c8402e11050df07363921409dd8de1a2713776_10649473_8098.jpg/download"
+                  "href": "https://example.com/api/rest/v1/media-files/a/9/c/8/a9c8402e11050df07363921409dd8de1a2713776_10649473_8098.jpg/download"
                 }
               }
             }
@@ -177,7 +177,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/products/10655295"
+            "href": "https://example.com/api/rest/v1/products/10655295"
           }
         },
         "identifier": "10655295",
@@ -198,7 +198,7 @@
               "data": "2/e/6/8/2e6865c540d2c536aa2dc893cb6dfdf4458b9bae_15743_10655295_2946.jpg",
               "_links": {
                 "download": {
-                  "href": "http://localhost:8080/api/rest/v1/media-files/2/e/6/8/2e6865c540d2c536aa2dc893cb6dfdf4458b9bae_15743_10655295_2946.jpg/download"
+                  "href": "https://example.com/api/rest/v1/media-files/2/e/6/8/2e6865c540d2c536aa2dc893cb6dfdf4458b9bae_15743_10655295_2946.jpg/download"
                 }
               }
             }
@@ -261,7 +261,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/products/10655470"
+            "href": "https://example.com/api/rest/v1/products/10655470"
           }
         },
         "identifier": "10655470",
@@ -282,7 +282,7 @@
               "data": "9/4/f/5/94f56db132286ff954d61c8b7557ddf4316e498b_10655470_4868.jpg",
               "_links": {
                 "download": {
-                  "href": "http://localhost:8080/api/rest/v1/media-files/9/4/f/5/94f56db132286ff954d61c8b7557ddf4316e498b_10655470_4868.jpg/download"
+                  "href": "https://example.com/api/rest/v1/media-files/9/4/f/5/94f56db132286ff954d61c8b7557ddf4316e498b_10655470_4868.jpg/download"
                 }
               }
             }
@@ -345,7 +345,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/products/10661721"
+            "href": "https://example.com/api/rest/v1/products/10661721"
           }
         },
         "identifier": "10661721",
@@ -366,7 +366,7 @@
               "data": "7/f/0/f/7f0f487d88f658481cef2fc0f11590ca57fa8436_15743_10661721_4414.jpg",
               "_links": {
                 "download": {
-                  "href": "http://localhost:8080/api/rest/v1/media-files/7/f/0/f/7f0f487d88f658481cef2fc0f11590ca57fa8436_15743_10661721_4414.jpg/download"
+                  "href": "https://example.com/api/rest/v1/media-files/7/f/0/f/7f0f487d88f658481cef2fc0f11590ca57fa8436_15743_10661721_4414.jpg/download"
                 }
               }
             }
@@ -429,7 +429,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/products/1211614"
+            "href": "https://example.com/api/rest/v1/products/1211614"
           }
         },
         "identifier": "1211614",
@@ -450,7 +450,7 @@
               "data": "f/a/9/a/fa9aa74e00e4d6dc924181f87c774f30180a681f_1211614_5608.jpg",
               "_links": {
                 "download": {
-                  "href": "http://localhost:8080/api/rest/v1/media-files/f/a/9/a/fa9aa74e00e4d6dc924181f87c774f30180a681f_1211614_5608.jpg/download"
+                  "href": "https://example.com/api/rest/v1/media-files/f/a/9/a/fa9aa74e00e4d6dc924181f87c774f30180a681f_1211614_5608.jpg/download"
                 }
               }
             }
@@ -513,7 +513,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/products/12239052"
+            "href": "https://example.com/api/rest/v1/products/12239052"
           }
         },
         "identifier": "12239052",
@@ -534,7 +534,7 @@
               "data": "c/9/4/d/c94d6cf3a59a447f9f59c4fa6269182ebd6fe75d_12239052_HP.jpg",
               "_links": {
                 "download": {
-                  "href": "http://localhost:8080/api/rest/v1/media-files/c/9/4/d/c94d6cf3a59a447f9f59c4fa6269182ebd6fe75d_12239052_HP.jpg/download"
+                  "href": "https://example.com/api/rest/v1/media-files/c/9/4/d/c94d6cf3a59a447f9f59c4fa6269182ebd6fe75d_12239052_HP.jpg/download"
                 }
               }
             }
@@ -607,7 +607,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/products/12239064"
+            "href": "https://example.com/api/rest/v1/products/12239064"
           }
         },
         "identifier": "12239064",
@@ -628,7 +628,7 @@
               "data": "4/c/e/9/4ce956cd2ba9757dfbc17eb442c638737280f069_12239064_HP.jpg",
               "_links": {
                 "download": {
-                  "href": "http://localhost:8080/api/rest/v1/media-files/4/c/e/9/4ce956cd2ba9757dfbc17eb442c638737280f069_12239064_HP.jpg/download"
+                  "href": "https://example.com/api/rest/v1/media-files/4/c/e/9/4ce956cd2ba9757dfbc17eb442c638737280f069_12239064_HP.jpg/download"
                 }
               }
             }
@@ -701,7 +701,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/products/12249736"
+            "href": "https://example.com/api/rest/v1/products/12249736"
           }
         },
         "identifier": "12249736",
@@ -722,7 +722,7 @@
               "data": "3/0/b/1/30b133070fe8cad33c4b587bc59089dae165f385_12249736_407.jpg",
               "_links": {
                 "download": {
-                  "href": "http://localhost:8080/api/rest/v1/media-files/3/0/b/1/30b133070fe8cad33c4b587bc59089dae165f385_12249736_407.jpg/download"
+                  "href": "https://example.com/api/rest/v1/media-files/3/0/b/1/30b133070fe8cad33c4b587bc59089dae165f385_12249736_407.jpg/download"
                 }
               }
             }
@@ -785,7 +785,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/products/12249740"
+            "href": "https://example.com/api/rest/v1/products/12249740"
           }
         },
         "identifier": "12249740",
@@ -806,7 +806,7 @@
               "data": "5/3/0/7/530755579f32a9475680238d997bc852734099d7_12249740_4511.jpg",
               "_links": {
                 "download": {
-                  "href": "http://localhost:8080/api/rest/v1/media-files/5/3/0/7/530755579f32a9475680238d997bc852734099d7_12249740_4511.jpg/download"
+                  "href": "https://example.com/api/rest/v1/media-files/5/3/0/7/530755579f32a9475680238d997bc852734099d7_12249740_4511.jpg/download"
                 }
               }
             }

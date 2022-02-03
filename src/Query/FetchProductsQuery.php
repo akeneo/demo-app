@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Query;
 
-use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use App\PimApi\Model\Product;
 use App\PimApi\Model\ProductValue;
@@ -14,13 +14,8 @@ use App\PimApi\Model\ProductValue;
  */
 final class FetchProductsQuery extends AbstractProductQuery
 {
-    public function __construct(
-        private AkeneoPimClientInterface $pimApiClient,
-    ) {
-    }
-
     /**
-     * @return Product[]
+     * @return array<Product>
      */
     public function fetch(string $locale): array
     {
@@ -28,7 +23,7 @@ final class FetchProductsQuery extends AbstractProductQuery
         $searchBuilder->addFilter('enabled', '=', true);
         $searchFilters = $searchBuilder->getFilters();
 
-        /** @var RawProduct[] $rawProducts */
+        /** @var array<RawProduct> $rawProducts */
         $rawProducts = $this->pimApiClient->getProductApi()->listPerPage(
             10,
             false,
@@ -40,23 +35,22 @@ final class FetchProductsQuery extends AbstractProductQuery
 
         $scope = $this->findFirstAvailableScope($rawProducts[0]);
 
+        $families = $this->fetchFamilies($rawProducts);
+        $attributes = $this->fetchAttributes($rawProducts);
+
         $products = [];
-        $families = [];
-        $attributes = [];
 
         foreach ($rawProducts as $rawProduct) {
-            $familyIdentifier = $rawProduct['family'];
-            $family = $families[$familyIdentifier] ??= $this->pimApiClient->getFamilyApi()->get($familyIdentifier);
+            $family = $families[$rawProduct['family']];
 
             $label = (string) $this->findAttributeValue($rawProduct, $family['attribute_as_label'], $locale, $scope);
 
             $values = [];
 
             foreach ($rawProduct['values'] as $attributeIdentifier => $value) {
-                $attribute = $attributes[$attributeIdentifier]
-                    ??= $this->pimApiClient->getAttributeApi()->get($attributeIdentifier);
+                $attribute = $attributes[$attributeIdentifier];
 
-                if (!in_array($attribute['type'], self::SUPPORTED_ATTRIBUTE_TYPES)) {
+                if (!\in_array($attribute['type'], self::SUPPORTED_ATTRIBUTE_TYPES)) {
                     continue;
                 }
 
@@ -67,7 +61,7 @@ final class FetchProductsQuery extends AbstractProductQuery
                 }
 
                 $values[] = new ProductValue(
-                    $attribute['labels'][$locale] ?? sprintf('[%s]', $attribute['code']),
+                    $attribute['labels'][$locale] ?? \sprintf('[%s]', $attribute['code']),
                     $attribute['type'],
                     $attributeValue,
                 );
@@ -77,5 +71,38 @@ final class FetchProductsQuery extends AbstractProductQuery
         }
 
         return $products;
+    }
+
+    /**
+     * @param array<RawProduct> $rawProducts
+     *
+     * @return array<string, mixed>
+     */
+    private function fetchFamilies(array $rawProducts): array
+    {
+        $familiesCodes = \array_unique(\array_map(
+            fn(array $rawProduct) => $rawProduct['family'],
+            $rawProducts,
+        ));
+
+        $searchBuilder = new SearchBuilder();
+        $searchBuilder->addFilter('code', Operator::IN, $familiesCodes);
+        $searchFilters = $searchBuilder->getFilters();
+
+        $familyApiResponsePage = $this->pimApiClient->getFamilyApi()->listPerPage(
+            100,
+            false,
+            [
+                'search' => $searchFilters,
+            ]
+        );
+
+        $rawFamilies = $familyApiResponsePage->getItems();
+
+        while (null !== $familyApiResponsePage = $familyApiResponsePage->getNextPage()) {
+            \array_merge($rawFamilies, $familyApiResponsePage->getItems());
+        }
+
+        return \array_combine(\array_column($rawFamilies, 'code'), $rawFamilies);
     }
 }

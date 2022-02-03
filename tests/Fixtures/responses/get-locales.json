@@ -1,10 +1,10 @@
 {
   "_links": {
     "self": {
-      "href": "http://localhost:8080/api/rest/v1/locales?page=1&limit=10&with_count=false&search=%7B%22enabled%22:%5B%7B%22operator%22:%22%3D%22,%22value%22:true%7D%5D%7D"
+      "href": "https://example.com/api/rest/v1/locales?page=1&limit=10&with_count=false&search=%7B%22enabled%22:%5B%7B%22operator%22:%22%3D%22,%22value%22:true%7D%5D%7D"
     },
     "first": {
-      "href": "http://localhost:8080/api/rest/v1/locales?page=1&limit=10&with_count=false&search=%7B%22enabled%22:%5B%7B%22operator%22:%22%3D%22,%22value%22:true%7D%5D%7D"
+      "href": "https://example.com/api/rest/v1/locales?page=1&limit=10&with_count=false&search=%7B%22enabled%22:%5B%7B%22operator%22:%22%3D%22,%22value%22:true%7D%5D%7D"
     }
   },
   "current_page": 1,
@@ -13,7 +13,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/locales/de_DE"
+            "href": "https://example.com/api/rest/v1/locales/de_DE"
           }
         },
         "code": "de_DE",
@@ -22,7 +22,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/locales/en_US"
+            "href": "https://example.com/api/rest/v1/locales/en_US"
           }
         },
         "code": "en_US",
@@ -31,7 +31,7 @@
       {
         "_links": {
           "self": {
-            "href": "http://localhost:8080/api/rest/v1/locales/fr_FR"
+            "href": "https://example.com/api/rest/v1/locales/fr_FR"
           }
         },
         "code": "fr_FR",

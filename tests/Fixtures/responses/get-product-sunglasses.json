@@ -16,7 +16,7 @@
         "data": "e/d/4/5/ed453e756a3acbe5d99c9433e1b7cb23fa6a240e_sunglasses.jpg",
         "_links": {
           "download": {
-            "href": "http://localhost:8080/api/rest/v1/media-files/e/d/4/5/ed453e756a3acbe5d99c9433e1b7cb23fa6a240e_sunglasses.jpg/download"
+            "href": "https://example.com/api/rest/v1/media-files/e/d/4/5/ed453e756a3acbe5d99c9433e1b7cb23fa6a240e_sunglasses.jpg/download"
           }
         }
       }
