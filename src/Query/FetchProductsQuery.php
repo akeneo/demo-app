@@ -100,7 +100,9 @@ final class FetchProductsQuery extends AbstractProductQuery
         $rawFamilies = $familyApiResponsePage->getItems();
 
         while (null !== $familyApiResponsePage = $familyApiResponsePage->getNextPage()) {
-            $rawFamilies = \array_merge($rawFamilies, $familyApiResponsePage->getItems());
+            foreach ($familyApiResponsePage->getItems() as $rawFamily) {
+                $rawFamilies[] = $rawFamily;
+            }
         }
 
         return \array_combine(\array_column($rawFamilies, 'code'), $rawFamilies);

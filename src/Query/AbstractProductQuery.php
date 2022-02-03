@@ -54,7 +54,9 @@ class AbstractProductQuery
         $rawAttributes = $attributeApiResponsePage->getItems();
 
         while (null !== $attributeApiResponsePage = $attributeApiResponsePage->getNextPage()) {
-            $rawAttributes = \array_merge($rawAttributes, $attributeApiResponsePage->getItems());
+            foreach ($attributeApiResponsePage->getItems() as $rawAttribute) {
+                $rawAttributes[] = $rawAttribute;
+            }
         }
 
         return \array_combine(\array_column($rawAttributes, 'code'), $rawAttributes);
