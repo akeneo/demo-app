@@ -146,7 +146,7 @@ workflows:
   deploy_dev:
     when:
       and:
-        - not: { equal: [ main, << pipeline.git.branch >> ] }
+        - not: { equal: [ main, << pipeline.git.branch >> ] } }
         - << pipeline.parameters.run_deploy_dev >>
     jobs:
       - deploy_dev
