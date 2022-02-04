@@ -27,6 +27,14 @@ variable "app_version" {
   default = "latest"
 }
 
+variable "app_client_id" {
+  type = string
+}
+
+variable "app_client_secret" {
+  type = string
+}
+
 locals {
   app_docker_image = format("%s/%s:%s", data.google_container_registry_repository.default.repository_url, var.app_name, var.app_version)
 }

@@ -10,6 +10,14 @@ resource "google_cloud_run_service" "app" {
         ports {
           container_port = 80
         }
+        env {
+          name  = "AKENEO_CLIENT_ID"
+          value = var.app_client_id
+        }
+        env {
+          name  = "AKENEO_CLIENT_SECRET"
+          value = var.app_client_secret
+        }
       }
     }
 
