@@ -23,7 +23,10 @@ class FetchProductQueryTest extends AbstractIntegrationTest
         $this->mockDefaultPimAPIResponses();
     }
 
-    public function testFetchesAProduct(): void
+    /**
+     * @test
+     */
+    public function itFetchesAProduct(): void
     {
         $query = static::getContainer()->get(FetchProductQuery::class);
         $result = $query->fetch('1111111304', 'en_US');

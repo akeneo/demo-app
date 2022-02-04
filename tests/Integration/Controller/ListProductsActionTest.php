@@ -22,7 +22,10 @@ class ListProductsActionTest extends AbstractIntegrationTest
         );
     }
 
-    public function testItDisplaysTenProductsAndTheCurrentLocale(): void
+    /**
+     * @test
+     */
+    public function itDisplaysTenProductsAndTheCurrentLocale(): void
     {
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',

@@ -108,14 +108,6 @@ trait MockPimApiTrait
             'https://example.com/api/rest/v1/families?search=%7B%22code%22%3A%5B%7B%22operator%22%3A%22IN%22%2C%22value%22%3A%5B%22scanners%22%5D%7D%5D%7D&limit=100&with_count=false',
         );
         $this->mockPimAPIResponse(
-            'get-attributes-image-ean-name-weight-size-color-material-collection-variation_name-description.json',
-            'https://example.com/api/rest/v1/attributes?search=%7B%22code%22%3A%5B%7B%22operator%22%3A%22IN%22%2C%22value%22%3A%5B%22image%22%2C%22ean%22%2C%22name%22%2C%22weight%22%2C%22size%22%2C%22color%22%2C%22material%22%2C%22collection%22%2C%22variation_name%22%2C%22description%22%5D%7D%5D%7D&limit=100&with_count=false',
-        );
-        $this->mockPimAPIResponse(
-            'get-attributes-picture-name-description-release_date-color_scanning-weight.json',
-            'https://example.com/api/rest/v1/attributes?search=%7B%22code%22%3A%5B%7B%22operator%22%3A%22IN%22%2C%22value%22%3A%5B%22picture%22%2C%22name%22%2C%22description%22%2C%22release_date%22%2C%22color_scanning%22%2C%22weight%22%5D%7D%5D%7D&limit=100&with_count=false',
-        );
-        $this->mockPimAPIResponse(
             'get-attributes-image-ean-name-weight-description.json',
             'https://example.com/api/rest/v1/attributes?search=%7B%22code%22%3A%5B%7B%22operator%22%3A%22IN%22%2C%22value%22%3A%5B%22image%22%2C%22ean%22%2C%22name%22%2C%22weight%22%2C%22description%22%5D%7D%5D%7D&limit=100&with_count=false',
         );

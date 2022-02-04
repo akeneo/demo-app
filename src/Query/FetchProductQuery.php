@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Query;
 
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\Pim\ApiClient\Search\Operator;
+use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use App\PimApi\Model\Product;
 use App\PimApi\Model\ProductValue;
 
@@ -12,6 +15,11 @@ use App\PimApi\Model\ProductValue;
  */
 final class FetchProductQuery extends AbstractProductQuery
 {
+    public function __construct(
+        protected AkeneoPimClientInterface $pimApiClient,
+    ) {
+    }
+
     public function fetch(string $identifier, string $locale): Product
     {
         /** @var RawProduct $rawProduct */
@@ -47,5 +55,37 @@ final class FetchProductQuery extends AbstractProductQuery
         }
 
         return new Product($identifier, $label, $values);
+    }
+
+    /**
+     * @param array<RawProduct> $rawProducts
+     *
+     * @return array<string, mixed>
+     */
+    private function fetchAttributes(array $rawProducts): array
+    {
+        $attributesCodes = \array_keys(\array_merge(...\array_column($rawProducts, 'values')));
+
+        $searchBuilder = new SearchBuilder();
+        $searchBuilder->addFilter('code', Operator::IN, $attributesCodes);
+        $searchFilters = $searchBuilder->getFilters();
+
+        $attributeApiResponsePage = $this->pimApiClient->getAttributeApi()->listPerPage(
+            100,
+            false,
+            [
+                'search' => $searchFilters,
+            ]
+        );
+
+        $rawAttributes = $attributeApiResponsePage->getItems();
+
+        while (null !== $attributeApiResponsePage = $attributeApiResponsePage->getNextPage()) {
+            foreach ($attributeApiResponsePage->getItems() as $rawAttribute) {
+                $rawAttributes[] = $rawAttribute;
+            }
+        }
+
+        return \array_combine(\array_column($rawAttributes, 'code'), $rawAttributes);
     }
 }

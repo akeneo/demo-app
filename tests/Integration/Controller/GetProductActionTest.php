@@ -18,7 +18,10 @@ class GetProductActionTest extends AbstractIntegrationTest
         $this->mockDefaultPimAPIResponses();
     }
 
-    public function testItDisplaysTenProductsAndTheCurrentLocale(): void
+    /**
+     * @test
+     */
+    public function itDisplaysAProduct(): void
     {
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
