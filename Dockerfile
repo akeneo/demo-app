@@ -76,7 +76,13 @@ ENV APP_ENV=$APP_ENV
 
 COPY --from=vendors /srv/app/vendor vendor
 COPY --from=frontend /srv/app/public/build public/build
-COPY . .
+COPY bin bin
+COPY config config
+COPY public/index.php public/index.php
+COPY src src
+COPY templates templates
+COPY translations translations
+COPY .env.dist .env.dist
 
 RUN cp -n .env.dist .env \
     && php bin/console cache:warmup \
