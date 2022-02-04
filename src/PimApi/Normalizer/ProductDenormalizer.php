@@ -8,30 +8,40 @@ use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use App\PimApi\Model\Product;
 use App\PimApi\Model\ProductValue;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 /**
  * @phpstan-type RawProduct array{identifier: string, family: string, values: array<string, array{array{locale: string|null, scope: string|null, data: mixed}}>}
  */
-class ProductDenormalizer implements ContextAwareDenormalizerInterface
+class ProductDenormalizer implements ContextAwareDenormalizerInterface, DenormalizerAwareInterface
 {
-    /** @var array<string, mixed> $families */
+    /** @var array<string, mixed> */
     private array $families = [];
 
+    private ?DenormalizerInterface $denormalizer = null;
+
     public function __construct(
-        private ProductValueDenormalizer $normalizer,
         private AkeneoPimClientInterface $pimApiClient,
     ) {
     }
 
+    public function setDenormalizer(DenormalizerInterface $denormalizer): void
+    {
+        $this->denormalizer = $denormalizer;
+    }
+
+    /**
+     * @param array<mixed> $context
+     */
     public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         return Product::class === $type && \is_array($data);
     }
 
     /**
+     * @param array<mixed> $context
+     *
      * @return Product
      */
     public function denormalize(mixed $data, string $type, string $format = null, array $context = [])
@@ -47,10 +57,9 @@ class ProductDenormalizer implements ContextAwareDenormalizerInterface
 
         $productValues = [];
 
-        if (true === $withProductValues) {
+        if (true === $withProductValues && null != $this->denormalizer) {
             foreach ($data['values'] as $attributeCode => $values) {
-
-                $productValue = $this->normalizer->denormalize($values, ProductValue::class, null, [
+                $productValue = $this->denormalizer->denormalize($values, ProductValue::class, null, [
                     'attributeCode' => $attributeCode,
                     'locale' => $locale,
                     'scope' => $scope,
@@ -81,7 +90,7 @@ class ProductDenormalizer implements ContextAwareDenormalizerInterface
     private function findAttributeValue(
         array $product,
         string $attributeIdentifier,
-        string $locale,
+        ?string $locale,
         ?string $scope
     ): string|bool|null {
         foreach ($product['values'][$attributeIdentifier] ?? [] as $value) {

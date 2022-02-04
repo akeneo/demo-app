@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Query;
 
 use App\PimApi\Model\Product;
-use App\PimApi\Model\ProductValue;
 use App\Query\FetchProductsQuery;
 use App\Tests\Integration\AbstractIntegrationTest;
 use App\Tests\Integration\MockPimApiTrait;

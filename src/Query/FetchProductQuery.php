@@ -9,7 +9,7 @@ use App\PimApi\Model\Product;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 /**
- * @phpstan-import-type RawProduct from ProductDenormalizer
+ * @phpstan-import-type RawProduct from \App\PimApi\Normalizer\ProductDenormalizer
  */
 final class FetchProductQuery
 {

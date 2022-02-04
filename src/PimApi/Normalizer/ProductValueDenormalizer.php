@@ -22,7 +22,7 @@ class ProductValueDenormalizer implements ContextAwareDenormalizerInterface
 //        'pim_catalog_simple_select',
     ];
 
-    /** @var array<string, mixed> $attributes */
+    /** @var array<string, mixed> */
     private array $attributes = [];
 
     public function __construct(
@@ -30,17 +30,24 @@ class ProductValueDenormalizer implements ContextAwareDenormalizerInterface
     ) {
     }
 
+    /**
+     * @param array<mixed> $context
+     */
     public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
-        return ProductValue::class === $type && \is_array($data);
+        return ProductValue::class === $type
+            && \is_array($data)
+            && \array_key_exists('attributeCode', $context);
     }
 
     /**
+     * @param array<mixed> $context
+     *
      * @return ProductValue|null
      */
     public function denormalize(mixed $data, string $type, string $format = null, array $context = [])
     {
-        $attributeCode = $context['attributeCode'] ?? null;
+        $attributeCode = $context['attributeCode'];
         $scope = $context['scope'] ?? null;
         $locale = $context['locale'] ?? null;
 
@@ -76,7 +83,7 @@ class ProductValueDenormalizer implements ContextAwareDenormalizerInterface
      */
     private function findAttributeValue(
         array $values,
-        string $locale,
+        ?string $locale,
         ?string $scope
     ): string|bool|null {
         foreach ($values as $value) {
