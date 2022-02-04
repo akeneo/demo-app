@@ -21,7 +21,7 @@ class WelcomeActionTest extends AbstractActionTest
     /**
      * @test
      */
-    public function itThrowsAnExceptionWhenThePimUrlIsMissing(): void
+    public function itDisplaysAMessageWhenThePimUrlIsMissing(): void
     {
         $client = self::createClientWithSession([]);
         $client->request('GET', '/');
