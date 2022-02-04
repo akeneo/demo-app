@@ -7,7 +7,7 @@ namespace App\PimApi\Model;
 class Product
 {
     /**
-     * @param array<Attribute> $attributes
+     * @param array<ProductValue> $attributes
      */
     public function __construct(
         public readonly string $identifier,

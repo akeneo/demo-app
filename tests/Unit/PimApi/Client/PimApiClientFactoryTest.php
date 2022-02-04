@@ -2,41 +2,38 @@
 
 namespace App\Tests\Unit\PimApi\Client;
 
-use App\PimApi\Client\PimApiClientFactory;
+use App\PimApi\PimApiClientFactory;
 use App\Storage\AccessTokenStorageInterface;
+use App\Storage\PimURLStorageInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Psr\Http\Client\ClientInterface;
 
 class PimApiClientFactoryTest extends TestCase
 {
-    private SessionInterface|MockObject $session;
-    private RequestStack|MockObject $requestStack;
     private AccessTokenStorageInterface|MockObject $accessTokenStorage;
+    private ClientInterface|MockObject $httpClient;
+    private PimURLStorageInterface|MockObject $pimURLStorage;
     private ?PimApiClientFactory $pimApiClientFactory;
 
     protected function setUp(): void
     {
-        $this->session = $this->getMockBuilder(SessionInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->requestStack = $this->getMockBuilder(RequestStack::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->requestStack->method('getSession')->willReturn($this->session);
-
         $this->accessTokenStorage = $this->getMockBuilder(AccessTokenStorageInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->httpClient = $this->getMockBuilder(ClientInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->pimURLStorage = $this->getMockBuilder(PimURLStorageInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->pimApiClientFactory = new PimApiClientFactory(
-            $this->requestStack,
             $this->accessTokenStorage,
-            'TEST_CLIENT_ID',
-            'TEST_CLIENT_SECRET',
+            $this->httpClient,
+            $this->pimURLStorage,
         );
     }
 
@@ -50,12 +47,13 @@ class PimApiClientFactoryTest extends TestCase
      */
     public function itThrowsALogicExceptionWhenPimUrlCanNotBeRetrieved(): void
     {
-        $this->session
-            ->method('get')
-            ->with('pim_url')
+        $this->pimURLStorage
+            ->method('getPimURL')
             ->willReturn(null);
 
-        $this->expectExceptionObject(new \LogicException('Could not retrieve PIM url, please restart the authorization process.'));
+        $this->expectExceptionObject(
+            new \LogicException('Could not retrieve PIM URL, please restart the authorization process.')
+        );
 
         ($this->pimApiClientFactory)();
     }
@@ -65,16 +63,15 @@ class PimApiClientFactoryTest extends TestCase
      */
     public function itThrowsAnAccessDeniedExceptionIfNoAccessTokenFound(): void
     {
-        $this->session
-            ->method('get')
-            ->with('pim_url')
+        $this->pimURLStorage
+            ->method('getPimURL')
             ->willReturn('https://example.com');
 
         $this->accessTokenStorage
             ->method('getAccessToken')
             ->willReturn(null);
 
-        $this->expectExceptionObject(new AccessDeniedHttpException('Missing Pim API access token.'));
+        $this->expectExceptionObject(new \LogicException('Missing Pim API access token.'));
 
         ($this->pimApiClientFactory)();
     }
@@ -84,9 +81,8 @@ class PimApiClientFactoryTest extends TestCase
      */
     public function itBuildsThePimApiClientWithAccessTokenFromStorage(): void
     {
-        $this->session
-            ->method('get')
-            ->with('pim_url')
+        $this->pimURLStorage
+            ->method('getPimURL')
             ->willReturn('https://example.com');
 
         $this->accessTokenStorage
