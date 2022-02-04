@@ -10,9 +10,13 @@
                     <img src="{{ asset('build/images/logo-demoapp.svg') }}"
                          alt="{{ 'page.welcome.connect.logo_alt' | trans }}">
                 </div>
+                {% if app.request.get('pim_url') is not empty %}
                 <p class="connect-container__message">{{ 'page.welcome.connect.message' | trans }}</p>
                 <a class="connect-container__connect-button"
                    href="{{ path('authorization_activate') }}">{{ 'page.welcome.connect.button' | trans }}</a>
+                {% else %}
+                    <p class="connect-container__message">{{ 'page.welcome.connect.no_pim_url' | trans }}</p>
+                {% endif %}
             </section>
 
             <a href="https://www.akeneo.com" class="akeneo-solution">

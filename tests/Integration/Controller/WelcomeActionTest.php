@@ -25,7 +25,8 @@ class WelcomeActionTest extends AbstractActionTest
     {
         $client = self::createClientWithSession([]);
         $client->request('GET', '/');
-        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('.connect-container__message', 'Go to your PIM and click on Connect in the Marketplace page.');
     }
 
     /**
@@ -35,7 +36,6 @@ class WelcomeActionTest extends AbstractActionTest
     {
         $client = self::createClientWithSession([]);
         $client->request('GET', '/?pim_url=INVALID_URL');
-        $client->request('GET', '/');
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
     }
 
