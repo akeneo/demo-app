@@ -29,7 +29,7 @@ class AbstractProductQuery
         string $attributeIdentifier,
         string $locale,
         ?string $scope
-    ): string|bool|null {
+    ): string|bool|int|float|null {
         foreach ($product['values'][$attributeIdentifier] ?? [] as $value) {
             if (null !== $value['locale'] && $value['locale'] !== $locale) {
                 continue;
