@@ -1,6 +1,9 @@
 version: 2.1
 
 parameters:
+  run_tests:
+    type: boolean
+    default: true
   run_deploy_dev:
     type: boolean
     default: false
@@ -123,7 +126,10 @@ jobs:
 
 workflows:
   test:
-    when: { not: { equal: [ main, << pipeline.git.branch >> ] } }
+    when:
+      and:
+        - not: { equal: [ main, << pipeline.git.branch >> ] } }
+        - << pipeline.parameters.run_tests >>
     jobs:
       - checkout
       - run_tests:
