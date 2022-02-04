@@ -8,4 +8,11 @@ use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
+
+    private ?string $projectDir = null;
+
+    public function getProjectDir(): string
+    {
+        return $this->projectDir ??= dirname(__DIR__);
+    }
 }
