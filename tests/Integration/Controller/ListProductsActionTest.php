@@ -35,7 +35,90 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client->request('GET', '/products');
         $this->assertResponseIsSuccessful();
 
-        $this->assertSelectorTextContains('.current-locale', 'en_US');
+        $this->assertSelectorTextContains('.current-locale', '🇺🇸 English (United States)');
         $this->assertCount(10, $client->getCrawler()->filter('.product-card'));
+    }
+
+    /**
+     * @test
+     */
+    public function itRendersALinkThatTargetThePimUrl(): void
+    {
+        $pimUrl = 'https://httpd';
+        $client = self::createClientWithSession([
+            'pim_url' => $pimUrl,
+            'akeneo_pim_access_token' => 'random_access_token_123456',
+        ]);
+
+        $this->mockPimApiClientResponse(
+            $client,
+            new RequestMatcher('/api/rest/v1/locales', 'httpd', ['GET'], ['https']),
+            $this->getPimApiMockResponse('getLocalesListWithOnlyEnUs.json'),
+        );
+
+        $this->mockPimApiClientResponse(
+            $client,
+            new RequestMatcher('/api/rest/v1/products', 'httpd', ['GET'], ['https']),
+            $this->getPimApiMockResponse('getProductsListWith7TshirtsAnd4Caps.json'),
+        );
+
+        $this->mockPimApiClientResponse(
+            $client,
+            new RequestMatcher('/api/rest/v1/families/tshirt', 'httpd', ['GET'], ['https']),
+            $this->getPimApiMockResponse('getFamilyTshirt.json'),
+        );
+
+        $this->mockPimApiClientResponse(
+            $client,
+            new RequestMatcher('/api/rest/v1/families/cap', 'httpd', ['GET'], ['https']),
+            $this->getPimApiMockResponse('getFamilyCap.json'),
+        );
+
+        $client->request('GET', '/products');
+
+        $this->assertEquals($pimUrl, $client->getCrawler()->selectLink('Go to Akeneo PIM')->attr('href'));
+    }
+
+    /**
+     * @test
+     */
+    public function itRendersGoodLinksInHeader(): void
+    {
+        $pimUrl = 'https://httpd';
+        $client = self::createClientWithSession([
+            'pim_url' => $pimUrl,
+            'akeneo_pim_access_token' => 'random_access_token_123456',
+        ]);
+
+        $this->mockPimApiClientResponse(
+            $client,
+            new RequestMatcher('/api/rest/v1/locales', 'httpd', ['GET'], ['https']),
+            $this->getPimApiMockResponse('getLocalesListWithOnlyEnUs.json'),
+        );
+
+        $this->mockPimApiClientResponse(
+            $client,
+            new RequestMatcher('/api/rest/v1/products', 'httpd', ['GET'], ['https']),
+            $this->getPimApiMockResponse('getProductsListWith7TshirtsAnd4Caps.json'),
+        );
+
+        $this->mockPimApiClientResponse(
+            $client,
+            new RequestMatcher('/api/rest/v1/families/tshirt', 'httpd', ['GET'], ['https']),
+            $this->getPimApiMockResponse('getFamilyTshirt.json'),
+        );
+
+        $this->mockPimApiClientResponse(
+            $client,
+            new RequestMatcher('/api/rest/v1/families/cap', 'httpd', ['GET'], ['https']),
+            $this->getPimApiMockResponse('getFamilyCap.json'),
+        );
+
+        $client->request('GET', '/products');
+
+        $this->assertEquals(
+            'https://marketplace.akeneo.com/extension/app-demo',
+            $client->getCrawler()->selectLink('Help')->attr('href')
+        );
     }
 }

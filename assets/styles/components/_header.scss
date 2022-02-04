@@ -1,0 +1,56 @@
+@use "../base/variables";
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 34px;
+
+  &__logo {
+    width: 200px;
+    height: 52px;
+    margin-right: 170px;
+  }
+}
+
+.main-navigation {
+  &__link {
+    margin-right: 50px;
+    font-size: variables.$font-size-big;
+    color: variables.$color-grey-140;
+
+    &--active {
+      color: variables.$color-demo-blue;
+      font-weight: bold;
+    }
+
+    &--external {
+      color: variables.$color-grey-120;
+
+      &::after {
+        margin-left: 6px;
+        content: url("/assets/images/return.svg");
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+.user {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+
+  &__name {
+    color: variables.$color-demo-blue;
+    font-weight: bold;
+    font-style: italic;
+    margin-right: 15px;
+  }
+
+  &__logo {
+    width: 32px;
+    height: 32px;
+    background-color: variables.$color-grey-100;
+    border-radius: 50%;
+  }
+}
