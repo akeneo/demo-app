@@ -66,7 +66,7 @@ abstract class AbstractIntegrationTest extends WebTestCase
      */
     protected function mockHttpResponse(string $method, string $url, array $options, ResponseInterface $response): void
     {
-        array_unshift($this->mockedRequests, [
+        \array_unshift($this->mockedRequests, [
             'method' => $method,
             'url' => $url,
             'options' => $options,

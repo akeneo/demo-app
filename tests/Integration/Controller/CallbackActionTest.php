@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Controller;
 
+use App\Tests\Integration\AbstractIntegrationTest;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class CallbackActionTest extends AbstractActionTest
+class CallbackActionTest extends AbstractIntegrationTest
 {
     /**
      * @test
      */
     public function itThrowsAnExceptionWhenThePimUrlIsMissingInSession(): void
     {
-        $client = self::createClientWithSession([]);
+        $client = $this->initializeClientWithSession([]);
         $client->request('GET', '/callback');
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
     }
@@ -26,8 +27,8 @@ class CallbackActionTest extends AbstractActionTest
      */
     public function itThrowsAnExceptionWhenTheStateIsInvalid(): void
     {
-        $client = self::createClientWithSession([
-            'pim_url' => 'https://httpd',
+        $client = $this->initializeClientWithSession([
+            'pim_url' => 'https://example.com',
             'state' => 'random_state_123456789',
         ]);
 
@@ -41,7 +42,7 @@ class CallbackActionTest extends AbstractActionTest
      */
     public function itThrowsAnExceptionWhenTheCodeIsMissingInUrl(): void
     {
-        $client = self::createClientWithSession([
+        $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'state' => 'random_state_123456789',
         ]);
@@ -62,8 +63,8 @@ class CallbackActionTest extends AbstractActionTest
      */
     public function itThrowsAnExceptionWhenAccessTokenIsMissing(): void
     {
-        $client = self::createClientWithSession([
-            'pim_url' => 'https://httpd',
+        $client = $this->initializeClientWithSession([
+            'pim_url' => 'https://example.com',
             'state' => 'random_state_123456789',
         ]);
 
@@ -84,8 +85,8 @@ class CallbackActionTest extends AbstractActionTest
      */
     public function itRedirectsToTheAuthorizeUrlWithQueryParameters(): void
     {
-        $client = self::createClientWithSession([
-            'pim_url' => 'https://httpd',
+        $client = $this->initializeClientWithSession([
+            'pim_url' => 'https://example.com',
             'state' => 'random_state_123456789',
         ]);
 

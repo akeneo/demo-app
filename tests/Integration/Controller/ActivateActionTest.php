@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Controller;
 
+use App\Tests\Integration\AbstractIntegrationTest;
 use Symfony\Component\HttpFoundation\Response;
 
-class ActivateActionTest extends AbstractActionTest
+class ActivateActionTest extends AbstractIntegrationTest
 {
     /**
      * @test
      */
     public function itThrowsAnExceptionWhenThePimUrlIsMissingInSession(): void
     {
-        $client = self::createClientWithSession([]);
+        $client = $this->initializeClientWithSession([]);
         $client->request('GET', '/authorization/activate');
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
     }
@@ -23,8 +24,8 @@ class ActivateActionTest extends AbstractActionTest
      */
     public function itRedirectsToTheAuthorizeUrlWithQueryParameters(): void
     {
-        $pimUrl = 'https://httpd';
-        $client = self::createClientWithSession(['pim_url' => $pimUrl]);
+        $pimUrl = 'https://example.com';
+        $client = $this->initializeClientWithSession(['pim_url' => $pimUrl]);
 
         $client->request('GET', '/authorization/activate');
 

@@ -22,7 +22,10 @@ class ListProductsActionTest extends AbstractIntegrationTest
         );
     }
 
-    public function testItDisplaysTenProductsAndTheCurrentLocale(): void
+    /**
+     * @test
+     */
+    public function itDisplaysTenProductsAndTheCurrentLocale(): void
     {
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
@@ -32,7 +35,40 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client->request('GET', '/products');
         $this->assertResponseIsSuccessful();
 
-        $this->assertSelectorTextContains('.current-locale', 'en_US');
+        $this->assertSelectorTextContains('.current-locale', '🇺🇸 English (United States)');
         $this->assertCount(10, $client->getCrawler()->filter('.product-card'));
+    }
+
+    /**
+     * @test
+     */
+    public function itRendersALinkThatTargetThePimUrl(): void
+    {
+        $client = $this->initializeClientWithSession([
+            'pim_url' => 'https://example.com',
+            'akeneo_pim_access_token' => 'random_access_token_123456',
+        ]);
+
+        $client->request('GET', '/products');
+
+        $this->assertEquals('https://example.com', $client->getCrawler()->selectLink('Go to Akeneo PIM')->attr('href'));
+    }
+
+    /**
+     * @test
+     */
+    public function itRendersGoodLinksInHeader(): void
+    {
+        $client = $this->initializeClientWithSession([
+            'pim_url' => 'https://example.com',
+            'akeneo_pim_access_token' => 'random_access_token_123456',
+        ]);
+
+        $client->request('GET', '/products');
+
+        $this->assertEquals(
+            'https://marketplace.akeneo.com/extension/app-demo',
+            $client->getCrawler()->selectLink('Help')->attr('href')
+        );
     }
 }
