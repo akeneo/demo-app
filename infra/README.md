@@ -8,7 +8,7 @@
   - [Service Usage API](https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview)
 - Create a GCS Bucket for terraform backend
 - Create a custom Role with these permissions:
-  - `iam.serviceaccounts.actAs`
+  - `iam.serviceAccounts.actAs`
   - `run.services.create`
   - `run.services.delete`
   - `run.services.setIamPolicy`
