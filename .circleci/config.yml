@@ -4,6 +4,12 @@ parameters:
   run_deploy_dev:
     type: boolean
     default: false
+  akeneo_client_id:
+    type: string
+    default: ""
+  akeneo_client_secret:
+    type: string
+    default: ""
 
 jobs:
   checkout:
@@ -78,6 +84,8 @@ jobs:
           command: |
             export GCP_APP_NAME=demo-app-pr-${CIRCLE_PULL_REQUEST##*/}
             export GCP_APP_VERSION=${CIRCLE_SHA1}
+            export AKENEO_CLIENT_ID=<< pipeline.parameters.akeneo_client_id >>
+            export AKENEO_CLIENT_SECRET=<< pipeline.parameters.akeneo_client_secret >>
             make terraform.deploy.application
 
   upgrade_dev_infrastructure:
