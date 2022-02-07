@@ -1,5 +1,19 @@
 version: 2.1
 
+parameters:
+  run_tests:
+    type: boolean
+    default: true
+  run_deploy_dev:
+    type: boolean
+    default: false
+  akeneo_client_id:
+    type: string
+    default: ""
+  akeneo_client_secret:
+    type: string
+    default: ""
+
 jobs:
   checkout:
     machine:
@@ -11,9 +25,10 @@ jobs:
           paths:
             - project
 
-  tests:
+  run_tests:
     machine:
       image: ubuntu-2004:202101-01
+      docker_layer_caching: true
     environment:
       BUILDKIT_PROGRESS: "plain"
       DOCKER_UID: "1001" # The circleci user has uid 1001, not 1000
@@ -29,6 +44,78 @@ jobs:
       - store_test_results:
           path: var/tests
 
+  validate_deployment:
+    machine:
+      image: ubuntu-2004:202101-01
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install terraform
+          command: |
+            curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            sudo apt-get update && sudo apt-get install terraform
+      - run:
+          name: Terraform lint
+          command: make terraform.lint
+
+  deploy_dev:
+    machine:
+      image: ubuntu-2004:202101-01
+      docker_layer_caching: true
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
+      GCP_PROJECT: ${DEV_GCP_PROJECT}
+      GCP_TERRAFORM_BUCKET: ${DEV_GCP_TERRAFORM_BUCKET}
+    steps:
+      - checkout
+      - run:
+          name: Load GCP credentials
+          command: |
+            cat \<< EOF > ${GOOGLE_APPLICATION_CREDENTIALS}
+            ${DEV_GCP_SERVICE_KEY}
+            EOF
+      - run:
+          name: Install terraform
+          command: |
+            curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            sudo apt-get update && sudo apt-get install terraform
+      - run:
+          name: Deploy
+          command: |
+            export GCP_APP_NAME=demo-app-pr-${CIRCLE_PULL_REQUEST##*/}
+            export GCP_APP_VERSION=${CIRCLE_SHA1}
+            export AKENEO_CLIENT_ID=<< pipeline.parameters.akeneo_client_id >>
+            export AKENEO_CLIENT_SECRET=<< pipeline.parameters.akeneo_client_secret >>
+            make terraform.deploy.application
+
+  upgrade_dev_infrastructure:
+    machine:
+      image: ubuntu-2004:202101-01
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
+      GCP_PROJECT: ${DEV_GCP_PROJECT}
+      GCP_TERRAFORM_BUCKET: ${DEV_GCP_TERRAFORM_BUCKET}
+    steps:
+      - checkout
+      - run:
+          name: Load GCP credentials
+          command: |
+            cat \<< EOF > ${GOOGLE_APPLICATION_CREDENTIALS}
+            ${DEV_GCP_SERVICE_KEY}
+            EOF
+      - run:
+          name: Install terraform
+          command: |
+            curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            sudo apt-get update && sudo apt-get install terraform
+      - run:
+          name: Upgrade infrastructure
+          command: make terraform.deploy.infrastructure
+
   pull_request_success:
     docker:
       - image: alpine/git
@@ -38,15 +125,33 @@ jobs:
           command: echo "The workflow was successful!"
 
 workflows:
-  pull_request:
+  test:
     when:
-      not:
-        equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+      and:
+        - not: { equal: [ main, << pipeline.git.branch >> ] }
+        - << pipeline.parameters.run_tests >>
     jobs:
       - checkout
-      - tests:
+      - run_tests:
+          requires:
+            - checkout
+      - validate_deployment:
           requires:
             - checkout
       - pull_request_success:
           requires:
-            - tests
+            - run_tests
+            - validate_deployment
+
+  deploy_dev:
+    when:
+      and:
+        - not: { equal: [ main, << pipeline.git.branch >> ] }
+        - << pipeline.parameters.run_deploy_dev >>
+    jobs:
+      - deploy_dev
+
+  deploy:
+    when: { equal: [ main, << pipeline.git.branch >> ] }
+    jobs:
+      - upgrade_dev_infrastructure
