@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ product.label }}</h1>
+    <p class="current-locale">{{ locale }}</p>
+    <ul>
+        {% for attribute in product.attributes %}
+            <li>{{ attribute.label }} : {{ attribute.value }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -20,6 +20,12 @@ services:
         tags:
             - { name: 'controller.service_arguments' }
 
+    Symfony\Component\HttpClient\Psr18Client: ~
+
+    App\PimApi\PimApiClientFactory:
+        arguments:
+            $httpClient: '@Symfony\Component\HttpClient\Psr18Client'
+
     Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
         class: 'Akeneo\Pim\ApiClient\AkeneoPimClientInterface'
         factory: '@App\PimApi\PimApiClientFactory'

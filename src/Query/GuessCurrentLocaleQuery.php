@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Query\Locale;
+namespace App\Query;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
@@ -18,7 +18,7 @@ final class GuessCurrentLocaleQuery
     ) {
     }
 
-    public function __invoke(): string
+    public function guess(): string
     {
         $pimAvailableLocales = $this->fetchPimAvailableLocales();
 

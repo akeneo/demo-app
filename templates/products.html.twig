@@ -38,7 +38,7 @@
         <div class="product-grid__{{ products|length > 0 ? 'list' : 'no-products' }}">
             {% for product in products %}
                 <article class="product-card">
-                    <a href="#{{ product.identifier }}">
+                    <a href="{{ path('product', {identifier: product.identifier}) }}">
                         <div class="product-card__image">
                             <img src="{{ asset('build/images/ziggy.png') }}" alt="{{ product.label }}"  />
                         </div>

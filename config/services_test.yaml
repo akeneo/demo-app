@@ -2,20 +2,12 @@ parameters:
     akeneoClientId: '%env(string:AKENEO_CLIENT_ID)%'
 
 services:
+    _defaults:
+        public: true
+
     Symfony\Component\HttpClient\MockHttpClient: ~
 
     Symfony\Contracts\HttpClient\HttpClientInterface: '@Symfony\Component\HttpClient\MockHttpClient'
 
-    Http\Message\MessageFactory\GuzzleMessageFactory: ~
-
-    httplug.client.mock:
-        class: 'Http\Mock\Client'
-        arguments:
-            $responseFactory: '@Http\Message\MessageFactory\GuzzleMessageFactory'
-        public: true
-
-    Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
-        class: 'Akeneo\Pim\ApiClient\AkeneoPimClientInterface'
-        factory: '@App\PimApi\PimApiClientFactory'
-        arguments:
-            - '@httplug.client.mock'
+    test.App\Storage\AccessTokenSessionStorage: '@App\Storage\AccessTokenSessionStorage'
+    test.App\Storage\PimURLStorageInterface: '@App\Storage\PimURLStorageInterface'
