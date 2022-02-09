@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\PimApi\Normalizer;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\Pim\ApiClient\Search\Operator;
+use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use App\PimApi\Model\Product;
 use App\PimApi\Model\ProductValue;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
@@ -56,13 +58,18 @@ class ProductDenormalizer implements ContextAwareDenormalizerInterface, Denormal
         $label = (string) $this->findAttributeValue($data, $rawFamily['attribute_as_label'], $locale, $scope);
 
         $productValues = [];
-
         if (true === $withProductValues && null != $this->denormalizer) {
+            $attributes = $this->fetchAttributes($data);
+
             foreach ($data['values'] as $attributeCode => $values) {
+                if (!\in_array($attributes[$attributeCode]['type'], AbstractProductValueDenormalizer::SUPPORTED_ATTRIBUTE_TYPES)) {
+                    continue;
+                }
                 $productValue = $this->denormalizer->denormalize($values, ProductValue::class, null, [
                     'attributeCode' => $attributeCode,
                     'locale' => $locale,
                     'scope' => $scope,
+                    'attribute' => $attributes[$attributeCode],
                 ]);
 
                 if (null === $productValue) {
@@ -122,5 +129,37 @@ class ProductDenormalizer implements ContextAwareDenormalizerInterface, Denormal
         }
 
         return null;
+    }
+
+    /**
+     * @param RawProduct $rawProduct
+     *
+     * @return array<string, mixed>
+     */
+    private function fetchAttributes(array $rawProduct): array
+    {
+        $attributesCodes = \array_keys($rawProduct['values']);
+
+        $searchBuilder = new SearchBuilder();
+        $searchBuilder->addFilter('code', Operator::IN, $attributesCodes);
+        $searchFilters = $searchBuilder->getFilters();
+
+        $attributeApiResponsePage = $this->pimApiClient->getAttributeApi()->listPerPage(
+            100,
+            false,
+            [
+                'search' => $searchFilters,
+            ]
+        );
+
+        $rawAttributes = $attributeApiResponsePage->getItems();
+
+        while (null !== $attributeApiResponsePage = $attributeApiResponsePage->getNextPage()) {
+            foreach ($attributeApiResponsePage->getItems() as $rawAttribute) {
+                $rawAttributes[] = $rawAttribute;
+            }
+        }
+
+        return \array_combine(\array_column($rawAttributes, 'code'), $rawAttributes);
     }
 }
