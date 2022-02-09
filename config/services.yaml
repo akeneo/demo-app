@@ -22,10 +22,7 @@ services:
 
     Symfony\Component\HttpClient\Psr18Client: ~
 
-    App\PimApi\PimApiClientFactory:
+    Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
+        class: 'App\PimApi\PimApiClient'
         arguments:
             $httpClient: '@Symfony\Component\HttpClient\Psr18Client'
-
-    Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
-        class: 'Akeneo\Pim\ApiClient\AkeneoPimClientInterface'
-        factory: '@App\PimApi\PimApiClientFactory'

@@ -2,19 +2,19 @@
 
 namespace App\Tests\Unit\PimApi\Client;
 
-use App\PimApi\PimApiClientFactory;
+use App\PimApi\PimApiClient;
 use App\Storage\AccessTokenStorageInterface;
 use App\Storage\PimURLStorageInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 
-class PimApiClientFactoryTest extends TestCase
+class PimApiClientTest extends TestCase
 {
     private AccessTokenStorageInterface|MockObject $accessTokenStorage;
     private ClientInterface|MockObject $httpClient;
     private PimURLStorageInterface|MockObject $pimURLStorage;
-    private ?PimApiClientFactory $pimApiClientFactory;
+    private ?PimApiClient $pimApiClient;
 
     protected function setUp(): void
     {
@@ -30,7 +30,7 @@ class PimApiClientFactoryTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->pimApiClientFactory = new PimApiClientFactory(
+        $this->pimApiClient = new PimApiClient(
             $this->accessTokenStorage,
             $this->httpClient,
             $this->pimURLStorage,
@@ -39,7 +39,7 @@ class PimApiClientFactoryTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->pimApiClientFactory = null;
+        $this->pimApiClient = null;
     }
 
     /**
@@ -55,7 +55,7 @@ class PimApiClientFactoryTest extends TestCase
             new \LogicException('Could not retrieve PIM URL, please restart the authorization process.')
         );
 
-        ($this->pimApiClientFactory)();
+        $this->pimApiClient->getToken();
     }
 
     /**
@@ -73,7 +73,7 @@ class PimApiClientFactoryTest extends TestCase
 
         $this->expectExceptionObject(new \LogicException('Missing Pim API access token.'));
 
-        ($this->pimApiClientFactory)();
+        $this->pimApiClient->getToken();
     }
 
     /**
@@ -89,9 +89,7 @@ class PimApiClientFactoryTest extends TestCase
             ->method('getAccessToken')
             ->willReturn('TEST_ACCESS_TOKEN');
 
-        $pimApiClient = ($this->pimApiClientFactory)();
-
-        $this->assertEquals('TEST_ACCESS_TOKEN', $pimApiClient->getToken());
-        $this->assertEquals('', $pimApiClient->getRefreshToken());
+        $this->assertEquals('TEST_ACCESS_TOKEN', $this->pimApiClient->getToken());
+        $this->assertEquals('', $this->pimApiClient->getRefreshToken());
     }
 }
