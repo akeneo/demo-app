@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\PimApi\Normalizer;
 
-class ProductValueIdentifierDenormalizer extends AbstractProductValueDenormalizer
+class ProductValueTextareaDenormalizer extends AbstractProductValueDenormalizer
 {
     protected function getAttributeType(): string
     {
-        return AbstractProductValueDenormalizer::PIM_CATALOG_IDENTIFIER;
+        return AbstractProductValueDenormalizer::PIM_CATALOG_TEXTAREA;
     }
 
     protected function findAttributeValue(
@@ -16,7 +16,7 @@ class ProductValueIdentifierDenormalizer extends AbstractProductValueDenormalize
         ?string $locale,
         ?string $scope,
         string $attributeCode,
-    ): string|null {
+    ): string|bool|int|float|null {
         foreach ($values as $value) {
             if (null !== $value['locale'] && $value['locale'] !== $locale) {
                 continue;
@@ -26,7 +26,7 @@ class ProductValueIdentifierDenormalizer extends AbstractProductValueDenormalize
                 continue;
             }
 
-            return $value['data'];
+            return (string) $value['data'];
         }
 
         return null;
