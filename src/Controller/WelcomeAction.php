@@ -28,7 +28,7 @@ final class WelcomeAction
 
         $pimUrl = $request->query->get('pim_url');
         if (empty($pimUrl)) {
-            throw new \LogicException('Missing PIM url in the query.');
+            return new Response($this->twig->render('welcome.html.twig'));
         }
         if (false === \filter_var($pimUrl, FILTER_VALIDATE_URL)) {
             throw new \LogicException('PIM url is not valid.');

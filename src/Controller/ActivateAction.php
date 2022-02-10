@@ -15,6 +15,7 @@ final class ActivateAction
         'read_products',
         'read_catalog_structure',
         'read_channel_localization',
+        'read_attribute_options',
     ];
 
     public function __construct(

@@ -7,38 +7,38 @@ namespace App\PimApi;
 use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use App\Storage\AccessTokenStorageInterface;
+use App\Storage\PimURLStorageInterface;
 use Psr\Http\Client\ClientInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class PimApiClientFactory
 {
     public function __construct(
-        private RequestStack $requestStack,
         private AccessTokenStorageInterface $accessTokenStorage,
-        private string $akeneoClientId,
-        private string $akeneoClientSecret,
+        private ClientInterface $httpClient,
+        private PimURLStorageInterface $pimURLStorage,
     ) {
     }
 
-    public function __invoke(?ClientInterface $httpClient = null): AkeneoPimClientInterface
+    public function __invoke(): AkeneoPimClientInterface
     {
-        $pimUrl = $this->requestStack->getSession()->get('pim_url');
-        if (empty($pimUrl)) {
-            throw new \LogicException('Could not retrieve PIM url, please restart the authorization process.');
+        $pimURL = $this->pimURLStorage->getPimURL();
+        if (empty($pimURL)) {
+            throw new \LogicException('Could not retrieve PIM URL, please restart the authorization process.');
         }
 
         $accessToken = $this->accessTokenStorage->getAccessToken();
-        if (null === $accessToken) {
-            throw new AccessDeniedHttpException('Missing Pim API access token.');
+        if (empty($accessToken)) {
+            throw new \LogicException('Missing Pim API access token.');
         }
 
-        $clientBuilder = new AkeneoPimClientBuilder($pimUrl);
+        $clientBuilder = new AkeneoPimClientBuilder($pimURL);
+        $clientBuilder->setHttpClient($this->httpClient);
 
-        if (null !== $httpClient) {
-            $clientBuilder->setHttpClient($httpClient);
-        }
-
-        return $clientBuilder->buildAuthenticatedByToken($this->akeneoClientId, $this->akeneoClientSecret, $accessToken, '');
+        return $clientBuilder->buildAuthenticatedByToken(
+            '',
+            '',
+            $accessToken,
+            ''
+        );
     }
 }

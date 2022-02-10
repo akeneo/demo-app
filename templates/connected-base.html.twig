@@ -6,14 +6,18 @@
             <img class="header__logo" src="{{ asset('build/images/logo-demoapp.svg') }}"
                  alt="{{ 'page.welcome.connect.logo_alt' | trans }}" />
             <nav class="main-navigation">
-                <a href="#" class="main-navigation__link main-navigation__link--active" >Catalog</a>
-                <a href="#" class="main-navigation__link" >Help</a>
-                <a href="#" class="main-navigation__link main-navigation__link--external">
-                    Go to Akeneo PIM
+                <a href="#" class="main-navigation__link main-navigation__link--active" >
+                    {{ 'common.header.links.catalog' | trans }}
+                </a>
+                <a href="https://marketplace.akeneo.com/extension/app-demo" target="_blank" class="main-navigation__link" >
+                    {{ 'common.header.links.help' | trans }}
+                </a>
+                <a href="{{ app.session.get('pim_url') }}" target="_blank" class="main-navigation__link main-navigation__link--external">
+                    {{ 'common.header.links.go-to-pim-url' | trans }}
                 </a>
             </nav>
             <article class="user">
-                <p class="user__name">Welcome User</p>
+                <p class="user__name">{{ 'common.header.welcome' | trans({'%user%': 'User'}) }}</p>
                 <img src="{{ asset('build/images/logo.svg') }}" alt="profile logo" class="user__logo">
             </article>
         </header>
