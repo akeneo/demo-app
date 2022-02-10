@@ -42,10 +42,13 @@ page:
             helper-title: Your product data
             content: Our app demo only displays values it can access. These values depend on attribute groups and locales you selected in the step-by-step activation process. You can update these permissions in the connected app settings of your PIM.
             link: Set up connected app permissions
+        breadcrumb_root: Catalog
         locales: Locales
-        sections:
-            marketing: Marketing
-            technical: Technical
+        attributes:
+            default_attribute_group: Attributes
+            boolean_values:
+                yes: Yes
+                no: No
 
     error:
         title: Error

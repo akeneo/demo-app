@@ -28,10 +28,22 @@ class GetProductActionTest extends AbstractIntegrationTest
             'akeneo_pim_access_token' => 'random_access_token',
         ]);
 
-        $client->request('GET', '/products/1111111304');
+        $crawler = $client->request('GET', '/products/1111111304');
         $this->assertResponseIsSuccessful();
 
-        $this->assertSelectorTextContains('.current-locale', 'en_US');
-        $this->assertSelectorTextContains('h1', 'Sunglasses');
+        $this->assertSelectorTextContains('.locale-switcher__language', '🇺🇸 English (United States)');
+        $this->assertSelectorTextContains('h1.product__title', 'Sunglasses');
+
+        $foundAttributes = $crawler->filter('.attribute');
+        $this->assertEquals(3, $foundAttributes->count());
+
+        $eanLabel = $foundAttributes->eq(0)->filter('.attribute__label')->text();
+        $this->assertEquals('EAN', $eanLabel);
+
+        $eanLabel = $foundAttributes->eq(1)->filter('.attribute__label')->text();
+        $this->assertEquals('Name', $eanLabel);
+
+        $eanLabel = $foundAttributes->eq(2)->filter('.attribute__label')->text();
+        $this->assertEquals('Description', $eanLabel);
     }
 }

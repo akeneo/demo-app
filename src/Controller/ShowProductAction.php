@@ -4,25 +4,30 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Storage\AccessTokenSessionStorage;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Query\FetchProductQuery;
+use App\Query\GuessCurrentLocaleQuery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment as TwigEnvironment;
 
 class ShowProductAction
 {
     public function __construct(
         private TwigEnvironment $twig,
-        private RouterInterface $router,
+        private GuessCurrentLocaleQuery $guessCurrentLocaleQuery,
+        private FetchProductQuery $fetchProductQuery,
     ) {
     }
 
-    #[Route('/products/{id}', name: 'product')]
-    public function __invoke(Request $request): Response
+    #[Route('/products/{identifier}', name: 'product')]
+    public function __invoke(Request $request, string $identifier): Response
     {
-        return new Response($this->twig->render('product.html.twig'));
+        $locale = $this->guessCurrentLocaleQuery->guess();
+
+        return new Response($this->twig->render('product.html.twig', [
+            'locale' => $locale,
+            'product' => $this->fetchProductQuery->fetch($identifier, $locale),
+        ]));
     }
 }
