@@ -12,6 +12,7 @@ page:
         connect:
             logo_alt: Akeneo app demo
             message: You reached the Akeneo app demo. Click on Connect and test our brand-new step-by-step activation process.
+            no_pim_url: Go to your PIM and click on Connect in the Marketplace page.
             button: Connect
         akeneo_solution:
             powered_by: Powered by

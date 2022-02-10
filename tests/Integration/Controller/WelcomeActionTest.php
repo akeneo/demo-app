@@ -22,11 +22,12 @@ class WelcomeActionTest extends AbstractIntegrationTest
     /**
      * @test
      */
-    public function itThrowsAnExceptionWhenThePimUrlIsMissing(): void
+    public function itDisplaysAMessageWhenThePimUrlIsMissing(): void
     {
         $client = $this->initializeClientWithSession([]);
         $client->request('GET', '/');
-        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('.connect-container__message', 'Go to your PIM and click on Connect in the Marketplace page.');
     }
 
     /**
@@ -36,7 +37,6 @@ class WelcomeActionTest extends AbstractIntegrationTest
     {
         $client = $this->initializeClientWithSession([]);
         $client->request('GET', '/?pim_url=INVALID_URL');
-        $client->request('GET', '/');
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
     }
 
