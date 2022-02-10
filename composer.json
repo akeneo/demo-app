@@ -8,6 +8,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-openssl": "*",
         "akeneo/api-php-client": "^6.0",
         "doctrine/annotations": "^1.13",
         "nyholm/psr7": "^1.5",

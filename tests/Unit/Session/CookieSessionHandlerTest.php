@@ -2,6 +2,8 @@
 
 namespace App\Tests\Unit\Session;
 
+use App\Security\Decrypt;
+use App\Security\Encrypt;
 use App\Session\CookieSessionHandler;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -9,10 +11,15 @@ use Symfony\Component\HttpFoundation\Cookie;
 class CookieSessionHandlerTest extends TestCase
 {
     private ?CookieSessionHandler $cookieSessionHandler;
+    private Encrypt $encrypt;
+    private Decrypt $decrypt;
 
     protected function setUp(): void
     {
-        $this->cookieSessionHandler = new CookieSessionHandler();
+        $this->encrypt = new Encrypt('AES-256-CBC', 'password');
+        $this->decrypt = new Decrypt('AES-256-CBC', 'password');
+
+        $this->cookieSessionHandler = new CookieSessionHandler($this->encrypt, $this->decrypt);
     }
 
     protected function tearDown(): void
@@ -26,10 +33,11 @@ class CookieSessionHandlerTest extends TestCase
     public function itInitsCookie(): void
     {
         $cookieValue = '{"foo": "bar"}';
+        $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, ($this->encrypt)($cookieValue));
+
         $this->cookieSessionHandler->initCookie($cookieValue);
 
-        $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, $cookieValue);
-        $this->assertEquals($expectedCookie, $this->cookieSessionHandler->getCookie());
+        $this->assertSameCookies($expectedCookie, $this->cookieSessionHandler->getCookie());
     }
 
     /**
@@ -40,10 +48,11 @@ class CookieSessionHandlerTest extends TestCase
         $this->assertEquals(null, $this->cookieSessionHandler->getCookie());
 
         $cookieValue = '{"foo": "bar"}';
+        $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, ($this->encrypt)($cookieValue));
+
         $this->cookieSessionHandler->initCookie($cookieValue);
 
-        $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, $cookieValue);
-        $this->assertEquals($expectedCookie, $this->cookieSessionHandler->getCookie());
+        $this->assertSameCookies($expectedCookie, $this->cookieSessionHandler->getCookie());
     }
 
     /**
@@ -62,11 +71,12 @@ class CookieSessionHandlerTest extends TestCase
         $cookieValue = '{"foo": "bar"}';
         $this->cookieSessionHandler->initCookie($cookieValue);
 
-        $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, '[]');
+        $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, ($this->encrypt)('[]'));
         $result = $this->cookieSessionHandler->destroy('whatever');
 
         $this->assertEquals(true, $result);
-        $this->assertEquals($expectedCookie, $this->cookieSessionHandler->getCookie());
+
+        $this->assertSameCookies($expectedCookie, $this->cookieSessionHandler->getCookie());
     }
 
     /**
@@ -102,12 +112,23 @@ class CookieSessionHandlerTest extends TestCase
      */
     public function itWritesAndReturnsTrue(): void
     {
+        $this->cookieSessionHandler->destroy('');
         $this->cookieSessionHandler->write('bar', 'baz');
-        $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, '{"bar":"baz"}');
-        $this->assertEquals($expectedCookie, $this->cookieSessionHandler->getCookie());
+        $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, ($this->encrypt)('{"bar":"baz"}'));
+        $this->assertSameCookies($expectedCookie, $this->cookieSessionHandler->getCookie());
 
         $this->cookieSessionHandler->write('qux', 'quux');
-        $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, '{"bar":"baz","qux":"quux"}');
-        $this->assertEquals($expectedCookie, $this->cookieSessionHandler->getCookie());
+        $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, ($this->encrypt)('{"bar":"baz","qux":"quux"}'));
+        $this->assertSameCookies($expectedCookie, $this->cookieSessionHandler->getCookie());
+    }
+
+    private function assertSameCookies(Cookie $expectedCookie, Cookie $cookie): void
+    {
+        $this->assertEquals(($this->decrypt)($expectedCookie->getValue()), ($this->decrypt)($cookie->getValue()));
+
+        $this->assertEquals($expectedCookie->getName(), $cookie->getName());
+        $this->assertEquals($expectedCookie->getDomain(), $cookie->getDomain());
+        $this->assertEquals($expectedCookie->getExpiresTime(), $cookie->getExpiresTime());
+        $this->assertEquals($expectedCookie->getPath(), $cookie->getPath());
     }
 }
