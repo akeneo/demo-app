@@ -36,8 +36,16 @@ trait MockPimApiTrait
             'https://example.com/api/rest/v1/products/1111111304',
         );
         $this->mockPimAPIResponse(
+            'get-product-scanners.json',
+            'https://example.com/api/rest/v1/products/10661721',
+        );
+        $this->mockPimAPIResponse(
             'get-family-accessories.json',
             'https://example.com/api/rest/v1/families/accessories',
+        );
+        $this->mockPimAPIResponse(
+            'get-family-scanners.json',
+            'https://example.com/api/rest/v1/families/scanners',
         );
         $this->mockPimAPIResponse(
             'get-attribute-image.json',
@@ -88,6 +96,10 @@ trait MockPimApiTrait
             'https://example.com/api/rest/v1/locales?search=%7B%22enabled%22%3A%5B%7B%22operator%22%3A%22%3D%22%2C%22value%22%3Atrue%7D%5D%7D&limit=100&with_count=false',
         );
         $this->mockPimAPIResponse(
+            'get-family-scanners.json',
+            'https://example.com/api/rest/v1/families/scanners',
+        );
+        $this->mockPimAPIResponse(
             'get-attribute-picture.json',
             'https://example.com/api/rest/v1/attributes/picture',
         );
@@ -110,6 +122,14 @@ trait MockPimApiTrait
         $this->mockPimAPIResponse(
             'get-attributes-image-ean-name-weight-description.json',
             'https://example.com/api/rest/v1/attributes?search=%7B%22code%22%3A%5B%7B%22operator%22%3A%22IN%22%2C%22value%22%3A%5B%22image%22%2C%22ean%22%2C%22name%22%2C%22weight%22%2C%22description%22%5D%7D%5D%7D&limit=100&with_count=false',
+        );
+        $this->mockPimAPIResponse(
+            'get-attributes-price-picture-name-description-release_date-color_scanning-tag.json',
+            'https://example.com/api/rest/v1/attributes?search=%7B%22code%22%3A%5B%7B%22operator%22%3A%22IN%22%2C%22value%22%3A%5B%22price%22%2C%22picture%22%2C%22name%22%2C%22description%22%2C%22release_date%22%2C%22color_scanning%22%2C%22tag%22%5D%7D%5D%7D&limit=100&with_count=false',
+        );
+        $this->mockPimAPIResponse(
+            'get-attribute-tag.json',
+            'https://example.com/api/rest/v1/attributes/tag/options?limit=100&with_count=false',
         );
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Query;
 
-use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use App\PimApi\Model\Product;
@@ -15,11 +14,6 @@ use App\PimApi\Model\ProductValue;
  */
 final class FetchProductQuery extends AbstractProductQuery
 {
-    public function __construct(
-        protected AkeneoPimClientInterface $pimApiClient,
-    ) {
-    }
-
     public function fetch(string $identifier, string $locale): Product
     {
         /** @var RawProduct $rawProduct */
@@ -29,7 +23,13 @@ final class FetchProductQuery extends AbstractProductQuery
         $familyIdentifier = $rawProduct['family'];
         $rawFamily = $this->pimApiClient->getFamilyApi()->get($familyIdentifier);
 
-        $label = (string) $this->findAttributeValue($rawProduct, $rawFamily['attribute_as_label'], $locale, $scope);
+        $label = (string) $this->findAttributeValue(
+            $rawProduct,
+            $rawFamily['attribute_as_label'],
+            AbstractProductQuery::PIM_CATALOG_TEXT,
+            $locale,
+            $scope
+        );
 
         $values = [];
         $attributes = $this->fetchAttributes([$rawProduct]);
@@ -41,7 +41,13 @@ final class FetchProductQuery extends AbstractProductQuery
                 continue;
             }
 
-            $attributeValue = $this->findAttributeValue($rawProduct, $attributeIdentifier, $locale, $scope);
+            $attributeValue = $this->findAttributeValue(
+                $rawProduct,
+                $attributeIdentifier,
+                $attribute['type'],
+                $locale,
+                $scope
+            );
 
             if (null === $attributeValue) {
                 continue;
