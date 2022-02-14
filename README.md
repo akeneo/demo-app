@@ -14,9 +14,9 @@ make .env
 make up
 ```
 
-4) If you are running a local PIM dev, check in your .env file that your AKENEO_PIM_URL=http://172.17.0.1:8080 (put your own port)
-5) You need to expose your demo app to the internet. You can do it by running `ssh -R 80:localhost:8090 localhost.run`.
-6) In Akeneo PIM, create a new test App from the connect/marketplace page and fill the form thanks to the URL the previous command gave you:
+4) If you are running a local PIM dev, check in your .env.local file that your AKENEO_PIM_URL=http://172.17.0.1:8080 (put your own port)
+5) [OPTIONAL] If you are not running the PIM locally, you need to expose your demo app to the internet. You can do it by running `ssh -R 80:localhost:8090 localhost.run` (put your own port).
+6) In Akeneo PIM, create a new Test App from the connect/marketplace page and fill the form with your local demo app url exposed by docker (`http://172.17.0.1:8090`) or, if your PIM is not running locally, thanks to the URL the previous command gave you:
 ![Test app creation form](documentation/creation-form-test-app.png)
 
 ### Useful commands

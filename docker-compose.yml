@@ -21,7 +21,7 @@ services:
         user: "${DOCKER_UID:-1000}"
         restart: unless-stopped
         ports:
-            - "8090:8080"
+            - "${DOCKER_PORT_HTTP:-8090}:8080"
         networks:
             - default
 
