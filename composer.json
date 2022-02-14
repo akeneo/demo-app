@@ -11,6 +11,7 @@
         "ext-openssl": "*",
         "akeneo/api-php-client": "^6.0",
         "doctrine/annotations": "^1.13",
+        "lcobucci/jwt": "^4.1",
         "nyholm/psr7": "^1.5",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.2",
