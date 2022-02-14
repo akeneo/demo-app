@@ -7,7 +7,7 @@ namespace App\Tests\Integration\Controller;
 use App\Tests\Integration\AbstractIntegrationTest;
 use App\Tests\Integration\MockPimApiTrait;
 
-class GetProductActionTest extends AbstractIntegrationTest
+class ShowProductActionTest extends AbstractIntegrationTest
 {
     use MockPimApiTrait;
 

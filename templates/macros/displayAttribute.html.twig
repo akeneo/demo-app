@@ -4,7 +4,6 @@
         {% set trueValueTrans = 'page.product.attributes.boolean_values.yes' | trans %}
         {% set falseValueTrans = 'page.product.attributes.boolean_values.no' | trans %}
         {% set displayValue = displayValue ? trueValueTrans : falseValueTrans %}
-        {% set displayValue = displayValue %}
     {% endif %}
 
     {{ displayValue }}
