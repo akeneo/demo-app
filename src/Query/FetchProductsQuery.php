@@ -8,14 +8,16 @@ use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use App\PimApi\Model\Product;
+use App\PimApi\ProductValueDenormalizer;
 
 /**
- * @phpstan-import-type RawProduct from AbstractProductQuery
+ * @phpstan-type RawProduct array{identifier: string, family: string, values: array<string, array{array{locale: string|null, scope: string|null, data: mixed}}>}
  */
-final class FetchProductsQuery extends AbstractProductQuery
+final class FetchProductsQuery
 {
     public function __construct(
-        protected AkeneoPimClientInterface $pimApiClient,
+        private AkeneoPimClientInterface $pimApiClient,
+        private ProductValueDenormalizer $productValueDenormalizer,
     ) {
     }
 
@@ -45,9 +47,16 @@ final class FetchProductsQuery extends AbstractProductQuery
         $products = [];
 
         foreach ($rawProducts as $rawProduct) {
-            $family = $families[$rawProduct['family']];
+            $rawFamily = $families[$rawProduct['family']];
 
-            $label = (string) $this->findAttributeValue($rawProduct, $family['attribute_as_label'], $locale, $scope);
+            $label = isset($rawProduct['values'][$rawFamily['attribute_as_label']])
+                ? (string) $this->productValueDenormalizer->denormalize(
+                    $rawProduct['values'][$rawFamily['attribute_as_label']],
+                    $locale,
+                    $scope,
+                )
+                : $rawProduct['identifier']
+            ;
 
             $values = [];
 
@@ -90,5 +99,21 @@ final class FetchProductsQuery extends AbstractProductQuery
         }
 
         return \array_combine(\array_column($rawFamilies, 'code'), $rawFamilies);
+    }
+
+    /**
+     * @param RawProduct $product
+     */
+    private function findFirstAvailableScope(array $product): ?string
+    {
+        foreach ($product['values'] as $values) {
+            foreach ($values as $value) {
+                if (null !== $value['scope']) {
+                    return $value['scope'];
+                }
+            }
+        }
+
+        return null;
     }
 }

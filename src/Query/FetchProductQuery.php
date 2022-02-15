@@ -9,14 +9,16 @@ use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use App\PimApi\Model\Product;
 use App\PimApi\Model\ProductValue;
+use App\PimApi\ProductValueDenormalizer;
 
 /**
- * @phpstan-import-type RawProduct from AbstractProductQuery
+ * @phpstan-type RawProduct array{identifier: string, family: string, values: array<string, array{array{locale: string|null, scope: string|null, data: mixed}}>}
  */
-final class FetchProductQuery extends AbstractProductQuery
+final class FetchProductQuery
 {
     public function __construct(
-        protected AkeneoPimClientInterface $pimApiClient,
+        private AkeneoPimClientInterface $pimApiClient,
+        private ProductValueDenormalizer $productValueDenormalizer,
     ) {
     }
 
@@ -29,19 +31,32 @@ final class FetchProductQuery extends AbstractProductQuery
         $familyIdentifier = $rawProduct['family'];
         $rawFamily = $this->pimApiClient->getFamilyApi()->get($familyIdentifier);
 
-        $label = (string) $this->findAttributeValue($rawProduct, $rawFamily['attribute_as_label'], $locale, $scope);
+        $attributes = $this->fetchAttributes($rawProduct);
+
+        $label = isset($rawProduct['values'][$rawFamily['attribute_as_label']])
+            ? (string) $this->productValueDenormalizer->denormalize(
+                $rawProduct['values'][$rawFamily['attribute_as_label']],
+                $locale,
+                $scope,
+            )
+            : $identifier
+        ;
 
         $values = [];
-        $attributes = $this->fetchAttributes([$rawProduct]);
 
         foreach ($rawProduct['values'] as $attributeIdentifier => $value) {
             $attribute = $attributes[$attributeIdentifier];
 
-            if (!\in_array($attribute['type'], self::SUPPORTED_ATTRIBUTE_TYPES)) {
+            if (!$this->productValueDenormalizer->isSupported($attribute['type'])) {
                 continue;
             }
 
-            $attributeValue = $this->findAttributeValue($rawProduct, $attributeIdentifier, $locale, $scope);
+            $attributeValue = $this->productValueDenormalizer->denormalize(
+                $value,
+                $locale,
+                $scope,
+                $attributes[$attributeIdentifier]['type'],
+            );
 
             if (null === $attributeValue) {
                 continue;
@@ -58,13 +73,13 @@ final class FetchProductQuery extends AbstractProductQuery
     }
 
     /**
-     * @param array<RawProduct> $rawProducts
+     * @param RawProduct $rawProduct
      *
      * @return array<string, mixed>
      */
-    private function fetchAttributes(array $rawProducts): array
+    private function fetchAttributes(array $rawProduct): array
     {
-        $attributesCodes = \array_keys(\array_merge(...\array_column($rawProducts, 'values')));
+        $attributesCodes = \array_keys($rawProduct['values']);
 
         $searchBuilder = new SearchBuilder();
         $searchBuilder->addFilter('code', Operator::IN, $attributesCodes);
@@ -87,5 +102,21 @@ final class FetchProductQuery extends AbstractProductQuery
         }
 
         return \array_combine(\array_column($rawAttributes, 'code'), $rawAttributes);
+    }
+
+    /**
+     * @param RawProduct $product
+     */
+    private function findFirstAvailableScope(array $product): ?string
+    {
+        foreach ($product['values'] as $values) {
+            foreach ($values as $value) {
+                if (null !== $value['scope']) {
+                    return $value['scope'];
+                }
+            }
+        }
+
+        return null;
     }
 }

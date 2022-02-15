@@ -1,0 +1,60 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://example.com/api/rest/v1/attributes/tag/options?page=1&limit=100&with_count=false"
+    },
+    "first": {
+      "href": "https://example.com/api/rest/v1/attributes/tag/options?page=1&limit=100&with_count=false"
+    }
+  },
+  "current_page": 1,
+  "_embedded": {
+    "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/attributes/tag/options/tag1"
+          }
+        },
+        "code": "tag1",
+        "attribute": "tag",
+        "sort_order": 0,
+        "labels": {
+          "de_DE": null,
+          "en_US": "tag1",
+          "fr_FR": null
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/attributes/tag/options/tag2"
+          }
+        },
+        "code": "tag2",
+        "attribute": "tag",
+        "sort_order": 1,
+        "labels": {
+          "de_DE": null,
+          "en_US": "tag2",
+          "fr_FR": null
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/attributes/tag/options/tag3"
+          }
+        },
+        "code": "tag3",
+        "attribute": "tag",
+        "sort_order": 2,
+        "labels": {
+          "de_DE": null,
+          "en_US": "tag3",
+          "fr_FR": null
+        }
+      }
+    ]
+  }
+}
