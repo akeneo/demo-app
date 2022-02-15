@@ -23,7 +23,7 @@ class CookieSessionHandler implements \SessionHandlerInterface
     {
         $this->cookie = Cookie::create(
             self::COOKIE_NAME,
-            ($this->encrypt)(null !== $value ? $value : \json_encode([], JSON_THROW_ON_ERROR)),
+            null !== $value ? $value : ($this->encrypt)(\json_encode([], JSON_THROW_ON_ERROR)),
         );
     }
 

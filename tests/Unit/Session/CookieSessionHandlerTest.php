@@ -32,8 +32,8 @@ class CookieSessionHandlerTest extends TestCase
      */
     public function itInitsCookie(): void
     {
-        $cookieValue = '{"foo": "bar"}';
-        $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, ($this->encrypt)($cookieValue));
+        $cookieValue = ($this->encrypt)('{"foo": "bar"}');
+        $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, $cookieValue);
 
         $this->cookieSessionHandler->initCookie($cookieValue);
 
@@ -47,8 +47,8 @@ class CookieSessionHandlerTest extends TestCase
     {
         $this->assertEquals(null, $this->cookieSessionHandler->getCookie());
 
-        $cookieValue = '{"foo": "bar"}';
-        $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, ($this->encrypt)($cookieValue));
+        $cookieValue = ($this->encrypt)('{"foo": "bar"}');
+        $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, $cookieValue);
 
         $this->cookieSessionHandler->initCookie($cookieValue);
 
@@ -68,7 +68,7 @@ class CookieSessionHandlerTest extends TestCase
      */
     public function itDestroysCookieAndReturnsTrue(): void
     {
-        $cookieValue = '{"foo": "bar"}';
+        $cookieValue = ($this->encrypt)('{"foo": "bar"}');
         $this->cookieSessionHandler->initCookie($cookieValue);
 
         $expectedCookie = Cookie::create(CookieSessionHandler::COOKIE_NAME, ($this->encrypt)('[]'));
@@ -100,7 +100,7 @@ class CookieSessionHandlerTest extends TestCase
      */
     public function itReads(): void
     {
-        $cookieValue = '{"foo": "bar"}';
+        $cookieValue = ($this->encrypt)('{"foo": "bar"}');
         $this->cookieSessionHandler->initCookie($cookieValue);
 
         $this->assertEquals('bar', $this->cookieSessionHandler->read('foo'));

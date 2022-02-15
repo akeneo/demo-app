@@ -3,7 +3,6 @@
 namespace App\Tests\Unit\EventListener;
 
 use App\EventListener\CookieSessionEventSubscriber;
-use App\Security\Decrypt;
 use App\Session\CookieSessionHandler;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -31,7 +30,6 @@ class CookieSessionEventSubscriberTest extends TestCase
 
         $this->subscriber = new CookieSessionEventSubscriber(
             $this->cookieSessionHandler,
-            new Decrypt('AES-256-CBC', 'password'),
         );
 
         $this->kernel = $this->getMockBuilder(KernelInterface::class)->getMock();

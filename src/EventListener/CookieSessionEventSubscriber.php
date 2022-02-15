@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Security\Decrypt;
 use App\Session\CookieSessionHandler;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -15,7 +14,6 @@ class CookieSessionEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private CookieSessionHandler $cookieSessionHandler,
-        private Decrypt $decrypt,
     ) {
     }
 
@@ -36,7 +34,7 @@ class CookieSessionEventSubscriber implements EventSubscriberInterface
         }
 
         $session = $requestEvent->getRequest()->cookies->get(CookieSessionHandler::COOKIE_NAME);
-        $session = null !== $session ? ($this->decrypt)((string) $session) : null;
+        $session = null !== $session ? (string) $session : null;
 
         $this->cookieSessionHandler->initCookie($session);
     }
