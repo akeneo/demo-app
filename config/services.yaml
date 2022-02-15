@@ -29,3 +29,13 @@ services:
     Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
         class: 'Akeneo\Pim\ApiClient\AkeneoPimClientInterface'
         factory: '@App\PimApi\PimApiClientFactory'
+
+    App\Security\Encrypt:
+        arguments:
+            $method: 'AES-256-CBC'
+            $password: '%env(string:APP_SECRET)%'
+
+    App\Security\Decrypt:
+        arguments:
+            $method: 'AES-256-CBC'
+            $password: '%env(string:APP_SECRET)%'
