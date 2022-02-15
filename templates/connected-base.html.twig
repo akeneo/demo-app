@@ -17,7 +17,8 @@
                 </a>
             </nav>
             <article class="user">
-                <p class="user__name">{{ 'common.header.welcome' | trans({'%user%': 'User'}) }}</p>
+                {% set username = app.session.get('akeneo_pim_user_profile') ?? 'common.header.default_username' | trans %}
+                <p class="user__name">{{ 'common.header.welcome' | trans({'%user%': username}) }}</p>
                 <img src="{{ asset('build/images/logo.svg') }}" alt="profile logo" class="user__logo">
             </article>
         </header>
