@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Query\Locale\GuessCurrentLocaleQuery;
-use App\Query\Product\FetchProductsQuery;
+use App\Query\FetchProductsQuery;
+use App\Query\GuessCurrentLocaleQuery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,12 +23,12 @@ final class ListProductsAction
     #[Route('/products', name: 'products', methods: ['GET'])]
     public function __invoke(Request $request): Response
     {
-        $locale = ($this->guessCurrentLocaleQuery)();
+        $locale = $this->guessCurrentLocaleQuery->guess();
 
         return new Response(
             $this->twig->render('products.html.twig', [
                 'locale' => $locale,
-                'products' => ($this->fetchProductsQuery)($locale),
+                'products' => $this->fetchProductsQuery->fetch($locale),
             ])
         );
     }

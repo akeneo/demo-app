@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Controller;
 
+use App\Tests\Integration\AbstractIntegrationTest;
 use Symfony\Component\HttpFoundation\Response;
 
-class WelcomeActionTest extends AbstractActionTest
+class WelcomeActionTest extends AbstractIntegrationTest
 {
     /**
      * @test
      */
     public function itRedirectsToTheProductsPageWhenTheAccessTokenIsSet(): void
     {
-        $client = self::createClientWithSession(['akeneo_pim_access_token' => 'random_token']);
+        $client = $this->initializeClientWithSession(['akeneo_pim_access_token' => 'random_token']);
         $client->request('GET', '/?pim_url=https://httpd');
         $this->assertResponseRedirects('/products', Response::HTTP_FOUND);
     }
@@ -21,11 +22,12 @@ class WelcomeActionTest extends AbstractActionTest
     /**
      * @test
      */
-    public function itThrowsAnExceptionWhenThePimUrlIsMissing(): void
+    public function itDisplaysAMessageWhenThePimUrlIsMissing(): void
     {
-        $client = self::createClientWithSession([]);
+        $client = $this->initializeClientWithSession([]);
         $client->request('GET', '/');
-        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('.connect-container__message', 'Go to your PIM and click on Connect in the Marketplace page.');
     }
 
     /**
@@ -33,9 +35,8 @@ class WelcomeActionTest extends AbstractActionTest
      */
     public function itThrowsAnExceptionWhenThePimUrlIsInvalid(): void
     {
-        $client = self::createClientWithSession([]);
+        $client = $this->initializeClientWithSession([]);
         $client->request('GET', '/?pim_url=INVALID_URL');
-        $client->request('GET', '/');
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
     }
 
@@ -44,7 +45,7 @@ class WelcomeActionTest extends AbstractActionTest
      */
     public function itSavesThePimUrlInSessionAndRenderTheWelcomePage(): void
     {
-        $client = self::createClientWithSession([]);
+        $client = $this->initializeClientWithSession([]);
         $client->request('GET', '/?pim_url=https://httpd');
         $this->assertEquals('https://httpd', $client->getRequest()->getSession()->get('pim_url'));
         $this->assertResponseIsSuccessful();
