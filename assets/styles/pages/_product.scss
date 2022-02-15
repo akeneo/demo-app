@@ -58,7 +58,7 @@
   &__button {
     border: none;
     background: none;
-    cursor: pointer;
+    cursor: not-allowed;
     padding: 0;
     display: flex;
     align-items: baseline;
@@ -66,7 +66,7 @@
   }
 
   &__label {
-    cursor: pointer;
+    cursor: not-allowed;
     white-space: nowrap;
     margin-right: 3px;
     color: variables.$color-grey-140;
@@ -87,6 +87,7 @@
 
 .attribute-group {
   &__title {
+    color: variables.$color-grey-140;
     border-bottom: 1px solid variables.$color-grey-140;
     padding-bottom: 13px;
     font-weight: normal;

@@ -55,3 +55,9 @@ page:
         illustration_alt: Something went wrong
         error_title: Something went wrong
         description: Please try to connect this App again on the PIM Marketplace
+
+    error_404:
+        title: Page not found
+        illustration_alt: Page not found
+        error_title: Page not found
+        description: The requested page couldn't be located. Checkout for any URL misspelling.

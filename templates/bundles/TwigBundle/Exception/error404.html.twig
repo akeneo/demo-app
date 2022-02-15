@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'page.error_404.title' | trans }}{% endblock %}
+{% block body %}
+    <div class="error-container">
+        <section class="error">
+            <img class="error__illustration"
+                 src="{{ asset('build/images/error.svg') }}"
+                 alt="{{ 'page.error_404.illustration_alt' | trans }}">
+            <h3 class="error__title">{{ 'page.error_404.error_title' | trans }}</h3>
+            <p class="error__description">{{ 'page.error_404.description' | trans }}</p>
+        </section>
+    </div>
+{% endblock %}
