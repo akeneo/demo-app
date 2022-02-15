@@ -128,7 +128,7 @@ trait MockPimApiTrait
             'https://example.com/api/rest/v1/attributes?search=%7B%22code%22%3A%5B%7B%22operator%22%3A%22IN%22%2C%22value%22%3A%5B%22price%22%2C%22picture%22%2C%22name%22%2C%22description%22%2C%22release_date%22%2C%22color_scanning%22%2C%22tag%22%5D%7D%5D%7D&limit=100&with_count=false',
         );
         $this->mockPimAPIResponse(
-            'get-attribute-tag.json',
+            'get-attribute-options-tag.json',
             'https://example.com/api/rest/v1/attributes/tag/options?limit=100&with_count=false',
         );
     }
