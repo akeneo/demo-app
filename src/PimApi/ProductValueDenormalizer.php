@@ -27,7 +27,7 @@ class ProductValueDenormalizer
     /**
      * @param array{array{locale: string|null, scope: string|null, data: mixed}} $rawValues
      */
-    public function denormalize(array $rawValues, string $locale, ?string $scope, ?string $type = null): string|bool|int|float|null
+    public function denormalize(array $rawValues, string $locale, ?string $scope, ?string $type = null): string|bool|null
     {
         foreach ($rawValues as $value) {
             if (null !== $value['locale'] && $value['locale'] !== $locale) {
