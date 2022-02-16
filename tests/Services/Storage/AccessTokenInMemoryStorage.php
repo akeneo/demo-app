@@ -22,4 +22,9 @@ class AccessTokenInMemoryStorage implements AccessTokenStorageInterface
     {
         $this->accessToken = $accessToken;
     }
+
+    public function clear(): void
+    {
+        $this->accessToken = null;
+    }
 }

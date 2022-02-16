@@ -58,4 +58,17 @@ class AccessTokenSessionStorageTest extends TestCase
 
         $this->sessionStorage->setAccessToken('MY_ACCESS_TOKEN');
     }
+
+    /**
+     * @test
+     */
+    public function itClearsTheAccessTokenFromTheSession(): void
+    {
+        $this->session
+            ->expects($this->once())
+            ->method('remove')
+            ->with('akeneo_pim_access_token');
+
+        $this->sessionStorage->clear();
+    }
 }
