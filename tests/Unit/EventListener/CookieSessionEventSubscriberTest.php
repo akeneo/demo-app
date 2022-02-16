@@ -28,7 +28,9 @@ class CookieSessionEventSubscriberTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->subscriber = new CookieSessionEventSubscriber($this->cookieSessionHandler);
+        $this->subscriber = new CookieSessionEventSubscriber(
+            $this->cookieSessionHandler,
+        );
 
         $this->kernel = $this->getMockBuilder(KernelInterface::class)->getMock();
     }
