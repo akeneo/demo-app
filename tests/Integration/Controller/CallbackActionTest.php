@@ -215,6 +215,9 @@ class CallbackActionTest extends AbstractIntegrationTest
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $this->client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @return array{private: string, public: string}
+     */
     private function getAsymmetricKeyPair(): array
     {
         return [
@@ -246,6 +249,9 @@ class CallbackActionTest extends AbstractIntegrationTest
         ];
     }
 
+    /**
+     * @param array<string, string> $withClaims
+     */
     private function generateIdToken(
         string $privateKey,
         string $publicKey,
