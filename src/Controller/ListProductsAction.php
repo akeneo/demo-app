@@ -32,8 +32,6 @@ final class ListProductsAction
             throw new AccessDeniedHttpException('', $e);
         }
 
-        $locale = $this->guessCurrentLocaleQuery->guess();
-
         return new Response(
             $this->twig->render('products.html.twig', [
                 'locale' => $locale,
