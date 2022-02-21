@@ -72,7 +72,7 @@ class ShowProductActionTest extends AbstractIntegrationTest
     /**
      * @test
      */
-    public function itReturnsAccessDenied(): void
+    public function itRedirectsToWelcomePageWhenAccessDenied(): void
     {
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
@@ -94,6 +94,7 @@ class ShowProductActionTest extends AbstractIntegrationTest
         );
 
         $client->request('GET', '/products/wrong_identifier_1234');
-        $this->assertResponseStatusCodeSame(403);
+
+        $this->assertResponseRedirects('/');
     }
 }

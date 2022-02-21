@@ -13,6 +13,9 @@ make .env
 ```shell
 make up
 ```
+4) If you are running a PIM locally with docker, check that your `.env.local` file has this entry `AKENEO_PIM_URL=http://172.17.0.1:8080` (put your own port)
+5) In Akeneo PIM, create a new Test App from the connect/marketplace page and fill the form with your local demo app url exposed by docker (`http://172.17.0.1:8090`) :
+![Test app creation form](documentation/creation-form-test-app.png)
 
 ### Useful commands
 

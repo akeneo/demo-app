@@ -32,4 +32,9 @@ class AccessTokenSessionStorage implements AccessTokenStorageInterface
     {
         $this->requestStack->getSession()->set(self::ACCESS_TOKEN_SESSION_KEY, $accessToken);
     }
+
+    public function clear(): void
+    {
+        $this->requestStack->getSession()->remove(self::ACCESS_TOKEN_SESSION_KEY);
+    }
 }
