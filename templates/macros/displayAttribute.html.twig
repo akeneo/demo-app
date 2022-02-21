@@ -1,0 +1,10 @@
+{% macro value(attribute) %}
+    {% set displayValue = attribute.value %}
+    {% if attribute.type is same as('pim_catalog_boolean') %}
+        {% set trueValueTrans = 'page.product.attributes.boolean_values.yes' | trans %}
+        {% set falseValueTrans = 'page.product.attributes.boolean_values.no' | trans %}
+        {% set displayValue = displayValue ? trueValueTrans : falseValueTrans %}
+    {% endif %}
+
+    {{ displayValue }}
+{% endmacro %}

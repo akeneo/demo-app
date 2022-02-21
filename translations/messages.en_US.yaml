@@ -36,8 +36,28 @@ page:
             title: No products for the moment
             description: Please, go to your PIM, update the permissions you granted to our App and refresh that page to see your last 10 updated products.
 
+    product:
+        title: Product | Akeneo app demo
+        information:
+            helper-title: Your product data
+            content: Our app demo only displays values it can access. These values depend on attribute groups and locales you selected in the step-by-step activation process. You can update these permissions in the connected app settings of your PIM.
+            link: Set up connected app permissions
+        breadcrumb_root: Catalog
+        locales: Locales
+        attributes:
+            default_attribute_group: Attributes
+            boolean_values:
+                yes: Yes
+                no: No
+
     error:
         title: Error
         illustration_alt: Something went wrong
         error_title: Something went wrong
         description: Please try to connect this App again on the PIM Marketplace
+
+    error_404:
+        title: Page not found
+        illustration_alt: Page not found
+        error_title: Page not found
+        description: The requested page couldn't be located. Checkout for any URL misspelling.

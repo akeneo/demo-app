@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment as TwigEnvironment;
 
-final class GetProductAction
+final class ShowProductAction
 {
     public function __construct(
         private TwigEnvironment $twig,

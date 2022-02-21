@@ -1,11 +1,51 @@
-{% extends 'base.html.twig' %}
+{% extends 'connected-base.html.twig' %}
+{% import './macros/localeToFlag.html.twig' as localeToFlag %}
+{% import './macros/displayAttribute.html.twig' as displayAttribute %}
 
-{% block body %}
-    <h1>{{ product.label }}</h1>
-    <p class="current-locale">{{ locale }}</p>
-    <ul>
-        {% for attribute in product.attributes %}
-            <li>{{ attribute.label }} : {{ attribute.value }}</li>
-        {% endfor %}
-    </ul>
+{% block title %}{{ 'page.products.title' | trans }}{% endblock %}
+
+{% block content %}
+    <div class="product">
+        {% embed './commons/information.html.twig' with {helperTitle: 'page.product.information.helper-title'|trans } %}
+            {%  block informationContent %}
+                <p>{{ 'page.product.information.content' | trans }}</p>
+                <a href="#">{{ 'page.product.information.link' | trans }}</a>
+            {% endblock %}
+        {% endembed %}
+        <header class="product__header">
+            <div class="product__header__infos">
+                <nav class="breadcrumb__container">
+                    <span class="breadcrumb__step">{{ 'page.product.breadcrumb_root' | trans }}</span>
+                    <span class="breadcrumb__separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb__step">{{ product.label }}</span>
+                </nav>
+                <h1 class="product__title">{{ product.label }}</h1>
+            </div>
+            <div class="locale-switcher">
+                <button id="locales" class="locale-switcher__button">
+                    <label for="locales" class="locale-switcher__label">{{ 'page.product.locales' | trans}} :</label>
+                    <div class="locale-switcher__value">
+                        <span class="locale-switcher__language">{{ localeToFlag.getFlag(locale) }}</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline vector-effect="non-scaling-stroke" stroke="currentColor" points="2 6.99970375 12 17.0002962 22 6.99970375">
+
+                                </polyline></g>
+                        </svg>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <section class="product__content">
+            <section class="attribute-group">
+                <h2 class="attribute-group__title">{{ 'page.product.attributes.default_attribute_group' | trans }}</h2>
+                {% for attribute in product.attributes %}
+                    <div class="attribute">
+                        <h3 class="attribute__label">{{ attribute.label }}</h3>
+                        <p class="attribute__value">{{ displayAttribute.value(attribute) }}</p>
+                    </div>
+                {% endfor %}
+            </section>
+        </section>
+    </div>
 {% endblock %}
