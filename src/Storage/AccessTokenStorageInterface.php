@@ -9,4 +9,6 @@ interface AccessTokenStorageInterface
     public function getAccessToken(): ?string;
 
     public function setAccessToken(string $accessToken): void;
+
+    public function clear(): void;
 }
