@@ -8,6 +8,7 @@
   - [Service Usage API](https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview)
 - Create a GCS Bucket for terraform backend
 - Create a custom Role with these permissions:
+  - `compute.regionNetworkEndpointGroups.create`
   - `iam.serviceAccounts.actAs`
   - `run.services.create`
   - `run.services.delete`
@@ -30,11 +31,13 @@
 
 ## Commands
 
-All the commands for deployments requires this 3 environment variables:
+All the commands for deployments requires this 5 environment variables:
 ```shell
 export GOOGLE_APPLICATION_CREDENTIALS=service-account-key.json
 export GCP_PROJECT=<your gcp project id>
 export GCP_TERRAFORM_BUCKET=<your bucket id for the terraform backend>
+export AKENEO_CLIENT_ID=<your client id>
+export AKENEO_CLIENT_SECRET=<your client secret>
 ```
 
 Setup the infrastructure, build and deploy the application:
