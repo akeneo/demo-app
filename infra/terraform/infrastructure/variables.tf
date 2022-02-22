@@ -16,5 +16,6 @@ locals {
   gcp_services = [
     "containerregistry.googleapis.com",
     "run.googleapis.com",
+    "servicenetworking.googleapis.com",
   ]
 }
