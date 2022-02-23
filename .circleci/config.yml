@@ -116,6 +116,62 @@ jobs:
           name: Upgrade infrastructure
           command: make terraform.deploy.infrastructure
 
+  deploy_prod:
+    machine:
+      image: ubuntu-2004:202101-01
+      docker_layer_caching: true
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
+      GCP_PROJECT: ${PROD_GCP_PROJECT}
+      GCP_TERRAFORM_BUCKET: ${PROD_GCP_TERRAFORM_BUCKET}
+    steps:
+      - checkout
+      - run:
+          name: Load GCP credentials
+          command: |
+            cat \<< EOF > ${GOOGLE_APPLICATION_CREDENTIALS}
+            ${PROD_GCP_SERVICE_KEY}
+            EOF
+      - run:
+          name: Install terraform
+          command: |
+            curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            sudo apt-get update && sudo apt-get install terraform
+      - run:
+          name: Deploy
+          command: |
+            export GCP_APP_NAME=demo-app
+            export GCP_APP_VERSION=${CIRCLE_SHA1}
+            export AKENEO_CLIENT_ID=${PROD_CLIENT_ID}
+            export AKENEO_CLIENT_SECRET=${PROD_CLIENT_SECRET}
+            make terraform.deploy.application
+
+  upgrade_prod_infrastructure:
+    machine:
+      image: ubuntu-2004:202101-01
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
+      GCP_PROJECT: ${PROD_GCP_PROJECT}
+      GCP_TERRAFORM_BUCKET: ${PROD_GCP_TERRAFORM_BUCKET}
+    steps:
+      - checkout
+      - run:
+          name: Load GCP credentials
+          command: |
+            cat \<< EOF > ${GOOGLE_APPLICATION_CREDENTIALS}
+            ${PROD_GCP_SERVICE_KEY}
+            EOF
+      - run:
+          name: Install terraform
+          command: |
+            curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            sudo apt-get update && sudo apt-get install terraform
+      - run:
+          name: Upgrade infrastructure
+          command: make terraform.deploy.infrastructure
+
   pull_request_success:
     docker:
       - image: alpine/git
@@ -155,3 +211,9 @@ workflows:
     when: { equal: [ main, << pipeline.git.branch >> ] }
     jobs:
       - upgrade_dev_infrastructure
+      - upgrade_prod_infrastructure:
+          requires:
+            - upgrade_dev_infrastructure
+      - deploy_prod:
+          requires:
+            - upgrade_prod_infrastructure
