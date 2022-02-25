@@ -2,6 +2,7 @@
 
 namespace App\Tests\Unit\PimApi\Client;
 
+use App\Exception\MissingPimApiAccessTokenException;
 use App\PimApi\PimApiClientFactory;
 use App\Storage\AccessTokenStorageInterface;
 use App\Storage\PimURLStorageInterface;
@@ -71,7 +72,7 @@ class PimApiClientFactoryTest extends TestCase
             ->method('getAccessToken')
             ->willReturn(null);
 
-        $this->expectExceptionObject(new \LogicException('Missing Pim API access token.'));
+        $this->expectExceptionObject(new MissingPimApiAccessTokenException('Missing Pim API access token.'));
 
         ($this->pimApiClientFactory)();
     }
