@@ -6,6 +6,7 @@ namespace App\PimApi;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use App\Exception\MissingPimApiAccessTokenException;
 use App\Storage\AccessTokenStorageInterface;
 use App\Storage\PimURLStorageInterface;
 use Psr\Http\Client\ClientInterface;
@@ -28,7 +29,7 @@ class PimApiClientFactory
 
         $accessToken = $this->accessTokenStorage->getAccessToken();
         if (empty($accessToken)) {
-            throw new \LogicException('Missing Pim API access token.');
+            throw new MissingPimApiAccessTokenException();
         }
 
         $clientBuilder = new AkeneoPimClientBuilder($pimURL);
