@@ -25,7 +25,7 @@ terraform.lint.$1:
 .PHONY: terraform.destroy.$1
 terraform.destroy.$1: TF_VAR_gcp_project_id = $(GCP_PROJECT)
 terraform.destroy.$1: TF_VAR_gcp_region = $(GCP_REGION)
-terraform.destroy.$1: deploy.check
+terraform.destroy.$1: deploy.check.infrastructure
 terraform.destroy.$1:
 	cd $(PWD)/infra/terraform/$1 && terraform apply -destroy -auto-approve
 
@@ -40,8 +40,8 @@ $(foreach module,$(TERRAFORM_MODULES),$(eval $(call terraform-module,$(module)))
 terraform.lint: $(addprefix terraform.lint.,$(TERRAFORM_MODULES))
 	terraform fmt --diff --check --recursive infra/
 
-.PHONY: deploy.check
-deploy.check:
+.PHONY: deploy.check.infrastructure
+deploy.check.infrastructure:
 ifndef GCP_PROJECT
 	$(error GCP_PROJECT is undefined)
 endif
@@ -51,6 +51,9 @@ endif
 ifndef GOOGLE_APPLICATION_CREDENTIALS
 	$(error GOOGLE_APPLICATION_CREDENTIALS is undefined)
 endif
+
+.PHONY: deploy.check.application
+deploy.check.application:
 ifndef AKENEO_CLIENT_ID
 	$(error AKENEO_CLIENT_ID is undefined)
 endif
@@ -59,14 +62,14 @@ ifndef AKENEO_CLIENT_SECRET
 endif
 
 .PHONY: terraform.deploy
-terraform.deploy: deploy.check
+terraform.deploy: deploy.check.infrastructure deploy.check.application
 	$(MAKE) terraform.deploy.infrastructure
 	$(MAKE) terraform.deploy.application
 
 .PHONY: terraform.deploy.infrastructure
 terraform.deploy.infrastructure: TF_VAR_gcp_project_id = $(GCP_PROJECT)
 terraform.deploy.infrastructure: TF_VAR_gcp_region = $(GCP_REGION)
-terraform.deploy.infrastructure: deploy.check
+terraform.deploy.infrastructure: deploy.check.infrastructure
 	terraform -chdir=infra/terraform/infrastructure/ init -reconfigure -backend-config="bucket=$(GCP_TERRAFORM_BUCKET)"
 	terraform -chdir=infra/terraform/infrastructure/ apply -auto-approve
 
@@ -79,7 +82,7 @@ terraform.deploy.application: TF_VAR_app_client_id = $(AKENEO_CLIENT_ID)
 terraform.deploy.application: TF_VAR_app_client_secret = $(AKENEO_CLIENT_SECRET)
 terraform.deploy.application: export DOCKER_IMAGE_NAME ?= $(GCP_DOCKER_IMAGE_NAME)
 terraform.deploy.application: export DOCKER_IMAGE_VERSION ?= $(GCP_APP_VERSION)
-terraform.deploy.application: deploy.check
+terraform.deploy.application: deploy.check.application
 	$(MAKE) docker-image
 	cat $(GOOGLE_APPLICATION_CREDENTIALS) | docker login -u _json_key --password-stdin https://$(GCP_DOCKER_REGISTRY)
 	$(MAKE) docker-push
@@ -87,9 +90,9 @@ terraform.deploy.application: deploy.check
 	terraform -chdir=infra/terraform/application/ apply -auto-approve
 
 .PHONY: terraform.destroy
-terraform.deploy: TF_VAR_gcp_project_id = $(GCP_PROJECT)
-terraform.deploy: TF_VAR_gcp_region = $(GCP_REGION)
-terraform.deploy: deploy.check
+terraform.destroy: TF_VAR_gcp_project_id = $(GCP_PROJECT)
+terraform.destroy: TF_VAR_gcp_region = $(GCP_REGION)
+terraform.destroy: deploy.check.infrastructure
 terraform.destroy:
 	$(MAKE) terraform.destroy.application
 	$(MAKE) terraform.destroy.infrastructure
