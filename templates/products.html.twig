@@ -40,7 +40,9 @@
                 <article class="product-card">
                     <a href="{{ path('product', {identifier: product.identifier}) }}">
                         <div class="product-card__image">
-                            <img src="{{ asset('build/images/ziggy.png') }}" alt="{{ product.label }}"  />
+                            <div class="product-card__image__container">
+                                <img src="{{ asset('build/images/ziggy.png') }}" alt="{{ product.label }}" />
+                            </div>
                         </div>
                         <p class="product-card__title">{{ product.label }}</p>
                     </a>
