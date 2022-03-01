@@ -8,6 +8,7 @@ use App\EventListener\AccessDeniedExceptionEventSubscriber;
 use App\Storage\AccessTokenStorageInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,7 @@ class AccessDeniedExceptionEventSubscriberTest extends TestCase
     private ?AccessDeniedExceptionEventSubscriber $subscriber;
     private AccessTokenStorageInterface|MockObject $accessTokenStorage;
     private RouterInterface|MockObject $router;
+    private LoggerInterface|MockObject $logger;
 
     protected function setUp(): void
     {
@@ -35,11 +37,16 @@ class AccessDeniedExceptionEventSubscriberTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->logger = $this->getMockBuilder(LoggerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->kernel = $this->getMockBuilder(KernelInterface::class)->getMock();
 
         $this->subscriber = new AccessDeniedExceptionEventSubscriber(
             $this->accessTokenStorage,
             $this->router,
+            $this->logger,
         );
     }
 

@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Query;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use App\PimApi\Model\Product;
 use App\PimApi\ProductValueDenormalizer;
+use Psr\Log\LoggerInterface;
 
 /**
  * @phpstan-type RawProduct array{identifier: string, family: string, values: array<string, array{array{locale: string|null, scope: string|null, data: mixed}}>}
@@ -18,6 +20,7 @@ final class FetchProductsQuery
     public function __construct(
         private AkeneoPimClientInterface $pimApiClient,
         private ProductValueDenormalizer $productValueDenormalizer,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -30,15 +33,31 @@ final class FetchProductsQuery
         $searchBuilder->addFilter('enabled', '=', true);
         $searchFilters = $searchBuilder->getFilters();
 
-        /** @var array<RawProduct> $rawProducts */
-        $rawProducts = $this->pimApiClient->getProductApi()->listPerPage(
-            10,
-            false,
-            [
-                'search' => $searchFilters,
-                'locales' => $locale,
-            ]
-        )->getItems();
+        try {
+            /** @var array<RawProduct> $rawProducts */
+            $rawProducts = $this->pimApiClient->getProductApi()->listPerPage(
+                10,
+                false,
+                [
+                    'search' => $searchFilters,
+                    'locales' => $locale,
+                ]
+            )->getItems();
+        } catch (UnprocessableEntityHttpException $exception) {
+            // The UnprocessableEntity error can be triggered when searching a locale we don't have access to
+            // We log, and try again without any locale.
+
+            $this->logger->error($exception->getMessage());
+
+            /** @var array<RawProduct> $rawProducts */
+            $rawProducts = $this->pimApiClient->getProductApi()->listPerPage(
+                10,
+                false,
+                [
+                    'search' => $searchFilters,
+                ]
+            )->getItems();
+        }
 
         if (0 === count($rawProducts)) {
             return [];
@@ -53,14 +72,7 @@ final class FetchProductsQuery
         foreach ($rawProducts as $rawProduct) {
             $rawFamily = $families[$rawProduct['family']];
 
-            $label = isset($rawProduct['values'][$rawFamily['attribute_as_label']])
-                ? (string) $this->productValueDenormalizer->denormalize(
-                    $rawProduct['values'][$rawFamily['attribute_as_label']],
-                    $locale,
-                    $scope,
-                )
-                : $rawProduct['identifier']
-            ;
+            $label = $this->findLabel($rawFamily['attribute_as_label'], $rawProduct, $locale, $scope);
 
             $values = [];
 
@@ -119,5 +131,23 @@ final class FetchProductsQuery
         }
 
         return null;
+    }
+
+    /**
+     * @param RawProduct $product
+     */
+    private function findLabel(string $attributeAsLabel, array $product, string $locale, ?string $scope): string
+    {
+        if (!isset($product['values'][$attributeAsLabel])) {
+            return '['.$product['identifier'].']';
+        }
+
+        $label = $this->productValueDenormalizer->denormalize(
+            $product['values'][$attributeAsLabel],
+            $locale,
+            $scope,
+        );
+
+        return (string) ($label ?? '['.$product['identifier'].']');
     }
 }
