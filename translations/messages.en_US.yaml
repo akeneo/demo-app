@@ -5,6 +5,7 @@ common:
             help: Help
             go-to-pim-url: Go to Akeneo PIM
         welcome: 'Welcome %user%'
+        default_username: User
 
 page:
     welcome:

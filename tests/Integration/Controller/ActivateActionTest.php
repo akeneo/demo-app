@@ -32,7 +32,7 @@ class ActivateActionTest extends AbstractIntegrationTest
         $expectedAuthorizeUrlParams = \http_build_query([
             'response_type' => 'code',
             'client_id' => $client->getKernel()->getContainer()->getParameter('akeneoClientId'),
-            'scope' => 'read_products read_catalog_structure read_channel_localization read_attribute_options',
+            'scope' => 'read_products read_catalog_structure read_channel_localization read_attribute_options openid profile',
             'state' => $client->getRequest()->getSession()->get('state'),
         ]);
 

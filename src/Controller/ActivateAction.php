@@ -16,6 +16,8 @@ final class ActivateAction
         'read_catalog_structure',
         'read_channel_localization',
         'read_attribute_options',
+        'openid',
+        'profile',
     ];
 
     public function __construct(

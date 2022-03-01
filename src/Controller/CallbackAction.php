@@ -5,6 +5,13 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Storage\AccessTokenStorageInterface;
+use App\Storage\UserProfileStorageInterface;
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Signer\Rsa\Sha256;
+use Lcobucci\JWT\UnencryptedToken;
+use Lcobucci\JWT\Validation\Constraint\IssuedBy;
+use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +26,7 @@ final class CallbackAction
         private string $akeneoClientSecret,
         private HttpClientInterface $client,
         private AccessTokenStorageInterface $accessTokenStorage,
+        private UserProfileStorageInterface $userProfileStorage,
         private RouterInterface $router,
     ) {
     }
@@ -43,14 +51,21 @@ final class CallbackAction
             throw new \LogicException('Missing authorization code');
         }
 
-        $accessToken = $this->fetchAccessToken($pimUrl, $authorizationCode);
+        ['access_token' => $accessToken, 'user_profile' => $userProfile ] = $this->fetchAccessTokenPayload($pimUrl, $authorizationCode);
 
         $this->accessTokenStorage->setAccessToken($accessToken);
+
+        if (null !== $userProfile) {
+            $this->userProfileStorage->setUserProfile($userProfile);
+        }
 
         return new RedirectResponse($this->router->generate('products'));
     }
 
-    private function fetchAccessToken(mixed $pimUrl, float|bool|int|string $authorizationCode): string
+    /**
+     * @return array{'access_token': string, "user_profile": null | string}
+     */
+    private function fetchAccessTokenPayload(mixed $pimUrl, float|bool|int|string $authorizationCode): array
     {
         $codeIdentifier = \bin2hex(\random_bytes(30));
         $codeChallenge = \hash('sha256', $codeIdentifier.$this->akeneoClientSecret);
@@ -79,6 +94,60 @@ final class CallbackAction
             throw new \LogicException('Missing access token in response');
         }
 
-        return $payload['access_token'];
+        $userProfile = null;
+        $idToken = $payload['id_token'] ?? null;
+        if (null !== $idToken) {
+            $openIdPublicKey = $this->fetchOpenIdPublicKey($pimUrl);
+            $claims = $this->extractClaimsFromSignedToken($idToken, $openIdPublicKey, $pimUrl);
+            $userProfile = $this->getUserProfileFromTokenClaims($claims);
+        }
+
+        return [
+            'access_token' => (string) $payload['access_token'],
+            'user_profile' => $userProfile,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function extractClaimsFromSignedToken(string $idToken, string $signature, string $issuer): array
+    {
+        $jwtConfig = Configuration::forUnsecuredSigner();
+        $token = $jwtConfig->parser()->parse($idToken);
+        \assert($token instanceof UnencryptedToken);
+
+        $jwtConfig->setValidationConstraints(new IssuedBy($issuer), new SignedWith(new Sha256(), InMemory::plainText($signature)));
+        $constraints = $jwtConfig->validationConstraints();
+        $jwtConfig->validator()->assert($token, ...$constraints);
+
+        return $token->claims()->all();
+    }
+
+    private function fetchOpenIdPublicKey(string $pimUrl): string
+    {
+        $openIDPublicKeyUrl = $pimUrl.'/connect/apps/v1/openid/public-key';
+
+        $response = $this->client->request('GET', $openIDPublicKeyUrl)->toArray();
+        if (!\array_key_exists('public_key', $response)) {
+            throw new \LogicException('Failed to retrieve openid public key');
+        }
+        if (!\is_string($response['public_key'])) {
+            throw new \LogicException('OpenID public key is not a string');
+        }
+
+        return $response['public_key'];
+    }
+
+    /**
+     * @param array<string, mixed> $tokenClaims
+     */
+    private function getUserProfileFromTokenClaims(array $tokenClaims): string
+    {
+        if (!isset($tokenClaims['firstname'], $tokenClaims['lastname'])) {
+            throw new \LogicException('One or several user profile claims are missing');
+        }
+
+        return $tokenClaims['firstname'].' '.$tokenClaims['lastname'];
     }
 }
