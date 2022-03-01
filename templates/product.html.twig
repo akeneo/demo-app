@@ -9,13 +9,13 @@
         {% embed './commons/information.html.twig' with {helperTitle: 'page.product.information.helper-title'|trans } %}
             {%  block informationContent %}
                 <p>{{ 'page.product.information.content' | trans }}</p>
-                <a href="#">{{ 'page.product.information.link' | trans }}</a>
+                <a href="https://help.akeneo.com/pim/serenity/articles/how-to-connect-my-pim-with-apps.html#give-permissions-to-your-app-ee">{{ 'page.product.information.link' | trans }}</a>
             {% endblock %}
         {% endembed %}
         <header class="product__header">
             <div class="product__header__infos">
                 <nav class="breadcrumb__container">
-                    <span class="breadcrumb__step">{{ 'page.product.breadcrumb_root' | trans }}</span>
+                    <a href="{{ path('products') }}" class="breadcrumb__step">{{ 'page.product.breadcrumb_root' | trans }}</a>
                     <span class="breadcrumb__separator" aria-hidden="true">/</span>
                     <span class="breadcrumb__step">{{ product.label }}</span>
                 </nav>
