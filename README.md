@@ -1,5 +1,7 @@
 # demo-app
 
+[![CircleCI](https://circleci.com/gh/akeneo/demo-app/tree/main.svg?style=svg&circle-token=897c5b9459e4ab537f5b8f10096ff395a18fa87b)](https://circleci.com/gh/akeneo/demo-app/tree/main)
+
 ## Development
 
 ### Start the project in 3 steps
