@@ -40,6 +40,10 @@ final class FetchProductsQuery
             ]
         )->getItems();
 
+        if (0 === count($rawProducts)) {
+            return [];
+        }
+
         $scope = $this->findFirstAvailableScope($rawProducts[0]);
 
         $families = $this->fetchFamilies($rawProducts);
