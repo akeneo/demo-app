@@ -79,6 +79,7 @@ COPY --from=frontend /srv/app/public/build public/build
 COPY bin bin
 COPY config config
 COPY public/index.php public/index.php
+COPY public/favicon.ico public/favicon.ico
 COPY src src
 COPY templates templates
 COPY translations translations
