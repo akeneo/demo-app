@@ -31,9 +31,9 @@ final class ShowProductAction
             $locale = $this->guessCurrentLocaleQuery->guess();
             $product = $this->fetchProductQuery->fetch($identifier, $locale);
         } catch (AkeneoNotFoundHttpException $e) {
-            throw new NotFoundHttpException('', $e);
+            throw new NotFoundHttpException('PIM API replied with a 404', $e);
         } catch (ClientErrorHttpException $e) {
-            throw new AccessDeniedHttpException('', $e);
+            throw new AccessDeniedHttpException('Unexpected error during PIM API requests, assuming invalid access token.', $e);
         }
 
         return new Response(

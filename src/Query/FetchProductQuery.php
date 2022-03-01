@@ -33,14 +33,7 @@ final class FetchProductQuery
 
         $attributes = $this->fetchAttributes($rawProduct);
 
-        $label = isset($rawProduct['values'][$rawFamily['attribute_as_label']])
-            ? (string) $this->productValueDenormalizer->denormalize(
-                $rawProduct['values'][$rawFamily['attribute_as_label']],
-                $locale,
-                $scope,
-            )
-            : $identifier
-        ;
+        $label = $this->findLabel($rawFamily['attribute_as_label'], $rawProduct, $locale, $scope);
 
         $values = [];
 
@@ -118,5 +111,23 @@ final class FetchProductQuery
         }
 
         return null;
+    }
+
+    /**
+     * @param RawProduct $product
+     */
+    private function findLabel(string $attributeAsLabel, array $product, string $locale, ?string $scope): string
+    {
+        if (!isset($product['values'][$attributeAsLabel])) {
+            return '['.$product['identifier'].']';
+        }
+
+        $label = $this->productValueDenormalizer->denormalize(
+            $product['values'][$attributeAsLabel],
+            $locale,
+            $scope,
+        );
+
+        return (string) ($label ?? '['.$product['identifier'].']');
     }
 }

@@ -21,6 +21,7 @@
     }
 
     &__step {
+      color: variables.$color-grey-120;
       text-transform: uppercase;
 
       &:last-child {
@@ -69,7 +70,7 @@
     cursor: not-allowed;
     white-space: nowrap;
     margin-right: 3px;
-    color: variables.$color-grey-140;
+    color: variables.$color-grey-120;
   }
 
   &__value {

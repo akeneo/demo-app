@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Storage\AccessTokenStorageInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -17,6 +18,7 @@ class AccessDeniedExceptionEventSubscriber implements EventSubscriberInterface
     public function __construct(
         private AccessTokenStorageInterface $accessTokenStorage,
         private RouterInterface $router,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -33,6 +35,8 @@ class AccessDeniedExceptionEventSubscriber implements EventSubscriberInterface
         if (!$exception instanceof AccessDeniedHttpException) {
             return;
         }
+
+        $this->logger->warning('An access denied error was detected, destroy the session.');
 
         $this->accessTokenStorage->clear();
 

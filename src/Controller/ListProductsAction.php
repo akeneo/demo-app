@@ -29,7 +29,7 @@ final class ListProductsAction
             $locale = $this->guessCurrentLocaleQuery->guess();
             $products = $this->fetchProductsQuery->fetch($locale);
         } catch (ClientErrorHttpException $e) {
-            throw new AccessDeniedHttpException('', $e);
+            throw new AccessDeniedHttpException('Unexpected error during PIM API requests, assuming invalid access token.', $e);
         }
 
         return new Response(
