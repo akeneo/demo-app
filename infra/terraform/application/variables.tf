@@ -27,6 +27,11 @@ variable "app_version" {
   default = "latest"
 }
 
+variable "app_secret" {
+  type    = string
+  default = "28d8c8cc382a2278771b95204733f09a"
+}
+
 variable "app_client_id" {
   type = string
 }
