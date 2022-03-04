@@ -93,7 +93,7 @@ class CookieSessionHandler implements \SessionHandlerInterface
                 $cookieValue = ($this->decrypt)((string) $this->cookie->getValue());
                 $session = \json_decode($cookieValue, true, 512, JSON_THROW_ON_ERROR);
             } catch (\Exception $e) {
-                $this->logger->error('An exception was thrown when deprypting the cookie', ['exception' => $e]);
+                $this->logger->error('An exception was thrown when decrypting the cookie', ['exception' => $e]);
 
                 return '';
             }
@@ -119,7 +119,7 @@ class CookieSessionHandler implements \SessionHandlerInterface
                 $cookieValue = ($this->decrypt)((string) $this->cookie->getValue());
                 $session = \json_decode($cookieValue, true, 512, JSON_THROW_ON_ERROR);
             } catch (\Exception $e) {
-                $this->logger->error('An exception was thrown when deprypting the cookie', ['exception' => $e]);
+                $this->logger->error('An exception was thrown when decrypting the cookie', ['exception' => $e]);
             }
         }
 
