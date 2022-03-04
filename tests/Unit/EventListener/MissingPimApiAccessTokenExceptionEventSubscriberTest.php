@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Unit\EventListener;
+namespace App\Tests\Unit\EventListener;
 
 use App\EventListener\MissingPimApiAccessTokenExceptionEventSubscriber;
 use App\Exception\MissingPimApiAccessTokenException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\NullLogger;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,6 +34,7 @@ class MissingPimApiAccessTokenExceptionEventSubscriberTest extends TestCase
 
         $this->subscriber = new MissingPimApiAccessTokenExceptionEventSubscriber(
             $this->router,
+            new NullLogger(),
         );
     }
 

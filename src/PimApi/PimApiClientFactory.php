@@ -7,6 +7,7 @@ namespace App\PimApi;
 use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use App\Exception\MissingPimApiAccessTokenException;
+use App\Exception\MissingPimUrlException;
 use App\Storage\AccessTokenStorageInterface;
 use App\Storage\PimURLStorageInterface;
 use Psr\Http\Client\ClientInterface;
@@ -24,7 +25,7 @@ class PimApiClientFactory
     {
         $pimURL = $this->pimURLStorage->getPimURL();
         if (empty($pimURL)) {
-            throw new \LogicException('Could not retrieve PIM URL, please restart the authorization process.');
+            throw new MissingPimUrlException();
         }
 
         $accessToken = $this->accessTokenStorage->getAccessToken();
