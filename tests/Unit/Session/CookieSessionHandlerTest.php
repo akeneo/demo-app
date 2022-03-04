@@ -6,6 +6,7 @@ use App\Security\Decrypt;
 use App\Security\Encrypt;
 use App\Session\CookieSessionHandler;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\NullLogger;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class CookieSessionHandlerTest extends TestCase
@@ -19,7 +20,7 @@ class CookieSessionHandlerTest extends TestCase
         $this->encrypt = new Encrypt('AES-256-CBC', 'password');
         $this->decrypt = new Decrypt('AES-256-CBC', 'password');
 
-        $this->cookieSessionHandler = new CookieSessionHandler($this->encrypt, $this->decrypt);
+        $this->cookieSessionHandler = new CookieSessionHandler($this->encrypt, $this->decrypt, new NullLogger());
     }
 
     protected function tearDown(): void
