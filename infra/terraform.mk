@@ -54,6 +54,9 @@ endif
 
 .PHONY: deploy.check.application
 deploy.check.application:
+ifndef APP_SECRET
+	$(error APP_SECRET is undefined)
+endif
 ifndef AKENEO_CLIENT_ID
 	$(error AKENEO_CLIENT_ID is undefined)
 endif
@@ -78,6 +81,7 @@ terraform.deploy.application: TF_VAR_gcp_project_id = $(GCP_PROJECT)
 terraform.deploy.application: TF_VAR_gcp_region = $(GCP_REGION)
 terraform.deploy.application: TF_VAR_app_name = $(GCP_APP_NAME)
 terraform.deploy.application: TF_VAR_app_version = $(GCP_APP_VERSION)
+terraform.deploy.application: TF_VAR_app_secret = $(APP_SECRET)
 terraform.deploy.application: TF_VAR_app_client_id = $(AKENEO_CLIENT_ID)
 terraform.deploy.application: TF_VAR_app_client_secret = $(AKENEO_CLIENT_SECRET)
 terraform.deploy.application: export DOCKER_IMAGE_NAME ?= $(GCP_DOCKER_IMAGE_NAME)

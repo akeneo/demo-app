@@ -87,6 +87,7 @@ jobs:
           command: |
             export GCP_APP_NAME=demo-app-pr-${CIRCLE_PULL_REQUEST##*/}
             export GCP_APP_VERSION=${CIRCLE_SHA1}
+            export APP_SECRET=${DEV_SECRET}
             export AKENEO_CLIENT_ID=<< pipeline.parameters.akeneo_client_id >>
             export AKENEO_CLIENT_SECRET=<< pipeline.parameters.akeneo_client_secret >>
             make terraform.deploy.application
@@ -143,6 +144,7 @@ jobs:
           command: |
             export GCP_APP_NAME=demo-app
             export GCP_APP_VERSION=${CIRCLE_SHA1}
+            export APP_SECRET=${PROD_SECRET}
             export AKENEO_CLIENT_ID=${PROD_CLIENT_ID}
             export AKENEO_CLIENT_SECRET=${PROD_CLIENT_SECRET}
             make terraform.deploy.application

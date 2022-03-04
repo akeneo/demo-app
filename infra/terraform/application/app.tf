@@ -18,6 +18,10 @@ resource "google_cloud_run_service" "app" {
           name  = "AKENEO_CLIENT_SECRET"
           value = var.app_client_secret
         }
+        env {
+          name  = "APP_SECRET"
+          value = var.app_secret
+        }
       }
     }
 
