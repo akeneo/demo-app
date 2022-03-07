@@ -40,6 +40,17 @@ class AccessDeniedExceptionEventSubscriber implements EventSubscriberInterface
 
         $this->accessTokenStorage->clear();
 
-        $event->setResponse(new RedirectResponse($this->router->generate('welcome')));
+        $event->setResponse(new RedirectResponse($this->buildRedirectionUrl($event)));
+    }
+
+    private function buildRedirectionUrl(ExceptionEvent $event): string
+    {
+        $request = $event->getRequest();
+
+        if ($request->hasSession() && !empty($request->getSession()->get('pim_url'))) {
+            return $this->router->generate('authorization_activate');
+        }
+
+        return $this->router->generate('welcome');
     }
 }

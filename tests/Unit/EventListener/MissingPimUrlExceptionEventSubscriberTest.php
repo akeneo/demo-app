@@ -4,49 +4,37 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\EventListener;
 
-use App\EventListener\AccessDeniedExceptionEventSubscriber;
-use App\Storage\AccessTokenStorageInterface;
+use App\EventListener\MissingPimUrlExceptionEventSubscriber;
+use App\Exception\MissingPimUrlException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-class AccessDeniedExceptionEventSubscriberTest extends TestCase
+class MissingPimUrlExceptionEventSubscriberTest extends TestCase
 {
     private KernelInterface $kernel;
-    private ?AccessDeniedExceptionEventSubscriber $subscriber;
-    private AccessTokenStorageInterface|MockObject $accessTokenStorage;
+    private ?MissingPimUrlExceptionEventSubscriber $subscriber;
     private RouterInterface|MockObject $router;
-    private LoggerInterface|MockObject $logger;
 
     protected function setUp(): void
     {
-        $this->accessTokenStorage = $this->getMockBuilder(AccessTokenStorageInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->router = $this->getMockBuilder(RouterInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->logger = $this->getMockBuilder(LoggerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->kernel = $this->getMockBuilder(KernelInterface::class)->getMock();
 
-        $this->subscriber = new AccessDeniedExceptionEventSubscriber(
-            $this->accessTokenStorage,
+        $this->subscriber = new MissingPimUrlExceptionEventSubscriber(
             $this->router,
-            $this->logger,
+            new NullLogger(),
         );
     }
 
@@ -60,32 +48,37 @@ class AccessDeniedExceptionEventSubscriberTest extends TestCase
      */
     public function itIsSubscribedToKernelExceptionEvent(): void
     {
-        $this->assertArrayHasKey(KernelEvents::EXCEPTION, AccessDeniedExceptionEventSubscriber::getSubscribedEvents());
+        $this->assertArrayHasKey(KernelEvents::EXCEPTION, MissingPimUrlExceptionEventSubscriber::getSubscribedEvents());
     }
 
     /**
      * @test
      */
-    public function itListensOnlyToAccessDeniedHttpExceptions(): void
+    public function itListensOnlyToMissingPimUrlExceptions(): void
     {
-        $this->accessTokenStorage->expects($this->never())->method('clear');
-
         $event = new ExceptionEvent($this->kernel, new Request(), HttpKernelInterface::MAIN_REQUEST, new \Exception());
 
         $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber($this->subscriber);
         $dispatcher->dispatch($event, KernelEvents::EXCEPTION);
+
+        $eventResponse = $event->getResponse();
+        $this->assertNotInstanceOf(RedirectResponse::class, $eventResponse);
     }
 
     /**
      * @test
      */
-    public function itRemovesAccessTokenAndRedirectsToWelcomePage(): void
+    public function itRedirectsToWelcomePage(): void
     {
-        $this->accessTokenStorage->expects($this->once())->method('clear');
         $this->router->method('generate')->willReturn('welcome_url');
 
-        $event = new ExceptionEvent($this->kernel, new Request(), HttpKernelInterface::MAIN_REQUEST, new AccessDeniedHttpException());
+        $event = new ExceptionEvent(
+            $this->kernel,
+            new Request(),
+            HttpKernelInterface::MAIN_REQUEST,
+            new MissingPimUrlException()
+        );
 
         $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber($this->subscriber);

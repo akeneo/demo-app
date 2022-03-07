@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\PimApi\Client;
 
 use App\Exception\MissingPimApiAccessTokenException;
+use App\Exception\MissingPimUrlException;
 use App\PimApi\PimApiClientFactory;
 use App\Storage\AccessTokenStorageInterface;
 use App\Storage\PimURLStorageInterface;
@@ -46,15 +47,13 @@ class PimApiClientFactoryTest extends TestCase
     /**
      * @test
      */
-    public function itThrowsALogicExceptionWhenPimUrlCanNotBeRetrieved(): void
+    public function itThrowsAnExceptionWhenPimUrlCanNotBeRetrieved(): void
     {
         $this->pimURLStorage
             ->method('getPimURL')
             ->willReturn(null);
 
-        $this->expectExceptionObject(
-            new \LogicException('Could not retrieve PIM URL, please restart the authorization process.')
-        );
+        $this->expectExceptionObject(new MissingPimUrlException());
 
         ($this->pimApiClientFactory)();
     }
@@ -72,7 +71,7 @@ class PimApiClientFactoryTest extends TestCase
             ->method('getAccessToken')
             ->willReturn(null);
 
-        $this->expectExceptionObject(new MissingPimApiAccessTokenException('Missing Pim API access token.'));
+        $this->expectExceptionObject(new MissingPimApiAccessTokenException());
 
         ($this->pimApiClientFactory)();
     }
