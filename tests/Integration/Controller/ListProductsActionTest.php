@@ -67,7 +67,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client->request('GET', '/products');
 
         $this->assertEquals(
-            'https://marketplace.akeneo.com/extension/app-demo',
+            'https://marketplace.akeneo.com/extension/akeneo-demo-app',
             $client->getCrawler()->selectLink('Help')->attr('href')
         );
     }
