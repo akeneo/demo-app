@@ -13,7 +13,7 @@ page:
         connect:
             logo_alt: Akeneo app demo
             message: You reached the Akeneo app demo. Click on Connect and test our brand-new step-by-step activation process.
-            no_pim_url: Go to your PIM and click on Connect in the Marketplace page.
+            no_pim_url: Go to your PIM and click on Connect in the App Store page.
             button: Connect
         akeneo_solution:
             powered_by: Powered by
@@ -55,7 +55,7 @@ page:
         title: Error
         illustration_alt: Something went wrong
         error_title: Something went wrong
-        description: Please try to connect this App again on the PIM Marketplace
+        description: Please try to connect this App again on the PIM App Store
 
     error_404:
         title: Page not found

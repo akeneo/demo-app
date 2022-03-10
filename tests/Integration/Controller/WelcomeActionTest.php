@@ -27,7 +27,7 @@ class WelcomeActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([]);
         $client->request('GET', '/');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.connect-container__message', 'Go to your PIM and click on Connect in the Marketplace page.');
+        $this->assertSelectorTextContains('.connect-container__message', 'Go to your PIM and click on Connect in the App Store page.');
     }
 
     /**
