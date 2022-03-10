@@ -70,9 +70,10 @@ final class FetchProductsQuery
         $products = [];
 
         foreach ($rawProducts as $rawProduct) {
-            $rawFamily = $families[$rawProduct['family']];
+            $rawFamily = $families[$rawProduct['family']] ?? null;
+            $rawFamilyAttributeAsLabel = null !== $rawFamily ? $rawFamily['attribute_as_label'] : null;
 
-            $label = $this->findLabel($rawFamily['attribute_as_label'], $rawProduct, $locale, $scope);
+            $label = $this->findLabel($rawFamilyAttributeAsLabel, $rawProduct, $locale, $scope);
 
             $values = [];
 
@@ -136,9 +137,9 @@ final class FetchProductsQuery
     /**
      * @param RawProduct $product
      */
-    private function findLabel(string $attributeAsLabel, array $product, string $locale, ?string $scope): string
+    private function findLabel(?string $attributeAsLabel, array $product, string $locale, ?string $scope): string
     {
-        if (!isset($product['values'][$attributeAsLabel])) {
+        if (null === $attributeAsLabel || !isset($product['values'][$attributeAsLabel])) {
             return '['.$product['identifier'].']';
         }
 
