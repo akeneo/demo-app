@@ -15,8 +15,16 @@ make .env
 ```shell
 make up
 ```
-4) If you are running a PIM locally with docker, check that your `.env.local` file has this entry `AKENEO_PIM_URL=http://172.17.0.1:8080` (put your own port)
-5) In Akeneo PIM, create a new Test App from the connect/marketplace page and fill the form with your local demo app url exposed by docker (`http://172.17.0.1:8090`) :
+
+### Test the Demo App
+
+If you are running a PIM locally with docker, first, create a `.env.local` file in the PIM directory with the following values:
+```
+AKENEO_PIM_URL=http://172.17.0.1:8080
+FLAG_APP_DEVELOPER_MODE_ENABLED=1
+```
+Check our documentation: [How to test my App?](https://api.akeneo.com/apps/how-to-test-my-app.html)  
+And fill the form with the url `http://172.17.0.1:8090` exposed by docker:
 ![Test app creation form](documentation/creation-form-test-app.png)
 
 ### Useful commands
@@ -33,16 +41,4 @@ docker-compose run --rm app yarn watch # watch scss & js changes
 docker-compose run --rm app bin/console [cmd] # execute a symfony command
 docker-compose run --rm app composer [cmd] # execute a composer command
 docker-compose run --rm app yarn [cmd] # execute a yarn command
-```
-
-## Production
-
-build the docker image:
-```shell
-DOCKER_IMAGE_NAME=foo DOCKER_IMAGE_VERSION=latest make docker-image
-```
-
-launch apache+php on port 8080:
-```shell
-docker run -d -p 127.0.0.1:8080:8080/tcp foo:latest
 ```
