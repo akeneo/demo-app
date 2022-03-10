@@ -40,6 +40,10 @@ trait MockPimApiTrait
             'https://example.com/api/rest/v1/products/10661721',
         );
         $this->mockPimAPIResponse(
+            'get-product-empty.json',
+            'https://example.com/api/rest/v1/products/empty',
+        );
+        $this->mockPimAPIResponse(
             'get-family-accessories.json',
             'https://example.com/api/rest/v1/families/accessories',
         );

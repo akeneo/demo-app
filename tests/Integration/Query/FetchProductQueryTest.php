@@ -61,4 +61,17 @@ class FetchProductQueryTest extends AbstractIntegrationTest
 
         $this->assertEquals($expected, $result);
     }
+
+    /**
+     * @test
+     */
+    public function itFetchesAnEmptyProduct(): void
+    {
+        $query = static::getContainer()->get(FetchProductQuery::class);
+        $result = $query->fetch('empty', 'en_US');
+
+        $expected = new Product('empty', '[empty]', []);
+
+        $this->assertEquals($expected, $result);
+    }
 }
