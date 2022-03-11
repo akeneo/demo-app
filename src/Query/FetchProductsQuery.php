@@ -13,7 +13,8 @@ use App\PimApi\ProductValueDenormalizer;
 use Psr\Log\LoggerInterface;
 
 /**
- * @phpstan-type RawProduct array{identifier: string, family: string, values: array<string, array{array{locale: string|null, scope: string|null, data: mixed}}>}
+ * @phpstan-type RawProduct array{identifier: string, family: string|null, values: array<string, array{array{locale: string|null, scope: string|null, data: mixed}}>}
+ * @phpstan-type RawFamily array{code: string, attribute_as_label: string}
  */
 final class FetchProductsQuery
 {
@@ -70,10 +71,9 @@ final class FetchProductsQuery
         $products = [];
 
         foreach ($rawProducts as $rawProduct) {
-            $rawFamily = $families[$rawProduct['family']] ?? null;
-            $rawFamilyAttributeAsLabel = null !== $rawFamily ? $rawFamily['attribute_as_label'] : null;
+            $familyAttributeAsLabel = $this->findAttributeAsLabel($rawProduct, $families);
 
-            $label = $this->findLabel($rawFamilyAttributeAsLabel, $rawProduct, $locale, $scope);
+            $label = $this->findLabel($familyAttributeAsLabel, $rawProduct, $locale, $scope);
 
             $values = [];
 
@@ -86,14 +86,18 @@ final class FetchProductsQuery
     /**
      * @param array<RawProduct> $rawProducts
      *
-     * @return array<string, mixed>
+     * @return array<string, RawFamily>
      */
     private function fetchFamilies(array $rawProducts): array
     {
-        $familiesCodes = \array_unique(\array_map(
+        $familiesCodes = \array_filter(\array_unique(\array_map(
             fn (array $rawProduct) => $rawProduct['family'],
             $rawProducts,
-        ));
+        )));
+
+        if (empty($familiesCodes)) {
+            return [];
+        }
 
         $searchBuilder = new SearchBuilder();
         $searchBuilder->addFilter('code', Operator::IN, $familiesCodes);
@@ -150,5 +154,22 @@ final class FetchProductsQuery
         );
 
         return (string) ($label ?? '['.$product['identifier'].']');
+    }
+
+    /**
+     * @param RawProduct $product
+     * @param array<string, RawFamily> $families
+     */
+    private function findAttributeAsLabel(array $product, array $families): ?string
+    {
+        if (null === $product['family']) {
+            return null;
+        }
+
+        if (!isset($families[$product['family']])) {
+            return null;
+        }
+
+        return $families[$product['family']]['attribute_as_label'];
     }
 }

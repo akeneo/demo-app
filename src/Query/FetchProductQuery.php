@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Query;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use App\PimApi\Model\Product;
@@ -12,7 +13,8 @@ use App\PimApi\Model\ProductValue;
 use App\PimApi\ProductValueDenormalizer;
 
 /**
- * @phpstan-type RawProduct array{identifier: string, family: string, values: array<string, array{array{locale: string|null, scope: string|null, data: mixed}}>}
+ * @phpstan-type RawProduct array{identifier: string, family: string|null, values: array<string, array{array{locale: string|null, scope: string|null, data: mixed}}>}
+ * @phpstan-type RawFamily array{code: string, attribute_as_label: string}
  */
 final class FetchProductQuery
 {
@@ -27,13 +29,10 @@ final class FetchProductQuery
         /** @var RawProduct $rawProduct */
         $rawProduct = $this->pimApiClient->getProductApi()->get($identifier);
         $scope = $this->findFirstAvailableScope($rawProduct);
-
-        $familyIdentifier = $rawProduct['family'];
-        $rawFamily = $this->pimApiClient->getFamilyApi()->get($familyIdentifier);
-
+        $familyAttributeAsLabel = $this->findAttributeAsLabel($rawProduct);
         $attributes = $this->fetchAttributes($rawProduct);
 
-        $label = $this->findLabel($rawFamily['attribute_as_label'], $rawProduct, $locale, $scope);
+        $label = $this->findLabel($familyAttributeAsLabel, $rawProduct, $locale, $scope);
 
         $values = [];
 
@@ -73,6 +72,10 @@ final class FetchProductQuery
     private function fetchAttributes(array $rawProduct): array
     {
         $attributesCodes = \array_keys($rawProduct['values']);
+
+        if (empty($attributesCodes)) {
+            return [];
+        }
 
         $searchBuilder = new SearchBuilder();
         $searchBuilder->addFilter('code', Operator::IN, $attributesCodes);
@@ -116,9 +119,9 @@ final class FetchProductQuery
     /**
      * @param RawProduct $product
      */
-    private function findLabel(string $attributeAsLabel, array $product, string $locale, ?string $scope): string
+    private function findLabel(?string $attributeAsLabel, array $product, string $locale, ?string $scope): string
     {
-        if (!isset($product['values'][$attributeAsLabel])) {
+        if (null === $attributeAsLabel || !isset($product['values'][$attributeAsLabel])) {
             return '['.$product['identifier'].']';
         }
 
@@ -129,5 +132,24 @@ final class FetchProductQuery
         );
 
         return (string) ($label ?? '['.$product['identifier'].']');
+    }
+
+    /**
+     * @param RawProduct $product
+     */
+    private function findAttributeAsLabel(array $product): ?string
+    {
+        if (null === $product['family']) {
+            return null;
+        }
+
+        try {
+            /** @var RawFamily $rawFamily */
+            $rawFamily = $this->pimApiClient->getFamilyApi()->get($product['family']);
+        } catch (NotFoundHttpException $e) {
+            return null;
+        }
+
+        return $rawFamily['attribute_as_label'];
     }
 }
