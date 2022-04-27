@@ -37,9 +37,9 @@ final class WelcomeAction
         $session->set('pim_url', \rtrim((string) $pimUrl, '/'));
 
         $accessToken = $this->accessTokenSessionStorage->getAccessToken();
-        if (null !== $accessToken) {
-            return new RedirectResponse($this->router->generate('products'));
-        }
+//        if (null !== $accessToken) {
+//            return new RedirectResponse($this->router->generate('products'));
+//        }
 
         return new Response($this->twig->render('welcome.html.twig'));
     }

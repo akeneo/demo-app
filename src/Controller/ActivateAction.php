@@ -18,6 +18,7 @@ final class ActivateAction
         'read_attribute_options',
         'openid',
         'profile',
+        'email',
     ];
 
     public function __construct(

@@ -102,6 +102,8 @@ final class CallbackAction
             $userProfile = $this->getUserProfileFromTokenClaims($claims);
         }
 
+        dd($payload, $userProfile);
+
         return [
             'access_token' => (string) $payload['access_token'],
             'user_profile' => $userProfile,
@@ -144,10 +146,10 @@ final class CallbackAction
      */
     private function getUserProfileFromTokenClaims(array $tokenClaims): string
     {
-        if (!isset($tokenClaims['firstname'], $tokenClaims['lastname'])) {
-            throw new \LogicException('One or several user profile claims are missing');
-        }
+//        if (!isset($tokenClaims['firstname'], $tokenClaims['lastname'])) {
+//            throw new \LogicException('One or several user profile claims are missing');
+//        }
 
-        return $tokenClaims['firstname'].' '.$tokenClaims['lastname'];
+        return ($tokenClaims['firstname'] ?? '').' '.($tokenClaims['lastname'] ?? '');
     }
 }
