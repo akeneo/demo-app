@@ -39,7 +39,7 @@ include infra/terraform.mk
 .PHONY: up
 up:
 	$(MAKE) build
-	$(DOCKER_COMPOSE) up -d --remove-orphan
+	$(DOCKER_COMPOSE) up -d --remove-orphans
 	@echo "\e[30m\e[42m\n"
 	@echo " App is up and running at http://localhost:$(DOCKER_PORT_HTTP)"
 	@echo "\e[49m\e[39m\n"
@@ -55,11 +55,11 @@ build:
 
 .PHONY: down
 down:
-	$(DOCKER_COMPOSE) down --remove-orphan
+	$(DOCKER_COMPOSE) down --remove-orphans
 
 .PHONY: destroy
 destroy:
-	$(DOCKER_COMPOSE) down --remove-orphan --volumes --rmi local
+	$(DOCKER_COMPOSE) down --remove-orphans --volumes --rmi local
 
 ##
 ## Docker image for production
