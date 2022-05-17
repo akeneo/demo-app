@@ -47,7 +47,7 @@ class WelcomeActionTest extends AbstractIntegrationTest
     public function itThrowsAnExceptionWhenThePimUrlIsNotReachable(): void
     {
         $client = $this->initializeClientWithSession([]);
-        $client->request('GET', '/?pim_url=https://' . FakeDnsLookup::NON_EXISTENT_DOMAIN);
+        $client->request('GET', '/?pim_url=https://'.FakeDnsLookup::NON_EXISTENT_DOMAIN);
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
     }
 
