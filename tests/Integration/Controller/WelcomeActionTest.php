@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Controller;
 
 use App\Tests\Integration\AbstractIntegrationTest;
+use App\Tests\Mock\FakeDnsLookup;
 use Symfony\Component\HttpFoundation\Response;
 
 class WelcomeActionTest extends AbstractIntegrationTest
@@ -37,6 +38,16 @@ class WelcomeActionTest extends AbstractIntegrationTest
     {
         $client = $this->initializeClientWithSession([]);
         $client->request('GET', '/?pim_url=INVALID_URL');
+        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function itThrowsAnExceptionWhenThePimUrlIsNotReachable(): void
+    {
+        $client = $this->initializeClientWithSession([]);
+        $client->request('GET', '/?pim_url=https://' . FakeDnsLookup::NON_EXISTENT_DOMAIN);
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
     }
 

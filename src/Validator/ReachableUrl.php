@@ -6,7 +6,10 @@ namespace App\Validator;
 
 use Symfony\Component\Validator\Constraint;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class ReachableUrl extends Constraint
 {
-    public $message = 'The url should be reachable.';
+    public string $message = 'The url should be reachable.';
 }

@@ -4,13 +4,26 @@ declare(strict_types=1);
 
 namespace App\Validator;
 
+use App\Service\DnsLookupInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class ReachableUrlValidator extends ConstraintValidator
 {
+    public function __construct(private DnsLookupInterface $dnsLookup)
+    {
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @return void
+     */
     public function validate($value, Constraint $constraint)
     {
         if (!$constraint instanceof ReachableUrl) {
@@ -30,12 +43,11 @@ class ReachableUrlValidator extends ConstraintValidator
         }
 
         $host = \parse_url($value, \PHP_URL_HOST);
-        if (empty($host) || false === \is_string($host)) {
+        if (empty($host)) {
             return;
         }
 
-        $ip = \gethostbyname($host);
-        if (false === \filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4 | \FILTER_FLAG_IPV6)) {
+        if (null === $this->dnsLookup->ip($host)) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }
     }
