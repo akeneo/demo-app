@@ -58,9 +58,9 @@ page:
         description: Please try to connect this App again on the PIM App Store
 
     error_400:
-        title: Error 400 Bad request
-        illustration_alt: Error 400 Bad request
-        error_title: Error 400 Bad request
+        title: Bad request
+        illustration_alt: Bad request
+        error_title: Bad request
 
     error_404:
         title: Page not found
