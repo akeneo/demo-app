@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\EventListener;
 
+use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use App\EventListener\AccessDeniedExceptionEventSubscriber;
 use App\Storage\AccessTokenStorageInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -26,6 +28,8 @@ class AccessDeniedExceptionEventSubscriberTest extends TestCase
     private AccessTokenStorageInterface|MockObject $accessTokenStorage;
     private RouterInterface|MockObject $router;
     private LoggerInterface|MockObject $logger;
+    private RequestInterface|MockObject $request;
+    private ResponseInterface|MockObject $response;
 
     protected function setUp(): void
     {
@@ -38,6 +42,14 @@ class AccessDeniedExceptionEventSubscriberTest extends TestCase
             ->getMock();
 
         $this->logger = $this->getMockBuilder(LoggerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->request = $this->getMockBuilder(RequestInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->response = $this->getMockBuilder(ResponseInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -85,7 +97,12 @@ class AccessDeniedExceptionEventSubscriberTest extends TestCase
         $this->accessTokenStorage->expects($this->once())->method('clear');
         $this->router->method('generate')->willReturn('welcome_url');
 
-        $event = new ExceptionEvent($this->kernel, new Request(), HttpKernelInterface::MAIN_REQUEST, new AccessDeniedHttpException());
+        $event = new ExceptionEvent(
+            $this->kernel,
+            new Request(),
+            HttpKernelInterface::MAIN_REQUEST,
+            new UnauthorizedHttpException('message', $this->request, $this->response)
+        );
 
         $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber($this->subscriber);
