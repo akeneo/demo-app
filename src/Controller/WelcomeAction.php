@@ -8,6 +8,7 @@ use App\Storage\AccessTokenSessionStorage;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment as TwigEnvironment;
@@ -31,7 +32,7 @@ final class WelcomeAction
             return new Response($this->twig->render('welcome.html.twig'));
         }
         if (false === \filter_var($pimUrl, FILTER_VALIDATE_URL)) {
-            throw new \LogicException('PIM url is not valid.');
+            throw new BadRequestHttpException('PIM url is not valid.');
         }
 
         $session->set('pim_url', \rtrim((string) $pimUrl, '/'));
