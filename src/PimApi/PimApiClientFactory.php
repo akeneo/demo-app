@@ -36,11 +36,6 @@ class PimApiClientFactory
         $clientBuilder = new AkeneoPimClientBuilder($pimURL);
         $clientBuilder->setHttpClient($this->httpClient);
 
-        return $clientBuilder->buildAuthenticatedByToken(
-            '',
-            '',
-            $accessToken,
-            ''
-        );
+        return $clientBuilder->buildAuthenticatedByAppToken($accessToken);
     }
 }
