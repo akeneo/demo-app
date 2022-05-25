@@ -90,7 +90,7 @@ class ShowProductActionTest extends AbstractIntegrationTest
             'POST',
             'https://example.com/api/oauth/v1/token',
             [],
-            new MockResponse('', ['http_code' => 400])
+            new MockResponse('', ['http_code' => 401])
         );
 
         $client->request('GET', '/products/wrong_identifier_1234');
