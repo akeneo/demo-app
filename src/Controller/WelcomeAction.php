@@ -9,6 +9,7 @@ use App\Validator\ReachableUrl;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -36,7 +37,7 @@ final class WelcomeAction
 
         $violations = $this->validator->validate($pimUrl, new ReachableUrl());
         if ($violations->count() > 0) {
-            throw new \LogicException('PIM url is not valid.');
+            throw new BadRequestHttpException('PIM url is not valid.');
         }
 
         $session->set('pim_url', \rtrim((string) $pimUrl, '/'));

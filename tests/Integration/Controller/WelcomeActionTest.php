@@ -38,7 +38,7 @@ class WelcomeActionTest extends AbstractIntegrationTest
     {
         $client = $this->initializeClientWithSession([]);
         $client->request('GET', '/?pim_url=INVALID_URL');
-        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
     }
 
     /**

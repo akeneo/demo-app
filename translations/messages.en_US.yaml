@@ -57,6 +57,11 @@ page:
         error_title: Something went wrong
         description: Please try to connect this App again on the PIM App Store
 
+    error_400:
+        title: Bad request
+        illustration_alt: Bad request
+        error_title: Bad request
+
     error_404:
         title: Page not found
         illustration_alt: Page not found
