@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RouterInterface;
 
-class AccessDeniedExceptionEventSubscriber implements EventSubscriberInterface
+class UnauthorizedHttpExceptionEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private AccessTokenStorageInterface $accessTokenStorage,
@@ -36,7 +36,7 @@ class AccessDeniedExceptionEventSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $this->logger->warning('An access denied error was detected, destroy the session.');
+        $this->logger->warning('An unauthorized error was detected, destroy the session.');
 
         $this->accessTokenStorage->clear();
 
