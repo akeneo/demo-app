@@ -11,3 +11,6 @@ services:
 
     test.App\Storage\AccessTokenSessionStorage: '@App\Storage\AccessTokenSessionStorage'
     test.App\Storage\PimURLStorageInterface: '@App\Storage\PimURLStorageInterface'
+
+    App\Service\DnsLookupInterface:
+        class: 'App\Tests\Mock\FakeDnsLookup'
