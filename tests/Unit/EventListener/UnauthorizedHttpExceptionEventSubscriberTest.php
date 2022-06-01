@@ -4,28 +4,32 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\EventListener;
 
-use App\EventListener\AccessDeniedExceptionEventSubscriber;
+use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
+use App\EventListener\UnauthorizedHttpExceptionEventSubscriber;
 use App\Storage\AccessTokenStorageInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-class AccessDeniedExceptionEventSubscriberTest extends TestCase
+class UnauthorizedHttpExceptionEventSubscriberTest extends TestCase
 {
     private KernelInterface $kernel;
-    private ?AccessDeniedExceptionEventSubscriber $subscriber;
+    private ?UnauthorizedHttpExceptionEventSubscriber $subscriber;
     private AccessTokenStorageInterface|MockObject $accessTokenStorage;
     private RouterInterface|MockObject $router;
     private LoggerInterface|MockObject $logger;
+    private RequestInterface|MockObject $request;
+    private ResponseInterface|MockObject $response;
 
     protected function setUp(): void
     {
@@ -41,9 +45,17 @@ class AccessDeniedExceptionEventSubscriberTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->request = $this->getMockBuilder(RequestInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->response = $this->getMockBuilder(ResponseInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->kernel = $this->getMockBuilder(KernelInterface::class)->getMock();
 
-        $this->subscriber = new AccessDeniedExceptionEventSubscriber(
+        $this->subscriber = new UnauthorizedHttpExceptionEventSubscriber(
             $this->accessTokenStorage,
             $this->router,
             $this->logger,
@@ -60,7 +72,7 @@ class AccessDeniedExceptionEventSubscriberTest extends TestCase
      */
     public function itIsSubscribedToKernelExceptionEvent(): void
     {
-        $this->assertArrayHasKey(KernelEvents::EXCEPTION, AccessDeniedExceptionEventSubscriber::getSubscribedEvents());
+        $this->assertArrayHasKey(KernelEvents::EXCEPTION, UnauthorizedHttpExceptionEventSubscriber::getSubscribedEvents());
     }
 
     /**
@@ -85,7 +97,12 @@ class AccessDeniedExceptionEventSubscriberTest extends TestCase
         $this->accessTokenStorage->expects($this->once())->method('clear');
         $this->router->method('generate')->willReturn('welcome_url');
 
-        $event = new ExceptionEvent($this->kernel, new Request(), HttpKernelInterface::MAIN_REQUEST, new AccessDeniedHttpException());
+        $event = new ExceptionEvent(
+            $this->kernel,
+            new Request(),
+            HttpKernelInterface::MAIN_REQUEST,
+            new UnauthorizedHttpException('message', $this->request, $this->response)
+        );
 
         $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber($this->subscriber);

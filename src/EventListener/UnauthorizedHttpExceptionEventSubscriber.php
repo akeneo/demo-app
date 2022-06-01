@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
+use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use App\Storage\AccessTokenStorageInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RouterInterface;
 
-class AccessDeniedExceptionEventSubscriber implements EventSubscriberInterface
+class UnauthorizedHttpExceptionEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private AccessTokenStorageInterface $accessTokenStorage,
@@ -32,11 +32,11 @@ class AccessDeniedExceptionEventSubscriber implements EventSubscriberInterface
     public function onException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-        if (!$exception instanceof AccessDeniedHttpException) {
+        if (!$exception instanceof UnauthorizedHttpException) {
             return;
         }
 
-        $this->logger->warning('An access denied error was detected, destroy the session.');
+        $this->logger->warning('An unauthorized error was detected, destroy the session.');
 
         $this->accessTokenStorage->clear();
 

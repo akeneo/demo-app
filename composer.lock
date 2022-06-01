@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "586c1a9fc1ebe31fec7c1a98e44306fa",
+    "content-hash": "a2053d09bdef5d264027bf91f6acdac2",
     "packages": [
         {
             "name": "akeneo/api-php-client",
-            "version": "v6.0.1",
+            "version": "v9.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/akeneo/api-php-client.git",
-                "reference": "df372b6d24059546d3bfbac448d51d1615ea29c4"
+                "reference": "9d1160b89969ae142a5b23670ff2d78904951296"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/akeneo/api-php-client/zipball/df372b6d24059546d3bfbac448d51d1615ea29c4",
-                "reference": "df372b6d24059546d3bfbac448d51d1615ea29c4",
+                "url": "https://api.github.com/repos/akeneo/api-php-client/zipball/9d1160b89969ae142a5b23670ff2d78904951296",
+                "reference": "9d1160b89969ae142a5b23670ff2d78904951296",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1",
+                "php": ">=7.4",
                 "php-http/discovery": "^1.6",
                 "php-http/httplug": "^2.0",
                 "php-http/multipart-stream-builder": "^1.0",
@@ -32,10 +32,10 @@
             },
             "require-dev": {
                 "donatj/mock-webserver": "^2.0",
-                "friendsofphp/php-cs-fixer": "^2.14",
+                "friendsofphp/php-cs-fixer": "^3.5",
                 "http-interop/http-factory-guzzle": "^1.0",
                 "php-http/guzzle6-adapter": "^2.0",
-                "phpspec/phpspec": "^5.0",
+                "phpspec/phpspec": "^7.1",
                 "phpunit/phpunit": "^7.0",
                 "symfony/yaml": "^4.2"
             },
@@ -61,9 +61,9 @@
             "description": "Akeneo PIM client for the API",
             "support": {
                 "issues": "https://github.com/akeneo/api-php-client/issues",
-                "source": "https://github.com/akeneo/api-php-client/tree/v6.0.1"
+                "source": "https://github.com/akeneo/api-php-client/tree/v9.0.0"
             },
-            "time": "2021-10-11T07:20:45+00:00"
+            "time": "2022-05-09T15:48:27+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -10236,5 +10236,5 @@
         "ext-openssl": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

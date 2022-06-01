@@ -9,7 +9,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "ext-openssl": "*",
-        "akeneo/api-php-client": "^6.0",
+        "akeneo/api-php-client": "9.0.0",
         "doctrine/annotations": "^1.13",
         "lcobucci/jwt": "^4.1",
         "nyholm/psr7": "^1.5",
