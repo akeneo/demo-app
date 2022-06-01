@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Storage\AccessTokenSessionStorage;
+use App\Validator\ReachableUrl;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment as TwigEnvironment;
 
 final class WelcomeAction
@@ -19,6 +21,7 @@ final class WelcomeAction
         private TwigEnvironment $twig,
         private RouterInterface $router,
         private AccessTokenSessionStorage $accessTokenSessionStorage,
+        private ValidatorInterface $validator,
     ) {
     }
 
@@ -31,7 +34,9 @@ final class WelcomeAction
         if (empty($pimUrl)) {
             return new Response($this->twig->render('welcome.html.twig'));
         }
-        if (false === \filter_var($pimUrl, FILTER_VALIDATE_URL)) {
+
+        $violations = $this->validator->validate($pimUrl, new ReachableUrl());
+        if ($violations->count() > 0) {
             throw new BadRequestHttpException('PIM url is not valid.');
         }
 
