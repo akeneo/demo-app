@@ -54,6 +54,11 @@
                          alt="{{ 'page.error.illustration_alt' | trans }}">
                     <h3 class="no-products__title">{{ 'page.products.no-products.title' | trans }}</h3>
                     <p class="no-products__description">{{ 'page.products.no-products.description' | trans }}</p>
+                    <a href="{{ app.session.get('pim_url') }}/connect/apps/v1/catalogs/{{ catalog.id }}"
+                       target="_blank"
+                       class="no-products__catalog-button">
+                        {{ 'page.products.no-products.catalog-button' | trans }}
+                    </a>
                 </section>
             {% endfor %}
         </div>

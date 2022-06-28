@@ -96,6 +96,18 @@
       font-weight: normal;
       color: variables.$color-grey-120;
     }
+
+    &__catalog-button {
+      background-color: variables.$color-demo-blue;
+      color: white;
+      border-radius: 19px;
+      padding: 8px 15px;
+      text-decoration: none;
+      text-transform: uppercase;
+      text-align: center;
+      margin-top: 20px;
+      display: inline-block;
+    }
   }
 
   .product-card {
