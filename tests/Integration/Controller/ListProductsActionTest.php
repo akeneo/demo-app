@@ -30,6 +30,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
+            'akeneo_pim_catalog_id' => 'catalog_store_us_id',
         ]);
 
         $client->request('GET', '/products');
@@ -47,6 +48,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token_123456',
+            'akeneo_pim_catalog_id' => 'catalog_store_us_id',
         ]);
 
         $client->request('GET', '/products');
@@ -62,6 +64,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token_123456',
+            'akeneo_pim_catalog_id' => 'catalog_store_us_id',
         ]);
 
         $client->request('GET', '/products');
@@ -70,5 +73,25 @@ class ListProductsActionTest extends AbstractIntegrationTest
             'https://marketplace.akeneo.com/extension/akeneo-demo-app',
             $client->getCrawler()->selectLink('Help')->attr('href')
         );
+    }
+
+    /**
+     * @test
+     */
+    public function itDisplaysAnEmptyListWithALinkForCatalogConfiguration(): void
+    {
+        $catalogConfigurationUrl = 'https://example.com/connect/apps/v1/catalogs/catalog_store_fr_id';
+        $client = $this->initializeClientWithSession([
+            'pim_url' => 'https://example.com',
+            'akeneo_pim_access_token' => 'random_access_token',
+            'akeneo_pim_catalog_id' => 'catalog_store_fr_id',
+        ]);
+
+        $client->request('GET', '/products');
+        $this->assertResponseIsSuccessful();
+
+        $this->assertSelectorTextContains('.current-locale', '🇺🇸 English (United States)');
+        $this->assertCount(0, $client->getCrawler()->filter('.product-card'));
+        $this->assertEquals($catalogConfigurationUrl, $client->getCrawler()->selectLink('Configure catalog')->attr('href'));
     }
 }
