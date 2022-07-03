@@ -20,7 +20,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $this->mockDefaultPimAPIResponses();
         $this->mockPimAPIResponse(
             'get-products-scanners.json',
-            'https://example.com/api/rest/v1/products?search=%7B%22enabled%22%3A%5B%7B%22operator%22%3A%22%3D%22%2C%22value%22%3Atrue%7D%5D%7D&locales=en_US&limit=10&with_count=false',
+            'https://example.com/api/rest/v1/products?search=%7B%22identifier%22%3A%5B%7B%22operator%22%3A%22IN%22%2C%22value%22%3A%5B%221004114%22%2C%2210649473%22%2C%2210655295%22%2C%2210655470%22%2C%2210661721%22%2C%221211614%22%2C%2212239052%22%2C%2212239064%22%2C%2212249736%22%2C%2212249740%22%5D%7D%5D%7D&locales=en_US&limit=10&with_count=false',
         );
     }
 

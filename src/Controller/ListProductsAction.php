@@ -32,9 +32,13 @@ final class ListProductsAction
     {
         $catalog = $this->getDefaultCatalog();
         $locale = $this->guessCurrentLocaleQuery->guess();
-        $products = $catalog->enabled
-            ? $this->fetchProductsQuery->fetch($locale)
-            : [];
+
+        if ($catalog->enabled) {
+            $productsIdentifiers = $this->catalogApiClient->getProductIdentifiers($catalog->id);
+            $products = $this->fetchProductsQuery->fetch($locale, array_slice($productsIdentifiers, 0, 10));
+        } else {
+            $products = [];
+        }
 
         return new Response(
             $this->twig->render('products.html.twig', [

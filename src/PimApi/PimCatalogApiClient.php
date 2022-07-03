@@ -28,7 +28,7 @@ class PimCatalogApiClient
     {
         $pimUrl = $this->pimURLStorage->getPimURL();
 
-        $catalogEndpointUrl = $pimUrl.'/api/rest/v1/catalogs/'.$catalogId;
+        $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId";
 
         $response = $this->client->request('GET', $catalogEndpointUrl)->toArray();
 
@@ -37,5 +37,19 @@ class PimCatalogApiClient
             $response['name'],
             $response['enabled'],
         );
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getProductIdentifiers(string $catalogId): array
+    {
+        $pimUrl = $this->pimURLStorage->getPimURL();
+
+        $catalogIdentifierEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/product-identifiers";
+
+        $response = $this->client->request('GET', $catalogIdentifierEndpointUrl)->toArray();
+
+        return $response['_embedded']['items'];
     }
 }

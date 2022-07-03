@@ -1,0 +1,28 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://example.com/api/rest/v1/catalogs/catalog_store_us_id/product-identifierspage=1&with_count=false&pagination_type=page&limit=13"
+    },
+    "first": {
+      "href": "https://example.com/api/rest/v1/catalogs/catalog_store_us_id/product-identifierspage=1&with_count=false&pagination_type=page&limit=13"
+    }
+  },
+  "current_page": 1,
+  "_embedded": {
+    "items": [
+      "1004114",
+      "10649473",
+      "10655295",
+      "10655470",
+      "10661721",
+      "1211614",
+      "12239052",
+      "12239064",
+      "12249736",
+      "12249740",
+      "12249741",
+      "12249742",
+      "12249743"
+    ]
+  }
+}

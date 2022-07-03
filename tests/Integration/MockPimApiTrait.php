@@ -143,5 +143,17 @@ trait MockPimApiTrait
             'get-catalogs-store-us.json',
             'https://example.com/api/rest/v1/catalogs/catalog_store_us_id',
         );
+        $this->mockPimAPIResponse(
+            'get-catalogs-product-identifiers-store-us.json',
+            'https://example.com/api/rest/v1/catalogs/catalog_store_us_id/product-identifiers',
+        );
+        $this->mockPimAPIResponse(
+            'get-catalogs-product-identifiers-store-us.json',
+            'https://example.com/api/rest/v1/catalogs/catalog_store_us_id/product-identifiers',
+        );
+        $this->mockPimAPIResponse(
+            'get-products-in-identifiers.json',
+            'https://example.com/api/rest/v1/products?search=%7B%22identifier%22%3A%5B%7B%22operator%22%3A%22IN%22%2C%22value%22%3A%5B%221004114%22%2C%2210649473%22%2C%2210655295%22%5D%7D%5D%7D&locales=en_US&limit=10&with_count=false',
+        );
     }
 }
