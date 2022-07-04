@@ -42,13 +42,15 @@ class PimCatalogApiClient
     /**
      * @return array<string>
      */
-    public function getProductIdentifiers(string $catalogId): array
+    public function getProductIdentifiers(string $catalogId, int $limit = 100): array
     {
         $pimUrl = $this->pimURLStorage->getPimURL();
 
         $catalogIdentifierEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/product-identifiers";
 
-        $response = $this->client->request('GET', $catalogIdentifierEndpointUrl)->toArray();
+        $response = $this->client->request('GET', $catalogIdentifierEndpointUrl, [
+            'query' => ['limit' => $limit],
+        ])->toArray();
 
         return $response['_embedded']['items'];
     }

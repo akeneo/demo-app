@@ -34,8 +34,8 @@ final class ListProductsAction
         $locale = $this->guessCurrentLocaleQuery->guess();
 
         if ($catalog->enabled) {
-            $productsIdentifiers = $this->catalogApiClient->getProductIdentifiers($catalog->id);
-            $products = $this->fetchProductsQuery->fetch($locale, array_slice($productsIdentifiers, 0, 10));
+            $productsIdentifiers = $this->catalogApiClient->getProductIdentifiers($catalog->id, 10);
+            $products = $this->fetchProductsQuery->fetch($locale, $productsIdentifiers);
         } else {
             $products = [];
         }
