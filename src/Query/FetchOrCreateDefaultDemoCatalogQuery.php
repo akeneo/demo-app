@@ -2,36 +2,31 @@
 
 declare(strict_types=1);
 
-namespace App\PimApi;
+namespace App\Query;
 
-use App\Storage\CatalogIdStorageInterface;
+use App\Storage\AccessTokenStorageInterface;
 use App\Storage\PimURLStorageInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class FetchOrCreateAppCatalogHandler
+class FetchOrCreateDefaultDemoCatalogQuery
 {
     public function __construct(
         private readonly HttpClientInterface $client,
         private readonly PimURLStorageInterface $pimURLStorage,
-        private readonly CatalogIdStorageInterface $catalogIdStorage,
+        private readonly AccessTokenStorageInterface $accessTokenStorage
     ) {
     }
 
-    public function execute(string $accessToken): void
+    public function fetch(): string
     {
         $pimUrl = $this->getPimUrl();
 
-        $catalogId = $this->catalogIdStorage->getCatalogId();
-        if (null !== $catalogId) {
-            return;
-        }
-
-        $catalogId = $this->fetchAnyExistingCatalogId($pimUrl, $accessToken);
+        $catalogId = $this->fetchAnyExistingCatalogId($pimUrl);
         if (null === $catalogId) {
-            $catalogId = $this->createAppCatalog($pimUrl, $accessToken);
+            $catalogId = $this->createAppCatalog($pimUrl);
         }
 
-        $this->catalogIdStorage->setCatalogId($catalogId);
+        return $catalogId;
     }
 
     private function getPimUrl(): string
@@ -44,8 +39,9 @@ class FetchOrCreateAppCatalogHandler
         return $pimUrl;
     }
 
-    private function fetchAnyExistingCatalogId(string $pimUrl, string $accessToken): ?string
+    private function fetchAnyExistingCatalogId(string $pimUrl): ?string
     {
+        $accessToken = $this->getAccessToken();
         $catalogEndpointUrl = $pimUrl.'/api/rest/v1/catalogs';
         $response = $this->client->request('GET', $catalogEndpointUrl, [
             'headers' => [
@@ -59,8 +55,9 @@ class FetchOrCreateAppCatalogHandler
         return empty($catalogList) ? null : $catalogList[0]['id'];
     }
 
-    private function createAppCatalog(string $pimUrl, string $accessToken): string
+    private function createAppCatalog(string $pimUrl): string
     {
+        $accessToken = $this->getAccessToken();
         $catalogEndpointUrl = $pimUrl.'/api/rest/v1/catalogs';
         $catalogPayload = [
             'name' => 'Demo App catalog',
@@ -75,5 +72,15 @@ class FetchOrCreateAppCatalogHandler
         ])->toArray();
 
         return $response['id'];
+    }
+
+    private function getAccessToken(): string
+    {
+        $accessToken = $this->accessTokenStorage->getAccessToken();
+        if (null === $accessToken) {
+            throw new \LogicException('Can\'t retrieve access token, please restart the authorization process.');
+        }
+
+        return $accessToken;
     }
 }
