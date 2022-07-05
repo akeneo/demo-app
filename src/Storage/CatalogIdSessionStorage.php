@@ -19,7 +19,7 @@ class CatalogIdSessionStorage implements CatalogIdStorageInterface
     private const CATALOG_ID_SESSION_KEY = 'akeneo_pim_catalog_id';
 
     public function __construct(
-        private RequestStack $requestStack,
+        private readonly RequestStack $requestStack,
     ) {
     }
 

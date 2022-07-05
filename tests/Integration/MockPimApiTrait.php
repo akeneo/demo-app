@@ -132,6 +132,10 @@ trait MockPimApiTrait
             'https://example.com/api/rest/v1/attributes/tag/options?limit=100&with_count=false',
         );
         $this->mockPimAPIResponse(
+            'get-catalogs.json',
+            'https://example.com/api/rest/v1/catalogs',
+        );
+        $this->mockPimAPIResponse(
             'get-catalogs-store-fr.json',
             'https://example.com/api/rest/v1/catalogs/catalog_store_fr_id',
         );

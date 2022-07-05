@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\PimApi\FetchOrCreateAppCatalogHandler;
 use App\Storage\AccessTokenStorageInterface;
-use App\Storage\CatalogIdStorageInterface;
 use App\Storage\UserProfileStorageInterface;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
@@ -28,7 +28,7 @@ final class CallbackAction
         private HttpClientInterface $client,
         private AccessTokenStorageInterface $accessTokenStorage,
         private UserProfileStorageInterface $userProfileStorage,
-        private CatalogIdStorageInterface $catalogIdStorage,
+        private FetchOrCreateAppCatalogHandler $fetchOrCreateAppCatalogHandler,
         private RouterInterface $router,
     ) {
     }
@@ -61,8 +61,7 @@ final class CallbackAction
             $this->userProfileStorage->setUserProfile($userProfile);
         }
 
-        $catalogId = $this->createDemoCatalog($pimUrl, $accessToken);
-        $this->catalogIdStorage->setCatalogId($catalogId);
+        $this->fetchOrCreateAppCatalogHandler->execute($accessToken);
 
         return new RedirectResponse($this->router->generate('products'));
     }
@@ -154,23 +153,5 @@ final class CallbackAction
         }
 
         return $tokenClaims['firstname'].' '.$tokenClaims['lastname'];
-    }
-
-    private function createDemoCatalog(string $pimUrl, string $accessToken): string
-    {
-        $catalogEndpointUrl = $pimUrl.'/api/rest/v1/catalogs';
-        $catalogPayload = [
-            'name' => 'Demo App catalog',
-        ];
-
-        $response = $this->client->request('POST', $catalogEndpointUrl, [
-            'headers' => [
-                'Content-type' => 'application/json',
-                'Authorization' => 'Bearer '.$accessToken,
-            ],
-            'json' => $catalogPayload,
-        ])->toArray();
-
-        return $response['id'];
     }
 }
