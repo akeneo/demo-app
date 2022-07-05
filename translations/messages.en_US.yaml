@@ -35,7 +35,7 @@ page:
             content: Our app demo only displays products you chose to share with us. For now, we don't synchronize product images, but you can click on a product to consult other product data.
         no-products:
             title: No products for the moment
-            description: Please configure the Demo App catalog in your PIM then refresh this page to see up to 10 products from your product selection.
+            description: Please configure the Demo App catalog in your PIM then refresh this page to see the first 10 products of your product selection.
             catalog-button: Configure catalog
 
     product:
