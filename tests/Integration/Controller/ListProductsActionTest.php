@@ -6,6 +6,8 @@ namespace App\Tests\Integration\Controller;
 
 use App\Tests\Integration\AbstractIntegrationTest;
 use App\Tests\Integration\MockPimApiTrait;
+use Symfony\Component\HttpClient\Response\MockResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class ListProductsActionTest extends AbstractIntegrationTest
 {
@@ -93,5 +95,47 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $this->assertSelectorTextContains('.current-locale', '🇺🇸 English (United States)');
         $this->assertCount(0, $client->getCrawler()->filter('.product-card'));
         $this->assertEquals($catalogConfigurationUrl, $client->getCrawler()->selectLink('Configure catalog')->attr('href'));
+    }
+
+    /**
+     * @test
+     */
+    public function itRedirectsToActivateWhenCatalogIsNotInSession(): void
+    {
+        $client = $this->initializeClientWithSession([
+            'pim_url' => 'https://example.com',
+            'akeneo_pim_access_token' => 'random_access_token',
+        ]);
+
+        $client->request('GET', '/products');
+
+        $this->assertResponseRedirects('/authorization/activate', Response::HTTP_FOUND);
+
+        $this->assertNull($client->getRequest()->getSession()->get('akeneo_pim_catalog_id'));
+    }
+
+    /**
+     * @test
+     */
+    public function itRedirectsToActivateWhenCatalogIsNotFound(): void
+    {
+        $this->mockHttpResponse(
+            'GET',
+            'https://example.com/api/rest/v1/catalogs/catalog_store_fr_id',
+            [],
+            new MockResponse('', ['http_code' => 404])
+        );
+
+        $client = $this->initializeClientWithSession([
+            'pim_url' => 'https://example.com',
+            'akeneo_pim_access_token' => 'random_access_token',
+            'akeneo_pim_catalog_id' => 'catalog_store_fr_id',
+        ]);
+
+        $client->request('GET', '/products');
+
+        $this->assertResponseRedirects('/authorization/activate', Response::HTTP_FOUND);
+
+        $this->assertNull($client->getRequest()->getSession()->get('akeneo_pim_catalog_id'));
     }
 }

@@ -78,4 +78,17 @@ class CatalogIdSessionStorageTest extends TestCase
 
         $this->catalogIdSessionStorage?->setCatalogId('NEW_CATALOG_ID');
     }
+
+    /**
+     * @test
+     */
+    public function itClearsCatalogIdFromTheSession(): void
+    {
+        $this->session
+            ->expects($this->once())
+            ->method('remove')
+            ->with('akeneo_pim_catalog_id');
+
+        $this->catalogIdSessionStorage?->clear();
+    }
 }

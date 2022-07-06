@@ -32,4 +32,9 @@ class CatalogIdSessionStorage implements CatalogIdStorageInterface
     {
         $this->requestStack->getSession()->set(self::CATALOG_ID_SESSION_KEY, $catalogId);
     }
+
+    public function clear(): void
+    {
+        $this->requestStack->getSession()->remove(self::CATALOG_ID_SESSION_KEY);
+    }
 }
