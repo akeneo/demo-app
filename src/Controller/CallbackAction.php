@@ -63,11 +63,8 @@ final class CallbackAction
             $this->userProfileStorage->setUserProfile($userProfile);
         }
 
-        $catalogId = $this->catalogIdStorage->getCatalogId();
-        if (null === $catalogId) {
-            $catalogId = $this->fetchOrCreateDefaultDemoCatalogQuery->fetch();
-            $this->catalogIdStorage->setCatalogId($catalogId);
-        }
+        $catalogId = $this->fetchOrCreateDefaultDemoCatalogQuery->fetch();
+        $this->catalogIdStorage->setCatalogId($catalogId);
 
         return new RedirectResponse($this->router->generate('products'));
     }

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Exception\CatalogNotFoundException;
 use App\PimApi\Model\Catalog;
 use App\PimApi\PimCatalogApiClient;
 use App\Query\FetchProductsQuery;
 use App\Query\GuessCurrentLocaleQuery;
 use App\Storage\CatalogIdStorageInterface;
+use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,9 +49,15 @@ final class ListProductsAction
     {
         $catalogId = $this->catalogIdStorage->getCatalogId();
         if (null === $catalogId) {
-            throw new \LogicException('Catalog Id should exist');
+            throw new CatalogNotFoundException('Catalog Id should exist');
         }
 
-        return $this->catalogApiClient->getCatalog($catalogId);
+        try {
+            $catalog = $this->catalogApiClient->getCatalog($catalogId);
+        } catch (ClientException) {
+            throw new CatalogNotFoundException();
+        }
+
+        return $catalog;
     }
 }

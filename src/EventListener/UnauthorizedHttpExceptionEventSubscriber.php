@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
+use App\Exception\CatalogNotFoundException;
 use App\Storage\AccessTokenStorageInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -32,7 +33,7 @@ class UnauthorizedHttpExceptionEventSubscriber implements EventSubscriberInterfa
     public function onException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-        if (!$exception instanceof UnauthorizedHttpException) {
+        if (!($exception instanceof UnauthorizedHttpException || $exception instanceof CatalogNotFoundException)) {
             return;
         }
 

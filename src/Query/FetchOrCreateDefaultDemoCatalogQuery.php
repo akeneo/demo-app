@@ -8,7 +8,7 @@ use App\Storage\AccessTokenStorageInterface;
 use App\Storage\PimURLStorageInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class FetchOrCreateDefaultDemoCatalogQuery
+final class FetchOrCreateDefaultDemoCatalogQuery
 {
     public function __construct(
         private readonly HttpClientInterface $client,
