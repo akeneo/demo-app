@@ -1,0 +1,260 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://example.com/api/rest/v1/products?page=1&with_count=false&pagination_type=page&limit=10&search=%7B%22identifier%22%3A%5B%7B%22operator%22%3A%22IN%22%2C%22value%22%3A%5B%221004114%22%2C%2210649473%22%2C%2210655295%22%5D%7D%5D%7D&locales=en_US"
+    },
+    "first": {
+      "href": "https://example.com/api/rest/v1/products?page=1&with_count=false&pagination_type=page&limit=10&search=%7B%22identifier%22%3A%5B%7B%22operator%22%3A%22IN%22%2C%22value%22%3A%5B%221004114%22%2C%2210649473%22%2C%2210655295%22%5D%7D%5D%7D&locales=en_US"
+    }
+  },
+  "current_page": 1,
+  "_embedded": {
+    "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/products/1004114"
+          }
+        },
+        "identifier": "1004114",
+        "enabled": true,
+        "family": "scanners",
+        "categories": [
+          "kodak",
+          "print_scan_sales",
+          "scanners"
+        ],
+        "groups": [],
+        "parent": null,
+        "values": {
+          "picture": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "2/6/8/c/268c277ec016b8be9a29890d95dc7af2923292df_1004114_4416.jpg",
+              "_links": {
+                "download": {
+                  "href": "https://example.com/api/rest/v1/media-files/2/6/8/c/268c277ec016b8be9a29890d95dc7af2923292df_1004114_4416.jpg/download"
+                }
+              }
+            }
+          ],
+          "name": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "Kodak i1410"
+            }
+          ],
+          "description": [
+            {
+              "locale": "en_US",
+              "scope": "print",
+              "data": "With the ability to handle documents in virtually any size or condition, the KODAK i1410 Scanner brings flexibility, ease of use and enhanced Perfect Page image quality to your tabletop business scanning.\\nHandles all kinds of documents ranging from card stock to onionskin in just about any condition, up to 863 mm (34 in.) long, with speeds up to 60 pages per minute (at 200 dpi) \\n\\n-Gives you outstanding image quality with the latest Perfect Page image processing, including background color smoothing, improved color accuracy, automatic color detection and much more\\n-Easy connectivity and fast image transfer with USB 2.0 interface\\n-Smart touch feature allows you to easily scan to file, e-mail, publishing or other desktop applications with just one click\\n-Five output options: black-and-white, grayscale or color, plus dual stream simultaneous output—color and black-and-white or grayscale and black-and-white to give your organization the types of images needed to meet a range of business needs such as forms processing, key from image, archiving, regulatory compliance, web presentment and more."
+            }
+          ],
+          "release_date": [
+            {
+              "locale": null,
+              "scope": "ecommerce",
+              "data": "2007-08-09T00:00:00+00:00"
+            }
+          ],
+          "color_scanning": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": true
+            }
+          ]
+        },
+        "created": "2022-02-01T14:07:54+00:00",
+        "updated": "2022-02-01T14:07:54+00:00",
+        "associations": {
+          "PACK": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "UPSELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "X_SELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "SUBSTITUTION": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          }
+        },
+        "quantified_associations": {}
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/products/10649473"
+          }
+        },
+        "identifier": "10649473",
+        "enabled": true,
+        "family": "scanners",
+        "categories": [
+          "ion",
+          "print_scan_sales",
+          "scanners"
+        ],
+        "groups": [],
+        "parent": null,
+        "values": {
+          "picture": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "a/9/c/8/a9c8402e11050df07363921409dd8de1a2713776_10649473_8098.jpg",
+              "_links": {
+                "download": {
+                  "href": "https://example.com/api/rest/v1/media-files/a/9/c/8/a9c8402e11050df07363921409dd8de1a2713776_10649473_8098.jpg/download"
+                }
+              }
+            }
+          ],
+          "name": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "ION Film2SD Rapid Feeder"
+            }
+          ],
+          "release_date": [
+            {
+              "locale": null,
+              "scope": "ecommerce",
+              "data": "2011-08-18T00:00:00+00:00"
+            }
+          ],
+          "color_scanning": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": true
+            }
+          ]
+        },
+        "created": "2022-02-01T14:08:00+00:00",
+        "updated": "2022-02-01T14:08:01+00:00",
+        "associations": {
+          "PACK": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "UPSELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "X_SELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "SUBSTITUTION": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          }
+        },
+        "quantified_associations": {}
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://example.com/api/rest/v1/products/10655295"
+          }
+        },
+        "identifier": "10655295",
+        "enabled": true,
+        "family": "scanners",
+        "categories": [
+          "kodak",
+          "print_scan_sales",
+          "scanners"
+        ],
+        "groups": [],
+        "parent": null,
+        "values": {
+          "picture": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "2/e/6/8/2e6865c540d2c536aa2dc893cb6dfdf4458b9bae_15743_10655295_2946.jpg",
+              "_links": {
+                "download": {
+                  "href": "https://example.com/api/rest/v1/media-files/2/e/6/8/2e6865c540d2c536aa2dc893cb6dfdf4458b9bae_15743_10655295_2946.jpg/download"
+                }
+              }
+            }
+          ],
+          "name": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "Kodak i2800 for Govt"
+            }
+          ],
+          "description": [
+            {
+              "locale": "en_US",
+              "scope": "print",
+              "data": "<b>Energize your information for a competitive edge</b>\\n\\nToday’s business runs on information. But when that information is on paper, it can slow you down. Get things flowing faster with the KODAK i2800 Scanner. It lets you extract critical information from documents at the point of entry, for quick distribution to decision-makers who need it. So money to be gained isn’t left waiting for choices to be made.\\n\\nNo matter what size your business or department is, the reliable performance of the KODAK i2800 Scanner can enable collaboration right from your desktop. It decreases processing time for information that needs to be shared for review, reference, approval, and legal and compliance reasons. This helps increase both internal and external customer satisfaction, and saves your company time and money. Plus, if your business has branch offices or field agents, distributed capture allows document images to be immediately sent to a central location for easy access.\\n\\nHelp your company get ahead with a scanning solution that can bring you increased security, faster internal processes, better teamwork, and a host of other business benefits—the KODAK i2800 Scanner."
+            }
+          ],
+          "release_date": [
+            {
+              "locale": null,
+              "scope": "ecommerce",
+              "data": "2011-08-18T00:00:00+00:00"
+            }
+          ],
+          "color_scanning": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": true
+            }
+          ]
+        },
+        "created": "2022-02-01T14:08:00+00:00",
+        "updated": "2022-02-01T14:08:01+00:00",
+        "associations": {
+          "PACK": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "UPSELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "X_SELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "SUBSTITUTION": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          }
+        },
+        "quantified_associations": {}
+      }
+    ]
+  }
+}
