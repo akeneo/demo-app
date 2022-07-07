@@ -53,7 +53,7 @@ final class ListProductsAction
     {
         $catalogId = $this->catalogIdStorage->getCatalogId();
         if (null === $catalogId) {
-            throw new CatalogNotFoundException('Catalog Id should exist');
+            throw new CatalogNotFoundException();
         }
 
         try {
