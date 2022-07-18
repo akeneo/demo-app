@@ -29,10 +29,22 @@ class ActivateActionTest extends AbstractIntegrationTest
 
         $client->request('GET', '/authorization/activate');
 
+        $scopes = implode(' ', [
+            'read_products',
+            'read_catalog_structure',
+            'read_channel_localization',
+            'read_attribute_options',
+            'read_catalogs',
+            'write_catalogs',
+            'delete_catalogs',
+            'openid',
+            'profile',
+        ]);
+
         $expectedAuthorizeUrlParams = \http_build_query([
             'response_type' => 'code',
             'client_id' => $client->getKernel()->getContainer()->getParameter('akeneoClientId'),
-            'scope' => 'read_products read_catalog_structure read_channel_localization read_attribute_options openid profile',
+            'scope' => $scopes,
             'state' => $client->getRequest()->getSession()->get('state'),
         ]);
 

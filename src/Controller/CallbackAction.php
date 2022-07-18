@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Query\FetchOrCreateDefaultDemoCatalogQuery;
 use App\Storage\AccessTokenStorageInterface;
+use App\Storage\CatalogIdStorageInterface;
 use App\Storage\UserProfileStorageInterface;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
@@ -22,12 +24,14 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 final class CallbackAction
 {
     public function __construct(
-        private string $akeneoClientId,
-        private string $akeneoClientSecret,
-        private HttpClientInterface $client,
-        private AccessTokenStorageInterface $accessTokenStorage,
-        private UserProfileStorageInterface $userProfileStorage,
-        private RouterInterface $router,
+        private readonly string $akeneoClientId,
+        private readonly string $akeneoClientSecret,
+        private readonly HttpClientInterface $client,
+        private readonly AccessTokenStorageInterface $accessTokenStorage,
+        private readonly UserProfileStorageInterface $userProfileStorage,
+        private readonly FetchOrCreateDefaultDemoCatalogQuery $fetchOrCreateDefaultDemoCatalogQuery,
+        private readonly CatalogIdStorageInterface $catalogIdStorage,
+        private readonly RouterInterface $router,
     ) {
     }
 
@@ -58,6 +62,9 @@ final class CallbackAction
         if (null !== $userProfile) {
             $this->userProfileStorage->setUserProfile($userProfile);
         }
+
+        $catalogId = $this->fetchOrCreateDefaultDemoCatalogQuery->fetch();
+        $this->catalogIdStorage->setCatalogId($catalogId);
 
         return new RedirectResponse($this->router->generate('products'));
     }

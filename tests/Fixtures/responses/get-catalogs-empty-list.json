@@ -1,0 +1,14 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://example.com/api/rest/v1/catalogs?page=1&limit=100"
+    },
+    "first": {
+      "href": "https://example.com/api/rest/v1/catalogs?page=1&limit=100"
+    }
+  },
+  "current_page": 1,
+  "_embedded": {
+    "items": []
+  }
+}

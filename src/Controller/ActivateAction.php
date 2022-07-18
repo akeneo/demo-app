@@ -16,6 +16,9 @@ final class ActivateAction
         'read_catalog_structure',
         'read_channel_localization',
         'read_attribute_options',
+        'read_catalogs',
+        'write_catalogs',
+        'delete_catalogs',
         'openid',
         'profile',
     ];

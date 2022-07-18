@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Controller;
 
 use App\Tests\Integration\AbstractIntegrationTest;
+use App\Tests\Integration\MockPimApiTrait;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
@@ -15,12 +16,14 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CallbackActionTest extends AbstractIntegrationTest
 {
+    use MockPimApiTrait;
+
     public function setUp(): void
     {
         parent::setUp();
 
         $this->client = $this->initializeClientWithSession([
-            'pim_url' => 'https://httpd',
+            'pim_url' => 'https://example.com',
             'state' => 'random_state_123456789',
         ]);
     }
@@ -83,16 +86,21 @@ class CallbackActionTest extends AbstractIntegrationTest
      */
     public function itRedirectsToTheAuthorizeUrlWithQueryParameters(): void
     {
-        $httpClient = $this->client->getContainer()->get(HttpClientInterface::class);
-        assert($httpClient instanceof MockHttpClient);
-
-        $httpClient->setResponseFactory([
-            new MockResponse(\json_encode(['access_token' => 'random_access_token'])),
-        ]);
+        $this->mockHttpResponse(
+            'POST',
+            'https://example.com/connect/apps/v1/oauth2/token',
+            [],
+            new MockResponse(\json_encode(['access_token' => 'random_access_token']))
+        );
+        $this->mockPimAPIResponse(
+            'get-catalogs.json',
+            'https://example.com/api/rest/v1/catalogs',
+        );
 
         $this->client->request('GET', '/callback?code=code&state=random_state_123456789');
-        $accessToken = $this->client->getRequest()->getSession()->get('akeneo_pim_access_token');
-        $this->assertEquals('random_access_token', $accessToken);
+
+        $this->assertAccessTokenIsStored('random_access_token');
+        $this->assertCatalogIdIsStored('catalog_store_us_id');
         $this->assertResponseRedirects('/products', Response::HTTP_FOUND);
     }
 
@@ -104,24 +112,68 @@ class CallbackActionTest extends AbstractIntegrationTest
         ['private' => $privateKey, 'public' => $publicKey] = $this->getAsymmetricKeyPair();
         $idToken = $this->generateIdToken($privateKey, $publicKey);
 
-        $httpClient = $this->client->getContainer()->get(HttpClientInterface::class);
-        assert($httpClient instanceof MockHttpClient);
-        $httpClient->setResponseFactory([
+        $this->mockHttpResponse(
+            'POST',
+            'https://example.com/connect/apps/v1/oauth2/token',
+            [],
             new MockResponse(\json_encode([
                 'access_token' => 'random_access_token',
                 'id_token' => $idToken,
             ])),
-            new MockResponse(\json_encode([
-                'public_key' => $publicKey,
-            ])),
-        ]);
+        );
+        $this->mockHttpResponse(
+            'GET',
+            'https://example.com/connect/apps/v1/openid/public-key',
+            [],
+            new MockResponse(\json_encode(['public_key' => $publicKey]))
+        );
+        $this->mockPimAPIResponse(
+            'get-catalogs.json',
+            'https://example.com/api/rest/v1/catalogs',
+        );
 
         $this->client->request('GET', '/callback?code=code&state=random_state_123456789');
 
-        $accessToken = $this->client->getRequest()->getSession()->get('akeneo_pim_access_token');
-        $this->assertEquals('random_access_token', $accessToken);
-        $userProfile = $this->client->getRequest()->getSession()->get('akeneo_pim_user_profile');
-        $this->assertEquals('John Doe', $userProfile);
+        $this->assertAccessTokenIsStored('random_access_token');
+        $this->assertUserProfileIsStored('John Doe');
+        $this->assertCatalogIdIsStored('catalog_store_us_id');
+        $this->assertResponseRedirects('/products', Response::HTTP_FOUND);
+    }
+
+    /**
+     * @test
+     */
+    public function itCreatesCatalogWhenNoCatalogExists(): void
+    {
+        ['private' => $privateKey, 'public' => $publicKey] = $this->getAsymmetricKeyPair();
+        $idToken = $this->generateIdToken($privateKey, $publicKey);
+
+        $this->mockHttpResponse(
+            'POST',
+            'https://example.com/connect/apps/v1/oauth2/token',
+            [],
+            new MockResponse(\json_encode(['access_token' => 'random_access_token']))
+        );
+        $this->mockPimAPIResponse(
+            'get-catalogs-empty-list.json',
+            'https://example.com/api/rest/v1/catalogs',
+        );
+
+        $this->mockHttpResponse(
+            'POST',
+            'https://example.com/api/rest/v1/catalogs',
+            [],
+            new MockResponse(\json_encode([
+                'id' => '7e018bfd-00e1-4642-951e-4d45684b51f4',
+                'name' => 'Demo App catalog',
+                'enabled' => true,
+            ]))
+        );
+
+        $this->client->request('GET', '/callback?code=code&state=random_state_123456789');
+
+        $this->assertCatalogIdIsStored('7e018bfd-00e1-4642-951e-4d45684b51f4');
+        $this->assertResponseRedirects('/products', Response::HTTP_FOUND);
     }
 
     /**
@@ -266,7 +318,7 @@ class CallbackActionTest extends AbstractIntegrationTest
         $now = new \DateTimeImmutable();
 
         $jwtTokenBuilder = $jwtConfig->builder()
-            ->issuedBy('https://httpd')
+            ->issuedBy('https://example.com')
             ->identifiedBy('uuid')
             ->relatedTo('ppid')
             ->permittedFor('clientId')
@@ -283,5 +335,23 @@ class CallbackActionTest extends AbstractIntegrationTest
         );
 
         return $jwtToken->toString();
+    }
+
+    private function assertAccessTokenIsStored(string $expectedAccessToken): void
+    {
+        $savedAccessToken = $this->client?->getRequest()->getSession()->get('akeneo_pim_access_token');
+        $this->assertEquals($expectedAccessToken, $savedAccessToken);
+    }
+
+    private function assertUserProfileIsStored(string $expectedUserProfile): void
+    {
+        $savedUserProfile = $this->client?->getRequest()->getSession()->get('akeneo_pim_user_profile');
+        $this->assertEquals($expectedUserProfile, $savedUserProfile);
+    }
+
+    private function assertCatalogIdIsStored(string $expectedCatalogId): void
+    {
+        $savedCatalogId = $this->client?->getRequest()->getSession()->get('akeneo_pim_catalog_id');
+        $this->assertEquals($expectedCatalogId, $savedCatalogId);
     }
 }

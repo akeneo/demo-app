@@ -26,12 +26,14 @@ final class FetchProductsQuery
     }
 
     /**
+     * @param array<string> $productIdentifiers
+     *
      * @return array<Product>
      */
-    public function fetch(string $locale): array
+    public function fetch(string $locale, array $productIdentifiers): array
     {
         $searchBuilder = new SearchBuilder();
-        $searchBuilder->addFilter('enabled', '=', true);
+        $searchBuilder->addFilter('identifier', 'IN', $productIdentifiers);
         $searchFilters = $searchBuilder->getFilters();
 
         try {
