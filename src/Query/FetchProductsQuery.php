@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace App\Query;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
-use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use App\PimApi\Model\Product;
+use App\PimApi\PimCatalogApiClient;
 use App\PimApi\ProductValueDenormalizer;
-use Psr\Log\LoggerInterface;
 
 /**
- * @phpstan-type RawProduct array{identifier: string, family: string|null, values: array<string, array{array{locale: string|null, scope: string|null, data: mixed}}>}
+ * @phpstan-type RawProduct array{uuid: string, family: string|null, values: array<string, array{array{locale: string|null, scope: string|null, data: mixed}}>}
  * @phpstan-type RawFamily array{code: string, attribute_as_label: string}
  */
 final class FetchProductsQuery
@@ -21,46 +20,17 @@ final class FetchProductsQuery
     public function __construct(
         private AkeneoPimClientInterface $pimApiClient,
         private ProductValueDenormalizer $productValueDenormalizer,
-        private LoggerInterface $logger,
+        private readonly PimCatalogApiClient $catalogApiClient,
     ) {
     }
 
     /**
-     * @param array<string> $productIdentifiers
-     *
      * @return array<Product>
      */
-    public function fetch(string $locale, array $productIdentifiers): array
+    public function fetch(string $locale, string $catalogId): array
     {
-        $searchBuilder = new SearchBuilder();
-        $searchBuilder->addFilter('identifier', 'IN', $productIdentifiers);
-        $searchFilters = $searchBuilder->getFilters();
-
-        try {
-            /** @var array<RawProduct> $rawProducts */
-            $rawProducts = $this->pimApiClient->getProductApi()->listPerPage(
-                10,
-                false,
-                [
-                    'search' => $searchFilters,
-                    'locales' => $locale,
-                ]
-            )->getItems();
-        } catch (UnprocessableEntityHttpException $exception) {
-            // The UnprocessableEntity error can be triggered when searching a locale we don't have access to
-            // We log, and try again without any locale.
-
-            $this->logger->error($exception->getMessage());
-
-            /** @var array<RawProduct> $rawProducts */
-            $rawProducts = $this->pimApiClient->getProductApi()->listPerPage(
-                10,
-                false,
-                [
-                    'search' => $searchFilters,
-                ]
-            )->getItems();
-        }
+        /** @var array<RawProduct> $rawProducts */
+        $rawProducts = $this->catalogApiClient->getProducts($catalogId, 10);
 
         if (0 === count($rawProducts)) {
             return [];
@@ -79,7 +49,7 @@ final class FetchProductsQuery
 
             $values = [];
 
-            $products[] = new Product($rawProduct['identifier'], $label, $values);
+            $products[] = new Product($rawProduct['uuid'], $label, $values);
         }
 
         return $products;
@@ -146,7 +116,7 @@ final class FetchProductsQuery
     private function findLabel(?string $attributeAsLabel, array $product, string $locale, ?string $scope): string
     {
         if (null === $attributeAsLabel || !isset($product['values'][$attributeAsLabel])) {
-            return '['.$product['identifier'].']';
+            return '['.$product['uuid'].']';
         }
 
         $label = $this->productValueDenormalizer->denormalize(
@@ -155,7 +125,7 @@ final class FetchProductsQuery
             $scope,
         );
 
-        return (string) ($label ?? '['.$product['identifier'].']');
+        return (string) ($label ?? '['.$product['uuid'].']');
     }
 
     /**

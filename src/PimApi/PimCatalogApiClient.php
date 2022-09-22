@@ -69,4 +69,25 @@ class PimCatalogApiClient
 
         return $pimUrl;
     }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getProducts(string $catalogId, int $limit = 10, string $searchAfter = null, string $updated_after = null, string $updated_before = null): array
+    {
+        $pimUrl = $this->getPimUrl();
+
+        $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/products";
+
+        $response = $this->client->request('GET', $catalogEndpointUrl, [
+            'query' => [
+                'search_after' => $searchAfter,
+                'limit' => $limit,
+                'updated_after' => $updated_after,
+                'updated_before' => $updated_before,
+            ],
+        ])->toArray();
+
+        return $response['_embedded']['items'];
+    }
 }

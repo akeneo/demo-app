@@ -20,7 +20,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $this->mockDefaultPimAPIResponses();
         $this->mockPimAPIResponse(
             'get-products-scanners.json',
-            'https://example.com/api/rest/v1/products?search=%7B%22identifier%22%3A%5B%7B%22operator%22%3A%22IN%22%2C%22value%22%3A%5B%221004114%22%2C%2210649473%22%2C%2210655295%22%2C%2210655470%22%2C%2210661721%22%2C%221211614%22%2C%2212239052%22%2C%2212239064%22%2C%2212249736%22%2C%2212249740%22%5D%7D%5D%7D&locales=en_US&limit=10&with_count=false',
+            'https://example.com/api/rest/v1/catalogs/db1079b6-f397-4a6a-bae4-8658e64ad47c/products?limit=10',
         );
     }
 
@@ -53,7 +53,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
             'akeneo_pim_catalog_id' => 'catalog_store_us_id',
         ]);
 
-        $client->request('GET', '/products');
+        $client->request('GET', '/catalogs/db1079b6-f397-4a6a-bae4-8658e64ad47c/products?limit=10');
 
         $this->assertEquals('https://example.com', $client->getCrawler()->selectLink('Go to Akeneo PIM')->attr('href'));
     }
