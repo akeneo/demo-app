@@ -18,10 +18,6 @@ class ListProductsActionTest extends AbstractIntegrationTest
         parent::setUp();
 
         $this->mockDefaultPimAPIResponses();
-        $this->mockPimAPIResponse(
-            'get-catalogs-store-us-products-scanners.json',
-            'https://example.com/api/rest/v1/catalogs/catalog_store_us_id/products?limit=10'
-        );
     }
 
     /**
