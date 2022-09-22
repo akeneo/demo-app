@@ -64,7 +64,7 @@ class FetchProductsQueryTest extends AbstractIntegrationTest
         $this->assertEquals($expected, $result);
     }
 
-    /**
+    /*
      * @test
      */
     /*
