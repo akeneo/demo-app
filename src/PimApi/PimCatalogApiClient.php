@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\PimApi;
 
+use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException as AkeneoNotFoundHttpException;
 use App\PimApi\Model\Catalog;
 use App\Storage\AccessTokenStorageInterface;
 use App\Storage\PimURLStorageInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function PHPUnit\Framework\throwException;
 
 class PimCatalogApiClient
 {
@@ -100,6 +103,15 @@ class PimCatalogApiClient
 
         $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/products/$uuid";
 
-        return $this->client->request('GET', $catalogEndpointUrl)->toArray();
+        try {
+            /** @var RawFamily $rawFamily */
+            $response = $this->client->request('GET', $catalogEndpointUrl)->toArray();
+        } catch (\Exception $e) {
+            if($e->getCode() === 404) {
+                throw new NotFoundHttpException('PIM API replied with a 404', $e);
+            }
+        }
+
+        return $response;
     }
 }
