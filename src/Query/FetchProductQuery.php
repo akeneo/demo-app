@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Query;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
-use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
+use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException as AkeneoNotFoundHttpException;
 use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use App\PimApi\Model\Product;
 use App\PimApi\Model\ProductValue;
 use App\PimApi\PimCatalogApiClient;
 use App\PimApi\ProductValueDenormalizer;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @phpstan-type RawProduct array{uuid: string, family: string|null, values: array<string, array{array{locale: string|null, scope: string|null, data: mixed}}>}
@@ -28,8 +29,12 @@ final class FetchProductQuery
 
     public function fetch(string $catalogId, string $identifier, string $locale): Product
     {
-        /** @var RawProduct $rawProduct */
-        $rawProduct = $this->catalogApiClient->getProduct($catalogId, $identifier);
+        try {
+            /** @var RawProduct $rawProduct */
+            $rawProduct = $this->catalogApiClient->getProduct($catalogId, $identifier);
+        } catch (\Exception $e) {
+            throw new NotFoundHttpException('PIM API replied with a 404', $e);
+        }
         $scope = $this->findFirstAvailableScope($rawProduct);
         $familyAttributeAsLabel = $this->findAttributeAsLabel($rawProduct);
         $attributes = $this->fetchAttributes($rawProduct);
@@ -148,7 +153,7 @@ final class FetchProductQuery
         try {
             /** @var RawFamily $rawFamily */
             $rawFamily = $this->pimApiClient->getFamilyApi()->get($product['family']);
-        } catch (NotFoundHttpException $e) {
+        } catch (AkeneoNotFoundHttpException $e) {
             return null;
         }
 
