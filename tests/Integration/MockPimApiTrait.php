@@ -151,5 +151,17 @@ trait MockPimApiTrait
             'get-catalogs-store-us-products-scanners.json',
             'https://example.com/api/rest/v1/catalogs/catalog_store_us_id/products?limit=10',
         );
+        $this->mockPimAPIResponse(
+            'get-catalogs-store-us-product-scanner.json',
+            'https://example.com/api/rest/v1/catalogs/catalog_store_us_id/products/554ed26b-b179-4058-9ff8-4e4a660dbd8a',
+        );
+        $this->mockPimAPIResponse(
+            'get-catalogs-store-us-product-sunglasses.json',
+            'https://example.com/api/rest/v1/catalogs/catalog_store_us_id/products/16467667-9a29-48c1-90b3-8a169b83e8e6',
+        );
+        $this->mockPimAPIResponse(
+            'get-catalogs-store-us-product-empty.json',
+            'https://example.com/api/rest/v1/catalogs/catalog_store_us_id/products/empty',
+        );
     }
 }

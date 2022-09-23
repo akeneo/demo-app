@@ -1,0 +1,102 @@
+{
+  "uuid": "a5eed606-4f98-4d8c-b926-5b59f8fb0ee7",
+  "enabled": true,
+  "family": "scanners",
+  "categories": [
+    "kodak",
+    "print_scan_sales",
+    "scanners"
+  ],
+  "groups": [],
+  "parent": null,
+  "values": {
+    "price": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": [
+          {
+            "amount": "100.00",
+            "currency": "EUR"
+          },
+          {
+            "amount": "200.00",
+            "currency": "USD"
+          }
+        ]
+      }
+    ],
+    "picture": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": "e/a/5/e/ea5ed6288ee7956300f0033a51b2900c3ed8b772_15743_10661721_4414.jpg",
+        "_links": {
+          "download": {
+            "href": "https://example.com/api/rest/v1/media-files/e/a/5/e/ea5ed6288ee7956300f0033a51b2900c3ed8b772_15743_10661721_4414.jpg/download"
+          }
+        }
+      }
+    ],
+    "name": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": "Kodak i2600 for Govt"
+      }
+    ],
+    "description": [
+      {
+        "locale": "en_US",
+        "scope": "print",
+        "data": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam dui sit amet tellus varius lobortis. Morbi quis lacus tortor. Curabitur quis porttitor quam. Proin ultrices auctor lorem vitae fringilla. Suspendisse cursus sed erat sed molestie. Praesent placerat porttitor nisl, vel euismod lectus hendrerit vulputate. Phasellus suscipit sollicitudin leo, vitae posuere quam faucibus eu. Suspendisse quis sagittis ex.</p>"
+      }
+    ],
+    "release_date": [
+      {
+        "locale": "en_US",
+        "scope": "print",
+        "data": "2011-08-18T00:00:00+00:00"
+      }
+    ],
+    "color_scanning": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": true
+      }
+    ],
+    "tag": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": "tag2"
+      }
+    ]
+  },
+  "created": "2022-02-07T13:40:56+00:00",
+  "updated": "2022-02-07T15:58:20+00:00",
+  "associations": {
+    "PACK": {
+      "products": [],
+      "product_models": [],
+      "groups": []
+    },
+    "UPSELL": {
+      "products": [],
+      "product_models": [],
+      "groups": []
+    },
+    "X_SELL": {
+      "products": [],
+      "product_models": [],
+      "groups": []
+    },
+    "SUBSTITUTION": {
+      "products": [],
+      "product_models": [],
+      "groups": []
+    }
+  },
+  "quantified_associations": {}
+}

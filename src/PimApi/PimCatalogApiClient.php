@@ -90,4 +90,16 @@ class PimCatalogApiClient
 
         return $response['_embedded']['items'];
     }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getProduct(string $catalogId, string $uuid): array
+    {
+        $pimUrl = $this->getPimUrl();
+
+        $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/products/$uuid";
+
+        return $this->client->request('GET', $catalogEndpointUrl)->toArray();
+    }
 }

@@ -29,9 +29,9 @@ class FetchProductQueryTest extends AbstractIntegrationTest
     public function itFetchesAProduct(): void
     {
         $query = static::getContainer()->get(FetchProductQuery::class);
-        $result = $query->fetch('10661721', 'en_US');
+        $result = $query->fetch('catalog_store_us_id', '554ed26b-b179-4058-9ff8-4e4a660dbd8a', 'en_US');
 
-        $expected = new Product('10661721', 'Kodak i2600 for Govt', [
+        $expected = new Product('554ed26b-b179-4058-9ff8-4e4a660dbd8a', 'Kodak i2600 for Govt', [
             new ProductValue(
                 'Price',
                 'pim_catalog_price_collection',
@@ -68,7 +68,7 @@ class FetchProductQueryTest extends AbstractIntegrationTest
     public function itFetchesAnEmptyProduct(): void
     {
         $query = static::getContainer()->get(FetchProductQuery::class);
-        $result = $query->fetch('empty', 'en_US');
+        $result = $query->fetch('catalog_store_us_id', 'empty', 'en_US');
 
         $expected = new Product('empty', '[empty]', []);
 

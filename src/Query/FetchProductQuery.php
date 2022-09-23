@@ -10,10 +10,11 @@ use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use App\PimApi\Model\Product;
 use App\PimApi\Model\ProductValue;
+use App\PimApi\PimCatalogApiClient;
 use App\PimApi\ProductValueDenormalizer;
 
 /**
- * @phpstan-type RawProduct array{identifier: string, family: string|null, values: array<string, array{array{locale: string|null, scope: string|null, data: mixed}}>}
+ * @phpstan-type RawProduct array{uuid: string, family: string|null, values: array<string, array{array{locale: string|null, scope: string|null, data: mixed}}>}
  * @phpstan-type RawFamily array{code: string, attribute_as_label: string}
  */
 final class FetchProductQuery
@@ -21,13 +22,14 @@ final class FetchProductQuery
     public function __construct(
         private AkeneoPimClientInterface $pimApiClient,
         private ProductValueDenormalizer $productValueDenormalizer,
+        private readonly PimCatalogApiClient $catalogApiClient,
     ) {
     }
 
-    public function fetch(string $identifier, string $locale): Product
+    public function fetch(string $catalogId, string $identifier, string $locale): Product
     {
         /** @var RawProduct $rawProduct */
-        $rawProduct = $this->pimApiClient->getProductApi()->get($identifier);
+        $rawProduct = $this->catalogApiClient->getProduct($catalogId, $identifier);
         $scope = $this->findFirstAvailableScope($rawProduct);
         $familyAttributeAsLabel = $this->findAttributeAsLabel($rawProduct);
         $attributes = $this->fetchAttributes($rawProduct);
@@ -122,7 +124,7 @@ final class FetchProductQuery
     private function findLabel(?string $attributeAsLabel, array $product, string $locale, ?string $scope): string
     {
         if (null === $attributeAsLabel || !isset($product['values'][$attributeAsLabel])) {
-            return '['.$product['identifier'].']';
+            return '['.$product['uuid'].']';
         }
 
         $label = $this->productValueDenormalizer->denormalize(
@@ -131,7 +133,7 @@ final class FetchProductQuery
             $scope,
         );
 
-        return (string) ($label ?? '['.$product['identifier'].']');
+        return (string) ($label ?? '['.$product['uuid'].']');
     }
 
     /**

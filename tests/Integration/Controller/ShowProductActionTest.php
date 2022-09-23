@@ -27,9 +27,10 @@ class ShowProductActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
+            'akeneo_pim_catalog_id' => 'catalog_store_us_id',
         ]);
 
-        $crawler = $client->request('GET', '/products/1111111304');
+        $crawler = $client->request('GET', '/products/16467667-9a29-48c1-90b3-8a169b83e8e6');
         $this->assertResponseIsSuccessful();
 
         $this->assertSelectorTextContains('.locale-switcher__language', '🇺🇸 English (United States)');
@@ -56,11 +57,12 @@ class ShowProductActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
+            'akeneo_pim_catalog_id' => 'catalog_store_us_id',
         ]);
 
         $this->mockHttpResponse(
             'GET',
-            'https://example.com/api/rest/v1/products/wrong_identifier_1234',
+            'https://example.com/api/rest/v1/catalogs/catalog_store_us_id/products/wrong_identifier_1234',
             [],
             new MockResponse('', ['http_code' => 404])
         );
