@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException as AkeneoNotFoundHttpException;
 use App\Exception\CatalogNotFoundException;
+use App\Exception\CatalogProductNotFoundException;
 use App\PimApi\Model\Catalog;
 use App\PimApi\PimCatalogApiClient;
 use App\Query\FetchProductQuery;
@@ -29,14 +30,19 @@ final class ShowProductAction
     ) {
     }
 
-    #[Route('/products/{identifier}', name: 'product', methods: ['GET'])]
-    public function __invoke(Request $request, string $identifier): Response
+    #[Route('/products/{uuid}', name: 'product', methods: ['GET'])]
+    public function __invoke(Request $request, string $uuid): Response
     {
         try {
             $locale = $this->guessCurrentLocaleQuery->guess();
             $catalog = $this->getDefaultCatalog();
-            $product = $this->fetchProductQuery->fetch($catalog->id, $identifier, $locale);
-        } catch (AkeneoNotFoundHttpException $e) {
+
+            if ($catalog->enabled) {
+                $product = $this->fetchProductQuery->fetch($catalog->id, $uuid, $locale);
+            } else {
+                throw new CatalogNotFoundException();
+            }
+        } catch (AkeneoNotFoundHttpException|CatalogProductNotFoundException $e) {
             throw new NotFoundHttpException('PIM API replied with a 404', $e);
         }
 
@@ -51,6 +57,7 @@ final class ShowProductAction
     private function getDefaultCatalog(): Catalog
     {
         $catalogId = $this->catalogIdStorage->getCatalogId();
+
         if (null === $catalogId) {
             throw new CatalogNotFoundException();
         }

@@ -30,7 +30,7 @@ final class FetchProductsQuery
     public function fetch(string $locale, string $catalogId): array
     {
         /** @var array<RawProduct> $rawProducts */
-        $rawProducts = $this->catalogApiClient->getProducts($catalogId, 10);
+        $rawProducts = $this->catalogApiClient->getCatalogProducts($catalogId, 10);
 
         if (0 === count($rawProducts)) {
             return [];
