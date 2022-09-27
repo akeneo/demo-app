@@ -21,8 +21,8 @@ use App\PimApi\ProductValueDenormalizer;
 final class FetchProductQuery
 {
     public function __construct(
-        private AkeneoPimClientInterface $pimApiClient,
-        private ProductValueDenormalizer $productValueDenormalizer,
+        private readonly AkeneoPimClientInterface $pimApiClient,
+        private readonly ProductValueDenormalizer $productValueDenormalizer,
         private readonly PimCatalogApiClient $catalogApiClient,
     ) {
     }

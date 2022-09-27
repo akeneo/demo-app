@@ -73,7 +73,7 @@ class PimCatalogApiClient
     /**
      * @return array<mixed>
      */
-    public function getCatalogProducts(string $catalogId, int $limit = 10, string $searchAfter = null, string $updatedAfter = null, string $updatedBefore = null): array
+    public function getCatalogProducts(string $catalogId, int $limit = 10, ?string $searchAfter = null, ?string $updatedAfter = null, ?string $updatedBefore = null): array
     {
         $pimUrl = $this->getPimUrl();
 

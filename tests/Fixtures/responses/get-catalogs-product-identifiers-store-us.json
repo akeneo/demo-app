@@ -1,10 +1,10 @@
 {
   "_links": {
     "self": {
-      "href": "https://example.com/api/rest/v1/catalogs/catalog_store_us_id/product-identifierspage=1&with_count=false&pagination_type=page&limit=13"
+      "href": "https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/product-identifierspage=1&with_count=false&pagination_type=page&limit=13"
     },
     "first": {
-      "href": "https://example.com/api/rest/v1/catalogs/catalog_store_us_id/product-identifierspage=1&with_count=false&pagination_type=page&limit=13"
+      "href": "https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/product-identifierspage=1&with_count=false&pagination_type=page&limit=13"
     }
   },
   "current_page": 1,

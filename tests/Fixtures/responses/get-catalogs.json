@@ -13,20 +13,20 @@
       {
         "_links": {
           "self": {
-            "href": "https://example.com/api/rest/v1/catalogs/catalog_store_us_id"
+            "href": "https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a"
           }
         },
-        "id" : "catalog_store_us_id",
+        "id" : "70313d30-8316-41c2-b298-8f9e7186fe9a",
         "name" : "Store US",
         "enabled" : true
       },
       {
         "_links": {
           "self": {
-            "href": "https://example.com/api/rest/v1/catalogs/catalog_store_fr_id"
+            "href": "https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c"
           }
         },
-        "id": "catalog_store_fr_id",
+        "id": "8a8494d2-05cc-4b8f-942e-f5ea7591e89c",
         "name": "Store FR",
         "enabled": false
       }

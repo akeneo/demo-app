@@ -1,13 +1,13 @@
 {
   "_links":{
     "self":{
-      "href":"/api/rest/v1/catalogs/catalog_store_us_id/products?limit=10"
+      "href":"/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products?limit=10"
     },
     "first":{
-      "href":"/api/rest/v1/catalogs/catalog_store_us_id/products?limit=10"
+      "href":"/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products?limit=10"
     },
     "next":{
-      "href":"/api/rest/v1/catalogs/catalog_store_us_id/products?search_after=6df2b529-f09e-4cc2-86c2-aef3759ca7bf&limit=10"
+      "href":"/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products?search_after=6df2b529-f09e-4cc2-86c2-aef3759ca7bf&limit=10"
     }
   },
   "_embedded":{

@@ -28,7 +28,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
-            'akeneo_pim_catalog_id' => 'catalog_store_us_id',
+            'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
         ]);
 
         $client->request('GET', '/products');
@@ -46,7 +46,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token_123456',
-            'akeneo_pim_catalog_id' => 'catalog_store_us_id',
+            'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
         ]);
 
         $client->request('GET', '/products');
@@ -62,7 +62,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token_123456',
-            'akeneo_pim_catalog_id' => 'catalog_store_us_id',
+            'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
         ]);
 
         $client->request('GET', '/products');
@@ -78,11 +78,11 @@ class ListProductsActionTest extends AbstractIntegrationTest
      */
     public function itDisplaysAnEmptyListWithALinkForCatalogConfiguration(): void
     {
-        $catalogConfigurationUrl = 'https://example.com/connect/apps/v1/catalogs/catalog_store_fr_id';
+        $catalogConfigurationUrl = 'https://example.com/connect/apps/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c';
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
-            'akeneo_pim_catalog_id' => 'catalog_store_fr_id',
+            'akeneo_pim_catalog_id' => '8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
         ]);
 
         $client->request('GET', '/products');
@@ -117,7 +117,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
     {
         $this->mockHttpResponse(
             'GET',
-            'https://example.com/api/rest/v1/catalogs/catalog_store_fr_id',
+            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
             [],
             new MockResponse('', ['http_code' => 404])
         );
@@ -125,7 +125,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
-            'akeneo_pim_catalog_id' => 'catalog_store_fr_id',
+            'akeneo_pim_catalog_id' => '8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
         ]);
 
         $client->request('GET', '/products');
