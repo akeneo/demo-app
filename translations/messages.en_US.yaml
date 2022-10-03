@@ -37,6 +37,10 @@ page:
             title: No products for the moment
             description: Please configure the Demo App catalog in your PIM then refresh this page to see up to 10 products from your product selection.
             catalog-button: Configure catalog
+        catalog-disabled:
+            title: Catalog disabled
+            description: Please configure and enable the Demo App catalog in your PIM then refresh this page to see up to 10 products from your product selection.
+            catalog-button: Configure catalog
 
     product:
         title: Product | Akeneo app demo

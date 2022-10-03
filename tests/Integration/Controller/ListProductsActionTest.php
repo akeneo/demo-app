@@ -96,6 +96,46 @@ class ListProductsActionTest extends AbstractIntegrationTest
     /**
      * @test
      */
+    public function itDisplaySpecificMessageWhenCatalogIsEmpty(): void
+    {
+        $this->mockPimAPIResponse(
+            'get-catalogs-store-us-products-empty-list.json',
+            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products?limit=10',
+        );
+        $client = $this->initializeClientWithSession([
+            'pim_url' => 'https://example.com',
+            'akeneo_pim_access_token' => 'random_access_token',
+            'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
+        ]);
+
+        $client->request('GET', '/products');
+        $this->assertResponseIsSuccessful();
+
+        $translator = $this->container->get('translator');
+        $this->assertEquals($translator->trans('page.products.no-products.title'), $client->getCrawler()->filter('.no-products__title')->first()->text());
+    }
+
+    /**
+     * @test
+     */
+    public function itDisplaySpecificMessageWhenCatalogIsDisabled(): void
+    {
+        $client = $this->initializeClientWithSession([
+            'pim_url' => 'https://example.com',
+            'akeneo_pim_access_token' => 'random_access_token',
+            'akeneo_pim_catalog_id' => '8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
+        ]);
+
+        $client->request('GET', '/products');
+        $this->assertResponseIsSuccessful();
+
+        $translator = $this->container->get('translator');
+        $this->assertEquals($translator->trans('page.products.catalog-disabled.title'), $client->getCrawler()->filter('.no-products__title')->first()->text());
+    }
+
+    /**
+     * @test
+     */
     public function itRedirectsToActivateWhenCatalogIsNotInSession(): void
     {
         $client = $this->initializeClientWithSession([

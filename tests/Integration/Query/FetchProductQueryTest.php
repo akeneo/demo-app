@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Query;
 
+use App\Exception\CatalogDisabledException;
 use App\PimApi\Model\Product;
 use App\PimApi\Model\ProductValue;
 use App\Query\FetchProductQuery;
@@ -73,5 +74,20 @@ class FetchProductQueryTest extends AbstractIntegrationTest
         $expected = new Product('empty', '[empty]', []);
 
         $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function itThrowDisabledCatalogExceptionWhenCatalogIsDisabled(): void
+    {
+        $this->mockPimAPIResponse(
+            'get-catalogs-store-fr-products-catalog-disabled.json',
+            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/products/16467667-9a29-48c1-90b3-8a169b83e8e6',
+        );
+
+        $this->expectException(CatalogDisabledException::class);
+        $query = static::getContainer()->get(FetchProductQuery::class);
+        $query->fetch('8a8494d2-05cc-4b8f-942e-f5ea7591e89c', '16467667-9a29-48c1-90b3-8a169b83e8e6', 'en_US');
     }
 }

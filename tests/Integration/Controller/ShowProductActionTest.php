@@ -99,4 +99,20 @@ class ShowProductActionTest extends AbstractIntegrationTest
 
         $this->assertResponseRedirects('/authorization/activate');
     }
+
+    /**
+     * @test
+     */
+    public function itRedirectsToProductsPageWhenCatalogIsDisabled(): void
+    {
+        $client = $this->initializeClientWithSession([
+            'pim_url' => 'https://example.com',
+            'akeneo_pim_access_token' => 'random_access_token',
+            'akeneo_pim_catalog_id' => '8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
+        ]);
+
+        $client->request('GET', '/products/16467667-9a29-48c1-90b3-8a169b83e8e6');
+
+        $this->assertResponseRedirects('/products');
+    }
 }

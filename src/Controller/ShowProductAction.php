@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException as AkeneoNotFoundHttpException;
+use App\Exception\CatalogDisabledException;
 use App\Exception\CatalogNotFoundException;
 use App\Exception\CatalogProductNotFoundException;
 use App\PimApi\Model\Catalog;
@@ -40,7 +41,7 @@ final class ShowProductAction
             if ($catalog->enabled) {
                 $product = $this->fetchProductQuery->fetch($catalog->id, $uuid, $locale);
             } else {
-                throw new CatalogNotFoundException();
+                throw new CatalogDisabledException();
             }
         } catch (AkeneoNotFoundHttpException|CatalogProductNotFoundException $e) {
             throw new NotFoundHttpException('PIM API replied with a 404', $e);

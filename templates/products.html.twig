@@ -48,18 +48,33 @@
                     </a>
                 </article>
             {% else %}
-                <section class="no-products">
-                    <img class="no-products__illustration"
-                         src="{{ asset('build/images/draft.svg') }}"
-                         alt="{{ 'page.error.illustration_alt' | trans }}">
-                    <h3 class="no-products__title">{{ 'page.products.no-products.title' | trans }}</h3>
-                    <p class="no-products__description">{{ 'page.products.no-products.description' | trans }}</p>
-                    <a href="{{ app.session.get('pim_url') }}/connect/apps/v1/catalogs/{{ catalog.id }}"
-                       target="_blank"
-                       class="no-products__catalog-button">
-                        {{ 'page.products.no-products.catalog-button' | trans }}
-                    </a>
-                </section>
+                {% if catalog.enabled == false %}
+                    <section class="no-products">
+                        <img class="no-products__illustration"
+                             src="{{ asset('build/images/draft.svg') }}"
+                             alt="{{ 'page.error.illustration_alt' | trans }}">
+                        <h3 class="no-products__title">{{ 'page.products.catalog-disabled.title' | trans }}</h3>
+                        <p class="no-products__description">{{ 'page.products.catalog-disabled.description' | trans}}</p>
+                        <a href="{{ app.session.get('pim_url') }}/connect/apps/v1/catalogs/{{ catalog.id }}"
+                           target="_blank"
+                           class="no-products__catalog-button">
+                            {{ 'page.products.catalog-disabled.catalog-button' | trans }}
+                        </a>
+                    </section>
+                {% else %}
+                    <section class="no-products">
+                        <img class="no-products__illustration"
+                             src="{{ asset('build/images/draft.svg') }}"
+                             alt="{{ 'page.error.illustration_alt' | trans }}">
+                        <h3 class="no-products__title">{{ 'page.products.no-products.title' | trans }}</h3>
+                        <p class="no-products__description">{{ 'page.products.no-products.description' | trans }}</p>
+                        <a href="{{ app.session.get('pim_url') }}/connect/apps/v1/catalogs/{{ catalog.id }}"
+                           target="_blank"
+                           class="no-products__catalog-button">
+                            {{ 'page.products.no-products.catalog-button' | trans }}
+                        </a>
+                    </section>
+                {% endif %}
             {% endfor %}
         </div>
     </section>

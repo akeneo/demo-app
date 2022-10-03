@@ -8,6 +8,7 @@ use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException as AkeneoNotFoundHttpException;
 use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
+use App\Exception\CatalogDisabledException;
 use App\Exception\CatalogProductNotFoundException;
 use App\PimApi\Model\Product;
 use App\PimApi\Model\ProductValue;
@@ -35,6 +36,12 @@ final class FetchProductQuery
         } catch (\Exception $e) {
             throw new CatalogProductNotFoundException();
         }
+
+        /* @phpstan-ignore-next-line */
+        if (isset($rawProduct['message'])) {
+            throw new CatalogDisabledException();
+        }
+
         $scope = $this->findFirstAvailableScope($rawProduct);
         $familyAttributeAsLabel = $this->findAttributeAsLabel($rawProduct);
         $attributes = $this->fetchAttributes($rawProduct);
