@@ -18,14 +18,14 @@ make up
 
 ### Test the Demo App
 
-If you are running a PIM locally with docker, first, create a `.env.local` file in the PIM directory with the following values:
-```
-AKENEO_PIM_URL=http://172.17.0.1:8080
-FLAG_APP_DEVELOPER_MODE_ENABLED=1
-```
-Check our documentation: [How to test my App?](https://api.akeneo.com/apps/how-to-test-my-app.html)  
-And fill the form with the url `http://172.17.0.1:8090` exposed by docker:
-![Test app creation form](documentation/creation-form-test-app.png)
+**Requirements:**
+- You have a [PIM developer sandbox](https://api.akeneo.com/apps/overview.html#app-developer-starter-kit)
+
+**Steps:**
+- Create a [public url](https://api.akeneo.com/apps/apps-getting-started.html#step-2-get-a-public-url-for-your-in-development-app) for your app
+- Register your test app to [receive the credentials](https://api.akeneo.com/apps/apps-getting-started.html#step-3-get-your-test-app-credentials)
+- Update `AKENEO_CLIENT_ID` & `AKENEO_CLIENT_SECRET` in `.env` with the credentials
+- [Connect your app](https://api.akeneo.com/apps/apps-getting-started.html#step-4-connect-your-test-app-and-access-its-settings)
 
 ### Useful commands
 
