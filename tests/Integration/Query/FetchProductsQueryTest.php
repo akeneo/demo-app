@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Query;
 
+use App\Exception\CatalogDisabledException;
 use App\PimApi\Model\Product;
 use App\Query\FetchProductsQuery;
 use App\Tests\Integration\AbstractIntegrationTest;
@@ -82,5 +83,35 @@ class FetchProductsQueryTest extends AbstractIntegrationTest
         ];
 
         $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function itThrowDisabledCatalogExceptionWhenCatalogIsDisabledWithMessageInThePayload(): void
+    {
+        $this->mockPimAPIResponse(
+            'get-catalogs-store-fr-products-catalog-disabled.json',
+            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/products?limit=10',
+        );
+
+        $this->expectException(CatalogDisabledException::class);
+        $query = static::getContainer()->get(FetchProductsQuery::class);
+        $query->fetch('fr_FR', '8a8494d2-05cc-4b8f-942e-f5ea7591e89c');
+    }
+
+    /**
+     * @test
+     */
+    public function itThrowDisabledCatalogExceptionWhenCatalogIsDisabledWithErrorInThePayload(): void
+    {
+        $this->mockPimAPIResponse(
+            'get-catalogs-store-fr-products-catalog-disabled-with-error.json',
+            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/products?limit=10',
+        );
+
+        $this->expectException(CatalogDisabledException::class);
+        $query = static::getContainer()->get(FetchProductsQuery::class);
+        $query->fetch('fr_FR', '8a8494d2-05cc-4b8f-942e-f5ea7591e89c');
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\PimApi;
 
+use App\Exception\CatalogDisabledException;
 use App\PimApi\Model\Catalog;
 use App\Storage\AccessTokenStorageInterface;
 use App\Storage\PimURLStorageInterface;
@@ -88,6 +89,10 @@ class PimCatalogApiClient
             ],
         ])->toArray();
 
+        if (isset($response['message']) || isset($response['error'])) {
+            throw new CatalogDisabledException();
+        }
+
         return $response['_embedded']['items'];
     }
 
@@ -100,6 +105,12 @@ class PimCatalogApiClient
 
         $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/products/$productUuid";
 
-        return $this->client->request('GET', $catalogEndpointUrl)->toArray();
+        $response = $this->client->request('GET', $catalogEndpointUrl)->toArray();
+
+        if (isset($response['message']) || isset($response['error'])) {
+            throw new CatalogDisabledException();
+        }
+
+        return $response;
     }
 }

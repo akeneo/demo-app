@@ -33,13 +33,10 @@ final class FetchProductQuery
         try {
             /** @var RawProduct $rawProduct */
             $rawProduct = $this->catalogApiClient->getCatalogProduct($catalogId, $productUuid);
+        } catch (CatalogDisabledException $e) {
+            throw $e;
         } catch (\Exception $e) {
             throw new CatalogProductNotFoundException();
-        }
-
-        /* @phpstan-ignore-next-line */
-        if (isset($rawProduct['message'])) {
-            throw new CatalogDisabledException();
         }
 
         $scope = $this->findFirstAvailableScope($rawProduct);
