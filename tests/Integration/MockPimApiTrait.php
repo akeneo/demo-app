@@ -133,19 +133,35 @@ trait MockPimApiTrait
         );
         $this->mockPimAPIResponse(
             'get-catalogs-store-fr.json',
-            'https://example.com/api/rest/v1/catalogs/catalog_store_fr_id',
+            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
         );
         $this->mockPimAPIResponse(
             'get-catalogs-store-us.json',
-            'https://example.com/api/rest/v1/catalogs/catalog_store_us_id',
+            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a',
         );
         $this->mockPimAPIResponse(
             'get-catalogs-product-identifiers-store-us.json',
-            'https://example.com/api/rest/v1/catalogs/catalog_store_us_id/product-identifiers?limit=10',
+            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/product-identifiers?limit=10',
         );
         $this->mockPimAPIResponse(
             'get-products-in-identifiers.json',
             'https://example.com/api/rest/v1/products?search=%7B%22identifier%22%3A%5B%7B%22operator%22%3A%22IN%22%2C%22value%22%3A%5B%221004114%22%2C%2210649473%22%2C%2210655295%22%5D%7D%5D%7D&locales=en_US&limit=10&with_count=false',
+        );
+        $this->mockPimAPIResponse(
+            'get-catalogs-store-us-products-scanners.json',
+            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products?limit=10',
+        );
+        $this->mockPimAPIResponse(
+            'get-catalogs-store-us-product-scanner.json',
+            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products/554ed26b-b179-4058-9ff8-4e4a660dbd8a',
+        );
+        $this->mockPimAPIResponse(
+            'get-catalogs-store-us-product-sunglasses.json',
+            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products/16467667-9a29-48c1-90b3-8a169b83e8e6',
+        );
+        $this->mockPimAPIResponse(
+            'get-catalogs-store-us-product-empty.json',
+            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products/empty',
         );
     }
 }

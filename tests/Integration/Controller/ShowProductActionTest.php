@@ -27,9 +27,10 @@ class ShowProductActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
+            'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
         ]);
 
-        $crawler = $client->request('GET', '/products/1111111304');
+        $crawler = $client->request('GET', '/products/16467667-9a29-48c1-90b3-8a169b83e8e6');
         $this->assertResponseIsSuccessful();
 
         $this->assertSelectorTextContains('.locale-switcher__language', '🇺🇸 English (United States)');
@@ -56,11 +57,12 @@ class ShowProductActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
+            'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
         ]);
 
         $this->mockHttpResponse(
             'GET',
-            'https://example.com/api/rest/v1/products/wrong_identifier_1234',
+            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products/wrong_identifier_1234',
             [],
             new MockResponse('', ['http_code' => 404])
         );
@@ -96,5 +98,21 @@ class ShowProductActionTest extends AbstractIntegrationTest
         $client->request('GET', '/products/wrong_identifier_1234');
 
         $this->assertResponseRedirects('/authorization/activate');
+    }
+
+    /**
+     * @test
+     */
+    public function itRedirectsToProductsPageWhenCatalogIsDisabled(): void
+    {
+        $client = $this->initializeClientWithSession([
+            'pim_url' => 'https://example.com',
+            'akeneo_pim_access_token' => 'random_access_token',
+            'akeneo_pim_catalog_id' => '8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
+        ]);
+
+        $client->request('GET', '/products/16467667-9a29-48c1-90b3-8a169b83e8e6');
+
+        $this->assertResponseRedirects('/products');
     }
 }

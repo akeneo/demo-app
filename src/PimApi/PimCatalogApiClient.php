@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\PimApi;
 
+use App\Exception\CatalogDisabledException;
 use App\PimApi\Model\Catalog;
 use App\Storage\AccessTokenStorageInterface;
 use App\Storage\PimURLStorageInterface;
@@ -68,5 +69,48 @@ class PimCatalogApiClient
         }
 
         return $pimUrl;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getCatalogProducts(string $catalogId, int $limit = 10, ?string $searchAfter = null, ?string $updatedAfter = null, ?string $updatedBefore = null): array
+    {
+        $pimUrl = $this->getPimUrl();
+
+        $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/products";
+
+        $response = $this->client->request('GET', $catalogEndpointUrl, [
+            'query' => [
+                'search_after' => $searchAfter,
+                'limit' => $limit,
+                'updated_after' => $updatedAfter,
+                'updated_before' => $updatedBefore,
+            ],
+        ])->toArray();
+
+        if (isset($response['message']) || isset($response['error'])) {
+            throw new CatalogDisabledException();
+        }
+
+        return $response['_embedded']['items'];
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getCatalogProduct(string $catalogId, string $productUuid): array
+    {
+        $pimUrl = $this->getPimUrl();
+
+        $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/products/$productUuid";
+
+        $response = $this->client->request('GET', $catalogEndpointUrl)->toArray();
+
+        if (isset($response['message']) || isset($response['error'])) {
+            throw new CatalogDisabledException();
+        }
+
+        return $response;
     }
 }
