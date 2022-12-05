@@ -21,8 +21,12 @@
             </thead>
             <tbody>
             {% for catalog in catalogs %}
-                <tr>
-                    <td><a href="{{ path('catalog', {id: catalog.id}) }}">{{ catalog.name }}</a></td>
+                <tr onclick="(event => {
+                    if (this.querySelector('a.configure-link') !== event.target){
+                        window.location= '{{ path('catalog', {id: catalog.id}) }}';
+                    }
+                })(event)">
+                    <td>{{ catalog.name }}</td>
                     <td>
                         <div class="catalogs__details">
                             <span class="badge badge{{ catalog.enabled ? '-primary' : '-danger' }}">
@@ -41,5 +45,4 @@
             </tbody>
         </table>
     </div>
-
 {% endblock %}
