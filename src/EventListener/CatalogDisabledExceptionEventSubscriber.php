@@ -37,6 +37,6 @@ class CatalogDisabledExceptionEventSubscriber implements EventSubscriberInterfac
 
     private function buildRedirectionUrl(ExceptionEvent $event): string
     {
-        return $this->router->generate('products');
+        return $this->router->generate('catalogs');
     }
 }

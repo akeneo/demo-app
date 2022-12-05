@@ -1,0 +1,24 @@
+@use "../base/variables";
+
+.badge {
+  display: inline-flex;
+  height: 18px;
+  line-height: 16px;
+  border: 1px solid;
+  padding: 0 6px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  background-color: variables.$color-white;
+  font-size: variables.$font-size-small;
+
+  &-primary {
+    color: variables.$color-green-140;
+    border-color: variables.$color-green-100;
+  }
+
+  &-danger {
+    color: variables.$color-red-140;
+    border-color: variables.$color-red-100;
+  }
+}

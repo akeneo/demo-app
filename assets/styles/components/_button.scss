@@ -1,0 +1,15 @@
+@use "../base/variables";
+
+.button {
+  font-size: variables.$font-size-default;
+  line-height: 16px;
+  text-transform: uppercase;
+  background-color: variables.$color-demo-blue;
+  color: variables.$color-white;
+  border-radius: 20px;
+  padding: 8px 15px;
+  text-decoration: none;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}

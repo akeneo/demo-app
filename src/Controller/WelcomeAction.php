@@ -44,7 +44,7 @@ final class WelcomeAction
 
         $accessToken = $this->accessTokenSessionStorage->getAccessToken();
         if (null !== $accessToken) {
-            return new RedirectResponse($this->router->generate('products'));
+            return new RedirectResponse($this->router->generate('catalogs'));
         }
 
         return new Response($this->twig->render('welcome.html.twig'));

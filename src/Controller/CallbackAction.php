@@ -66,7 +66,7 @@ final class CallbackAction
         $catalogId = $this->fetchOrCreateDefaultDemoCatalogQuery->fetch();
         $this->catalogIdStorage->setCatalogId($catalogId);
 
-        return new RedirectResponse($this->router->generate('products'));
+        return new RedirectResponse($this->router->generate('catalogs'));
     }
 
     /**

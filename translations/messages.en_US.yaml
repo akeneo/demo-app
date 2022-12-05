@@ -20,6 +20,26 @@ page:
             logo_alt: Akeneo
             baseline: Unlocking Growth Through Product Experiences
 
+    catalogs:
+        title: Catalogs | Akeneo app demo
+        information:
+            helper-title: Welcome on the Akeneo demo app
+            content-1: Here you can test how the Akeneo App features work. There are two possibilities for an app to get your PIM data.
+            content-2: You can use a catalog with product value filters to get your product data as they are organized in the PIM or get your data in a specific format using a catalog with attribute mapping.
+            content-3: To test the catalog configuration, please click on CONFIGURE CATALOG in the catalog list above.
+
+        list:
+            header:
+                catalog-name: Catalog name
+                status: Status
+            status:
+                enabled: Enabled
+                disabled: Disabled
+            actions:
+                configure: Configure catalog
+            helpers:
+                value-filters: Use this catalog to get your product data as they are organized in the PIM
+                attribute-mapping: Use this catalog to get your product data in a format required by the demo app
     products:
         title: Products | Akeneo app demo
         product-filters:

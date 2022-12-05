@@ -1,0 +1,43 @@
+@use "../base/variables";
+
+.catalogs {
+  &__list {
+    margin-top: 53px;
+  }
+
+  &__details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+  }
+
+  .configure-link {
+    line-height: 16px;
+    background-color: variables.$color-green-100;
+    color: variables.$color-white;
+
+    &::after {
+      width: 12px;
+      height: 13px;
+      margin-left: 7px;
+      content: url("/assets/images/return-white.svg");
+      vertical-align: middle;
+    }
+  }
+
+  .helper {
+    font-size: variables.$font-size-small;
+    color: variables.$color-grey-120;
+    white-space: break-spaces;
+    flex: 1;
+
+    &::before {
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
+      content: url("/assets/images/info.svg");
+      vertical-align: middle;
+    }
+  }
+}

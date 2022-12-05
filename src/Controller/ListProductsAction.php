@@ -27,8 +27,8 @@ final class ListProductsAction
     ) {
     }
 
-    #[Route('/products', name: 'products', methods: ['GET'])]
-    public function __invoke(Request $request): Response
+    #[Route('/catalogs/{id}', name: 'catalog', methods: ['GET'])]
+    public function __invoke(Request $request, string $id): Response
     {
         $catalog = $this->getDefaultCatalog();
         $locale = $this->guessCurrentLocaleQuery->guess();
