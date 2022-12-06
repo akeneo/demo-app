@@ -103,7 +103,7 @@ class ShowProductActionTest extends AbstractIntegrationTest
     /**
      * @test
      */
-    public function itRedirectsToProductsPageWhenCatalogIsDisabled(): void
+    public function itRedirectsToCatalogsPageWhenCatalogIsDisabled(): void
     {
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
@@ -113,6 +113,6 @@ class ShowProductActionTest extends AbstractIntegrationTest
 
         $client->request('GET', '/products/16467667-9a29-48c1-90b3-8a169b83e8e6');
 
-        $this->assertResponseRedirects('/products');
+        $this->assertResponseRedirects('/catalogs');
     }
 }

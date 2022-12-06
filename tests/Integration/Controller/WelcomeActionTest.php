@@ -13,11 +13,11 @@ class WelcomeActionTest extends AbstractIntegrationTest
     /**
      * @test
      */
-    public function itRedirectsToTheProductsPageWhenTheAccessTokenIsSet(): void
+    public function itRedirectsToTheCatalogsPageWhenTheAccessTokenIsSet(): void
     {
         $client = $this->initializeClientWithSession(['akeneo_pim_access_token' => 'random_token']);
         $client->request('GET', '/?pim_url=https://httpd');
-        $this->assertResponseRedirects('/products', Response::HTTP_FOUND);
+        $this->assertResponseRedirects('/catalogs', Response::HTTP_FOUND);
     }
 
     /**

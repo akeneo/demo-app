@@ -31,7 +31,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
             'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
         ]);
 
-        $client->request('GET', '/products');
+        $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
         $this->assertResponseIsSuccessful();
 
         $this->assertSelectorTextContains('.current-locale', '🇺🇸 English (United States)');
@@ -49,7 +49,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
             'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
         ]);
 
-        $client->request('GET', '/products');
+        $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
 
         $this->assertEquals('https://example.com', $client->getCrawler()->selectLink('Go to Akeneo PIM')->attr('href'));
     }
@@ -65,7 +65,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
             'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
         ]);
 
-        $client->request('GET', '/products');
+        $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
 
         $this->assertEquals(
             'https://marketplace.akeneo.com/extension/akeneo-demo-app',
@@ -85,7 +85,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
             'akeneo_pim_catalog_id' => '8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
         ]);
 
-        $client->request('GET', '/products');
+        $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
         $this->assertResponseIsSuccessful();
 
         $this->assertSelectorTextContains('.current-locale', '🇺🇸 English (United States)');
@@ -108,7 +108,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
             'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
         ]);
 
-        $client->request('GET', '/products');
+        $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
         $this->assertResponseIsSuccessful();
 
         $translator = $this->container->get('translator');
@@ -126,7 +126,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
             'akeneo_pim_catalog_id' => '8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
         ]);
 
-        $client->request('GET', '/products');
+        $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
         $this->assertResponseIsSuccessful();
 
         $translator = $this->container->get('translator');
@@ -143,7 +143,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
             'akeneo_pim_access_token' => 'random_access_token',
         ]);
 
-        $client->request('GET', '/products');
+        $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
 
         $this->assertResponseRedirects('/authorization/activate', Response::HTTP_FOUND);
 
@@ -168,7 +168,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
             'akeneo_pim_catalog_id' => '8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
         ]);
 
-        $client->request('GET', '/products');
+        $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
 
         $this->assertResponseRedirects('/authorization/activate', Response::HTTP_FOUND);
 
