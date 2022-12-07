@@ -46,7 +46,7 @@ class PimCatalogApiClient
         try {
             $response = $this->getClient()->request('GET', $catalogEndpointUrl)->toArray();
         } catch (\Exception $exception) {
-            throw new PimApiException($exception->getMessage(), $exception->getCode());
+            throw new PimApiException($exception->getCode().': Couldn\'t retrieve catalog');
         }
 
         return new Catalog(
@@ -68,7 +68,7 @@ class PimCatalogApiClient
         try {
             $response = $this->getClient()->request('GET', $catalogEndpointUrl)->toArray();
         } catch (\Exception $exception) {
-            throw new PimApiException($exception->getMessage(), $exception->getCode());
+            throw new PimApiException($exception->getCode().': Couldn\'t retrieve catalogs');
         }
 
         $catalogList = [];

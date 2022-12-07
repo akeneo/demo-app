@@ -85,7 +85,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
             'akeneo_pim_catalog_id' => '8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
         ]);
 
-        $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
+        $client->request('GET', '/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c');
         $this->assertResponseIsSuccessful();
 
         $this->assertSelectorTextContains('.current-locale', '🇺🇸 English (United States)');

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Exception\CatalogNotFoundException;
+use App\PimApi\Exception\PimApiException;
 use App\PimApi\Model\Catalog;
 use App\PimApi\PimCatalogApiClient;
 use App\Query\FetchProductsQuery;
 use App\Query\GuessCurrentLocaleQuery;
 use App\Storage\CatalogIdStorageInterface;
-use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -57,7 +57,7 @@ final class ListProductsAction
 
         try {
             $catalog = $this->catalogApiClient->getCatalog($catalogId);
-        } catch (ClientException) {
+        } catch (PimApiException) {
             throw new CatalogNotFoundException();
         }
 
