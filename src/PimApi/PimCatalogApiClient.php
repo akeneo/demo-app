@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\PimApi;
 
 use App\Exception\CatalogDisabledException;
+use App\PimApi\Exception\PimApiException;
 use App\PimApi\Model\Catalog;
 use App\Storage\AccessTokenStorageInterface;
 use App\Storage\PimURLStorageInterface;
@@ -15,9 +16,13 @@ class PimCatalogApiClient
     public function __construct(
         private HttpClientInterface $client,
         private readonly PimURLStorageInterface $pimURLStorage,
-        AccessTokenStorageInterface $accessTokenStorage,
+        private readonly AccessTokenStorageInterface $accessTokenStorage,
     ) {
-        $accessToken = $accessTokenStorage->getAccessToken();
+    }
+
+    private function getClient(): HttpClientInterface
+    {
+        $accessToken = $this->accessTokenStorage->getAccessToken();
         if (null === $accessToken) {
             throw new \LogicException('Can\'t retrieve access token, please restart the authorization process.');
         }
@@ -28,6 +33,8 @@ class PimCatalogApiClient
                 'Authorization' => 'Bearer '.$accessToken,
             ],
         ]);
+
+        return $this->client;
     }
 
     public function getCatalog(string $catalogId): Catalog
@@ -36,7 +43,11 @@ class PimCatalogApiClient
 
         $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId";
 
-        $response = $this->client->request('GET', $catalogEndpointUrl)->toArray();
+        try {
+            $response = $this->getClient()->request('GET', $catalogEndpointUrl)->toArray();
+        } catch (\Exception $exception) {
+            throw new PimApiException($exception->getMessage(), $exception->getCode());
+        }
 
         return new Catalog(
             $response['id'],
@@ -54,7 +65,11 @@ class PimCatalogApiClient
 
         $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs";
 
-        $response = $this->client->request('GET', $catalogEndpointUrl)->toArray();
+        try {
+            $response = $this->getClient()->request('GET', $catalogEndpointUrl)->toArray();
+        } catch (\Exception $exception) {
+            throw new PimApiException($exception->getMessage(), $exception->getCode());
+        }
 
         $catalogList = [];
         foreach ($response['_embedded']['items'] as $catalogItem) {
@@ -68,6 +83,44 @@ class PimCatalogApiClient
         return $catalogList;
     }
 
+    public function createCatalog(string $name): Catalog
+    {
+        $catalogEndpointUrl = $this->getPimUrl().'/api/rest/v1/catalogs';
+        $response = $this->getClient()->request('POST', $catalogEndpointUrl, [
+            'json' => [
+                'name' => $name,
+            ],
+        ]);
+
+        if (201 !== $response->getStatusCode()) {
+            throw new PimApiException($response->getStatusCode().': Couldn\'t create catalog');
+        }
+
+        $response = $response->toArray();
+
+        return new Catalog(
+            $response['id'],
+            $response['name'],
+            $response['enabled'],
+        );
+    }
+
+    public function setProductMappingSchema(string $catalogId, string $productMappingSchema): void
+    {
+        $catalogEndpointUrl = \sprintf(
+            '%s/api/rest/v1/catalogs/%s/mapping-schemas/product',
+            $this->getPimUrl(),
+            $catalogId,
+        );
+        $response = $this->getClient()->request('PUT', $catalogEndpointUrl, [
+            'body' => $productMappingSchema,
+        ]);
+
+        if (204 !== $response->getStatusCode()) {
+            throw new PimApiException($response->getStatusCode().': Couldn\'t update product mapping schema');
+        }
+    }
+
     /**
      * @return array<string>
      */
@@ -77,7 +130,7 @@ class PimCatalogApiClient
 
         $catalogIdentifierEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/product-identifiers";
 
-        $response = $this->client->request('GET', $catalogIdentifierEndpointUrl, [
+        $response = $this->getClient()->request('GET', $catalogIdentifierEndpointUrl, [
             'query' => ['limit' => $limit],
         ])->toArray();
 
@@ -103,7 +156,7 @@ class PimCatalogApiClient
 
         $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/products";
 
-        $response = $this->client->request('GET', $catalogEndpointUrl, [
+        $response = $this->getClient()->request('GET', $catalogEndpointUrl, [
             'query' => [
                 'search_after' => $searchAfter,
                 'limit' => $limit,
@@ -128,7 +181,7 @@ class PimCatalogApiClient
 
         $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/products/$productUuid";
 
-        $response = $this->client->request('GET', $catalogEndpointUrl)->toArray();
+        $response = $this->getClient()->request('GET', $catalogEndpointUrl)->toArray();
 
         if (isset($response['message']) || isset($response['error'])) {
             throw new CatalogDisabledException();
