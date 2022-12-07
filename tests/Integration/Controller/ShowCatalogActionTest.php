@@ -57,6 +57,7 @@ class ShowCatalogActionTest extends AbstractIntegrationTest
      */
     public function itRendersALinkThatTargetThePimUrl(): void
     {
+        $catalogId = '70313d30-8316-41c2-b298-8f9e7186fe9a';
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token_123456',
@@ -64,7 +65,7 @@ class ShowCatalogActionTest extends AbstractIntegrationTest
 
         $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
 
-        $this->assertEquals('https://example.com', $client->getCrawler()->selectLink('Go to Akeneo PIM')->attr('href'));
+        $this->assertEquals('https://example.com'.'/connect/apps/v1/catalogs/'.$catalogId, $client->getCrawler()->selectLink('Go to Akeneo PIM')->attr('href'));
     }
 
     /**
