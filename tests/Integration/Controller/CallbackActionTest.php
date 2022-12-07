@@ -165,9 +165,18 @@ class CallbackActionTest extends AbstractIntegrationTest
             [],
             new MockResponse(\json_encode([
                 'id' => '7e018bfd-00e1-4642-951e-4d45684b51f4',
-                'name' => 'Demo App catalog',
+                'name' => 'Catalog with product value filters',
                 'enabled' => true,
-            ]))
+            ], JSON_THROW_ON_ERROR),
+                ['http_code' => 201],
+            )
+        );
+
+        $this->mockHttpResponse(
+            'PUT',
+            'https://example.com/api/rest/v1/catalogs/7e018bfd-00e1-4642-951e-4d45684b51f4/mapping-schemas/product',
+            [],
+            new MockResponse('', ['http_code' => 204])
         );
 
         $this->client->request('GET', '/callback?code=code&state=random_state_123456789');
