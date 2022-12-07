@@ -12,7 +12,7 @@
                 <a href="https://marketplace.akeneo.com/extension/akeneo-demo-app" target="_blank" class="main-navigation__link" >
                     {{ 'common.header.links.help' | trans }}
                 </a>
-                <a href="{{ app.session.get('pim_url') }}" target="_blank" class="main-navigation__link main-navigation__link--external">
+                <a href="{{ app.session.get('pim_url') }}/connect/apps/v1/catalogs/{{ catalog.id }}" target="_blank" class="main-navigation__link main-navigation__link--external">
                     {{ 'common.header.links.go-to-pim-url' | trans }}
                 </a>
             </nav>
