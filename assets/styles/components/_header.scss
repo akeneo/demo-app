@@ -8,13 +8,15 @@
   &__logo {
     width: 200px;
     height: 52px;
-    margin-right: 170px;
+    margin-left: 0;
   }
 }
 
 .main-navigation {
+  margin-left: auto;
+
   &__link {
-    margin-right: 50px;
+    margin-right: 48px;
     font-size: variables.$font-size-big;
     color: variables.$color-grey-140;
 
@@ -36,7 +38,7 @@
 }
 
 .user {
-  margin-left: auto;
+  margin-left: 0;
   display: flex;
   align-items: center;
 
