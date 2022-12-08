@@ -14,9 +14,10 @@
 
 .main-navigation {
   margin-left: auto;
+  padding-bottom: 12px;
 
   &__link {
-    margin-right: 22px;
+    margin-right: 15px;
     font-size: variables.$font-size-big;
     color: variables.$color-grey-140;
 
@@ -29,7 +30,7 @@
       color: variables.$color-grey-120;
 
       &::after {
-        margin-left: 6px;
+        margin-left: 1px;
         content: url("/assets/images/return.svg");
         vertical-align: middle;
       }
@@ -38,9 +39,10 @@
 }
 
 .user {
-  margin-left: 26px;
+  margin-left: 10px;
   display: flex;
   align-items: center;
+  padding-bottom: 12px;
 
   &__name {
     color: variables.$color-demo-blue;
