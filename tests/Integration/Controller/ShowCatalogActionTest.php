@@ -55,7 +55,7 @@ class ShowCatalogActionTest extends AbstractIntegrationTest
     /**
      * @test
      */
-    public function itRendersALinkThatTargetThePimUrl(): void
+    public function itRendersALinkThatTargetThePimConnectedAppUrl(): void
     {
         $catalogId = '70313d30-8316-41c2-b298-8f9e7186fe9a';
         $client = $this->initializeClientWithSession([
