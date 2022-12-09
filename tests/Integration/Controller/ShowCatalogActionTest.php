@@ -81,7 +81,7 @@ class ShowCatalogActionTest extends AbstractIntegrationTest
         $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
 
         $this->assertEquals(
-            'https://marketplace.akeneo.com/extension/akeneo-demo-app',
+            'https://apps.akeneo.com/extension/akeneo-demo-app',
             $client->getCrawler()->selectLink('Help')->attr('href')
         );
     }
