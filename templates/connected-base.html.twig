@@ -9,7 +9,7 @@
                 <a href="https://apps.akeneo.com/extension/akeneo-demo-app" target="_blank" class="main-navigation__link main-navigation__link--external" >
                     {{ 'common.header.links.help' | trans }}
                 </a>
-                <a href="{{ app.session.get('pim_url') }}/#/connect/connected-apps/{{ connected_app.id }}" target="_blank" class="main-navigation__link main-navigation__link--external">
+                <a href="{{ app.session.get('pim_url') }}/connect/apps/v1/connected_app/{{ connected_app_id }}" target="_blank" class="main-navigation__link main-navigation__link--external">
                     {{ 'common.header.links.go-to-pim-url' | trans }}
                 </a>
             </nav>

@@ -27,6 +27,7 @@ final class ShowProductAction
         private FetchProductQuery $fetchProductQuery,
         private FetchMappedProductQuery $fetchMappedProductQuery,
         private readonly PimCatalogApiClient $catalogApiClient,
+        private readonly string $akeneoClientId,
     ) {
     }
 
@@ -58,7 +59,7 @@ final class ShowProductAction
             $this->twig->render('product.html.twig', [
                 'locale' => $locale,
                 'product' => $product,
-                'catalog' => $catalog,
+                'connected_app_id' => $this->akeneoClientId,
             ])
         );
     }
