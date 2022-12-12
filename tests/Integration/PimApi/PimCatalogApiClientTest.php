@@ -184,8 +184,10 @@ class PimCatalogApiClientTest extends AbstractIntegrationTest
             new MockResponse('', ['http_code' => 204])
         );
 
-        $this->expectNotToPerformAssertions();
         $this->pimCatalogApiClient->setProductMappingSchema($catalogId, 'mapping_json_content');
+
+        // expect no exception to occur
+        $this->assertTrue(true);
     }
 
     /**
