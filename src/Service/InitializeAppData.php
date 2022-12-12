@@ -31,6 +31,7 @@ final class InitializeAppData
             $this->pimCatalogApiClient->setProductMappingSchema($attributeMappingCatalog->id, $this->getProductMappingSchema());
         }
 
+        /* @TODO to remove along with its storage once product list and product details pages stop using it */
         $this->catalogIdStorage->setCatalogId($valueFilterCatalog->id);
     }
 
