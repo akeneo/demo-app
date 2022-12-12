@@ -9,10 +9,10 @@ common:
 
 page:
     welcome:
-        title: Akeneo app demo
+        title: Akeneo App Demo
         connect:
-            logo_alt: Akeneo app demo
-            message: You reached the Akeneo app demo. Click on Connect and test our brand-new step-by-step activation process.
+            logo_alt: Akeneo App Demo
+            message: You reached the Akeneo App Demo. Click on Connect and test our brand-new step-by-step activation process.
             no_pim_url: Go to your PIM and click on Connect in the App Store page.
             button: Connect
         akeneo_solution:
@@ -21,9 +21,9 @@ page:
             baseline: Unlocking Growth Through Product Experiences
 
     catalogs:
-        title: Catalogs | Akeneo app demo
+        title: Catalogs | Akeneo App Demo
         information:
-            helper-title: Welcome on the Akeneo demo app
+            helper-title: Welcome on the Akeneo Demo App
             content-1: Here you can test how the Akeneo App features work. There are two possibilities for an app to get your PIM data.
             content-2: You can use a catalog with product value filters to get your product data as they are organized in the PIM or get your data in a specific format using a catalog with attribute mapping.
             content-3: To test the catalog configuration, please click on CONFIGURE CATALOG in the catalog list above.
@@ -39,9 +39,9 @@ page:
                 configure: Configure catalog
             helpers:
                 value-filters: Use this catalog to get your product data as they are organized in the PIM
-                attribute-mapping: Use this catalog to get your product data in a format required by the demo app
+                attribute-mapping: Use this catalog to get your product data in a format required by the Demo App
     products:
-        title: Products | Akeneo app demo
+        title: Products | Akeneo App Demo
         product-filters:
             filters: Filters
             locale: Locale
@@ -63,10 +63,10 @@ page:
             catalog-button: Configure catalog
 
     product:
-        title: Product | Akeneo app demo
+        title: Product | Akeneo App Demo
         information:
             helper-title: Your product data
-            content: Our app demo only displays values it can access. If you use an Enterprise Edition (Flexibility or Serenity), these values depend on attribute groups and locales you selected in the step-by-step activation process. You can update these permissions in the connected app settings of your PIM.
+            content: Our App Demo only displays values it can access. If you use an Enterprise Edition (Flexibility or Serenity), these values depend on attribute groups and locales you selected in the step-by-step activation process. You can update these permissions in the connected app settings of your PIM.
             link: Set up connected app permissions
         breadcrumb_root: Catalog
         locales: Locales
