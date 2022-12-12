@@ -32,7 +32,7 @@
                             <span class="badge badge{{ catalog.enabled ? '-primary' : '-danger' }}">
                             {{ (catalog.enabled ? 'page.catalogs.list.status.enabled' : 'page.catalogs.list.status.disabled') | trans }}
                             </span>
-                            {% set helperMessage = (catalog.name is same as('Demo App catalog'))
+                            {% set helperMessage = (catalog.name is same as('Catalog with product value filters'))
                                 ? 'page.catalogs.list.helpers.value-filters'
                                 : 'page.catalogs.list.helpers.attribute-mapping'
                             %}
