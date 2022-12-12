@@ -42,12 +42,13 @@ class PimCatalogApiClient
         $pimUrl = $this->getPimUrl();
 
         $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId";
+        $response = $this->getClient()->request('GET', $catalogEndpointUrl);
 
-        try {
-            $response = $this->getClient()->request('GET', $catalogEndpointUrl)->toArray();
-        } catch (\Exception $exception) {
-            throw new PimApiException($exception->getCode().': Couldn\'t retrieve catalog');
+        if (200 !== $response->getStatusCode()) {
+            throw new PimApiException($response->getStatusCode().': Couldn\'t get catalog');
         }
+
+        $response = $response->toArray();
 
         return new Catalog(
             $response['id'],
@@ -64,12 +65,13 @@ class PimCatalogApiClient
         $pimUrl = $this->getPimUrl();
 
         $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs";
+        $response = $this->getClient()->request('GET', $catalogEndpointUrl);
 
-        try {
-            $response = $this->getClient()->request('GET', $catalogEndpointUrl)->toArray();
-        } catch (\Exception $exception) {
-            throw new PimApiException($exception->getCode().': Couldn\'t retrieve catalogs');
+        if (200 !== $response->getStatusCode()) {
+            throw new PimApiException($response->getStatusCode().': Couldn\'t get catalogs');
         }
+
+        $response = $response->toArray();
 
         $catalogList = [];
         foreach ($response['_embedded']['items'] as $catalogItem) {
@@ -85,8 +87,8 @@ class PimCatalogApiClient
 
     public function createCatalog(string $name): Catalog
     {
-        $catalogEndpointUrl = $this->getPimUrl().'/api/rest/v1/catalogs';
-        $response = $this->getClient()->request('POST', $catalogEndpointUrl, [
+        $pimUrl = $this->getPimUrl();
+        $response = $this->getClient()->request('POST', "$pimUrl/api/rest/v1/catalogs", [
             'json' => [
                 'name' => $name,
             ],
@@ -107,11 +109,9 @@ class PimCatalogApiClient
 
     public function setProductMappingSchema(string $catalogId, string $productMappingSchema): void
     {
-        $catalogEndpointUrl = \sprintf(
-            '%s/api/rest/v1/catalogs/%s/mapping-schemas/product',
-            $this->getPimUrl(),
-            $catalogId,
-        );
+        $pimUrl = $this->getPimUrl();
+
+        $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/mapping-schemas/product";
         $response = $this->getClient()->request('PUT', $catalogEndpointUrl, [
             'body' => $productMappingSchema,
         ]);
