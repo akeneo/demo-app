@@ -9,7 +9,7 @@ use App\Tests\Integration\MockPimApiTrait;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class ListProductsActionTest extends AbstractIntegrationTest
+class ShowCatalogActionTest extends AbstractIntegrationTest
 {
     use MockPimApiTrait;
 
@@ -28,7 +28,6 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
-            'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
         ]);
 
         $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
@@ -46,7 +45,6 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token_123456',
-            'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
         ]);
 
         $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
@@ -62,7 +60,6 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token_123456',
-            'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
         ]);
 
         $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
@@ -82,7 +79,6 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
-            'akeneo_pim_catalog_id' => '8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
         ]);
 
         $client->request('GET', '/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c');
@@ -105,7 +101,6 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
-            'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
         ]);
 
         $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
@@ -123,10 +118,9 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
-            'akeneo_pim_catalog_id' => '8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
         ]);
 
-        $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
+        $client->request('GET', '/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c');
         $this->assertResponseIsSuccessful();
 
         $translator = $this->container->get('translator');
@@ -136,24 +130,7 @@ class ListProductsActionTest extends AbstractIntegrationTest
     /**
      * @test
      */
-    public function itRedirectsToActivateWhenCatalogIsNotInSession(): void
-    {
-        $client = $this->initializeClientWithSession([
-            'pim_url' => 'https://example.com',
-            'akeneo_pim_access_token' => 'random_access_token',
-        ]);
-
-        $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
-
-        $this->assertResponseRedirects('/authorization/activate', Response::HTTP_FOUND);
-
-        $this->assertNull($client->getRequest()->getSession()->get('akeneo_pim_catalog_id'));
-    }
-
-    /**
-     * @test
-     */
-    public function itRedirectsToActivateWhenCatalogIsNotFound(): void
+    public function itRedirectsToCatalogListPageWhenCatalogIsNotFound(): void
     {
         $this->mockHttpResponse(
             'GET',
@@ -165,13 +142,10 @@ class ListProductsActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
-            'akeneo_pim_catalog_id' => '8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
         ]);
 
-        $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
+        $client->request('GET', '/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c');
 
-        $this->assertResponseRedirects('/authorization/activate', Response::HTTP_FOUND);
-
-        $this->assertNull($client->getRequest()->getSession()->get('akeneo_pim_catalog_id'));
+        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 }

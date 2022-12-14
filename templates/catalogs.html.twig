@@ -23,7 +23,7 @@
             {% for catalog in catalogs %}
                 <tr onclick="(event => {
                     if (this.querySelector('a.configure-link') !== event.target){
-                        window.location= '{{ path('catalog', {id: catalog.id}) }}';
+                        window.location= '{{ path('catalog', {catalogId: catalog.id}) }}';
                     }
                 })(event)">
                     <td>{{ catalog.name }}</td>
