@@ -6,6 +6,7 @@ namespace App\EventListener;
 
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use App\Exception\CatalogNotFoundException;
+use App\PimApi\Exception\PimApiUnauthorizedException;
 use App\Storage\AccessTokenStorageInterface;
 use App\Storage\CatalogIdStorageInterface;
 use Psr\Log\LoggerInterface;
@@ -35,7 +36,9 @@ class UnauthorizedHttpExceptionEventSubscriber implements EventSubscriberInterfa
     public function onException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-        if (!($exception instanceof UnauthorizedHttpException || $exception instanceof CatalogNotFoundException)) {
+        if (!($exception instanceof UnauthorizedHttpException
+            || $exception instanceof CatalogNotFoundException
+            || $exception instanceof PimApiUnauthorizedException)) {
             return;
         }
 
