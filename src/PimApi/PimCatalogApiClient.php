@@ -6,6 +6,7 @@ namespace App\PimApi;
 
 use App\Exception\CatalogDisabledException;
 use App\PimApi\Exception\PimApiException;
+use App\PimApi\Exception\PimApiUnauthorizedException;
 use App\PimApi\Model\Catalog;
 use App\Storage\AccessTokenStorageInterface;
 use App\Storage\PimURLStorageInterface;
@@ -37,6 +38,31 @@ class PimCatalogApiClient
         return $this->client;
     }
 
+    private function getPimUrl(): string
+    {
+        $pimUrl = $this->pimURLStorage->getPimURL();
+        if (null === $pimUrl) {
+            throw new \LogicException('Can\'t retrieve PIM url, please restart the authorization process.');
+        }
+
+        return $pimUrl;
+    }
+
+    /**
+     * @throws PimApiUnauthorizedException
+     * @throws PimApiException
+     */
+    private function throwOnErroneousResponse(int $expectedCode, int $actualCode, string $message): void
+    {
+        if (401 === $actualCode) {
+            throw new PimApiUnauthorizedException();
+        }
+
+        if ($expectedCode !== $actualCode) {
+            throw new PimApiException($actualCode.': '.$message, $actualCode);
+        }
+    }
+
     public function getCatalog(string $catalogId): Catalog
     {
         $pimUrl = $this->getPimUrl();
@@ -44,9 +70,7 @@ class PimCatalogApiClient
         $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId";
         $response = $this->getClient()->request('GET', $catalogEndpointUrl);
 
-        if (200 !== $response->getStatusCode()) {
-            throw new PimApiException($response->getStatusCode().': Couldn\'t get catalog');
-        }
+        $this->throwOnErroneousResponse(200, $response->getStatusCode(), "Couldn't get catalog");
 
         $response = $response->toArray();
 
@@ -67,9 +91,7 @@ class PimCatalogApiClient
         $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs";
         $response = $this->getClient()->request('GET', $catalogEndpointUrl);
 
-        if (200 !== $response->getStatusCode()) {
-            throw new PimApiException($response->getStatusCode().': Couldn\'t get catalogs');
-        }
+        $this->throwOnErroneousResponse(200, $response->getStatusCode(), "Couldn't get catalogs");
 
         $response = $response->toArray();
 
@@ -94,9 +116,7 @@ class PimCatalogApiClient
             ],
         ]);
 
-        if (201 !== $response->getStatusCode()) {
-            throw new PimApiException($response->getStatusCode().': Couldn\'t create catalog');
-        }
+        $this->throwOnErroneousResponse(201, $response->getStatusCode(), "Couldn't create catalog");
 
         $response = $response->toArray();
 
@@ -116,35 +136,7 @@ class PimCatalogApiClient
             'body' => $productMappingSchema,
         ]);
 
-        if (204 !== $response->getStatusCode()) {
-            throw new PimApiException($response->getStatusCode().': Couldn\'t update product mapping schema');
-        }
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function getProductIdentifiers(string $catalogId, int $limit = 100): array
-    {
-        $pimUrl = $this->getPimUrl();
-
-        $catalogIdentifierEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/product-identifiers";
-
-        $response = $this->getClient()->request('GET', $catalogIdentifierEndpointUrl, [
-            'query' => ['limit' => $limit],
-        ])->toArray();
-
-        return $response['_embedded']['items'];
-    }
-
-    private function getPimUrl(): string
-    {
-        $pimUrl = $this->pimURLStorage->getPimURL();
-        if (null === $pimUrl) {
-            throw new \LogicException('Can\'t retrieve PIM url, please restart the authorization process.');
-        }
-
-        return $pimUrl;
+        $this->throwOnErroneousResponse(204, $response->getStatusCode(), "Couldn't update product mapping schema");
     }
 
     /**
