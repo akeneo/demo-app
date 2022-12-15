@@ -51,6 +51,7 @@ final class ShowProductAction
             $this->twig->render('product.html.twig', [
                 'locale' => $locale,
                 'product' => $product,
+                'catalog' => $catalog,
             ])
         );
     }

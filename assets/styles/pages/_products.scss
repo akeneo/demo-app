@@ -12,6 +12,12 @@
       color: variables.$color-demo-blue;
     }
 
+    &__header {
+      .page-title {
+        margin: 21px 0 33px;
+      }
+    }
+
     &__list {
       padding-top: 60px;
       display: grid;

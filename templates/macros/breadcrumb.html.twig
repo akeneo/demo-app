@@ -1,0 +1,11 @@
+{% macro breadcrumb(catalog, productLabel = null) %}
+    <nav class="breadcrumb">
+        <a class="breadcrumb__link" href="{{ path('catalogs') }}">{{ 'common.breadcrumb_root' | trans }}</a>
+        {% if productLabel is null %}
+            <span class="breadcrumb__tail">{{ catalog.name }}</span>
+        {% else %}
+            <a class="breadcrumb__link" href="{{ path('catalog', {catalogId: catalog.id}) }}">{{ catalog.name }}</a>
+            <span class="breadcrumb__tail">{{ productLabel }}</span>
+        {% endif %}
+    </nav>
+{% endmacro %}

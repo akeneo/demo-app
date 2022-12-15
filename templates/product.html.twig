@@ -1,6 +1,7 @@
 {% extends 'connected-base.html.twig' %}
 {% import './macros/localeToFlag.html.twig' as localeToFlag %}
 {% import './macros/displayAttribute.html.twig' as displayAttribute %}
+{% from './macros/breadcrumb.html.twig' import breadcrumb %}
 
 {% block title %}{{ 'page.products.title' | trans }}{% endblock %}
 
@@ -14,12 +15,8 @@
         {% endembed %}
         <header class="product__header">
             <div class="product__header__infos">
-                <nav class="breadcrumb__container">
-                    <a href="{{ path('catalogs') }}" class="breadcrumb__step">{{ 'page.product.breadcrumb_root' | trans }}</a>
-                    <span class="breadcrumb__separator" aria-hidden="true">/</span>
-                    <span class="breadcrumb__step">{{ product.label }}</span>
-                </nav>
-                <h1 class="product__title">{{ product.label }}</h1>
+                {{ breadcrumb(catalog, product.label) }}
+                <h1 class="page-title">{{ product.label }}</h1>
             </div>
             <div class="locale-switcher">
                 <button id="locales" class="locale-switcher__button">

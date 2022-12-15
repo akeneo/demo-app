@@ -1,5 +1,5 @@
 {% extends 'connected-base.html.twig' %}
-{% import './macros/localeToFlag.html.twig' as localeToFlag %}
+{% from './macros/breadcrumb.html.twig' import breadcrumb %}
 
 {% block title %}{{ 'page.products.title' | trans }}{% endblock %}
 
@@ -7,6 +7,8 @@
     <div class="products">
         <section class="product-grid">
             <header class="product-grid__header">
+                {{ breadcrumb(catalog) }}
+                <h1 class="page-title">{{ catalog.name }}</h1>
                 {% embed './commons/information.html.twig' with {helperTitle: 'page.products.information.helper-title' | trans({'%count%': products|length}) } %}
                     {% block informationContent %}
                         {{ 'page.products.information.content' | trans }}

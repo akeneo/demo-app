@@ -46,3 +46,9 @@ a {
 .connected-base {
   padding: 31px 100px 50px;
 }
+
+.page-title {
+  font-size: variables.$font-size-title;
+  font-weight: normal;
+  color: variables.$color-demo-blue;
+}
