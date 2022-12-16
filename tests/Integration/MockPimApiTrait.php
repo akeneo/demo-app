@@ -132,6 +132,14 @@ trait MockPimApiTrait
             'https://example.com/api/rest/v1/catalogs',
         );
         $this->mockPimAPIResponse(
+            'get-catalogs-mapped-products.json',
+            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products?limit=10',
+        );
+        $this->mockPimAPIResponse(
+            'get-catalogs-mapped-products-empty-list.json',
+            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/mapped-products?limit=10',
+        );
+        $this->mockPimAPIResponse(
             'get-catalogs-store-fr.json',
             'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
         );
