@@ -181,4 +181,35 @@ class PimCatalogApiClient
 
         return $response;
     }
+
+    public function getMappedProducts(
+        string $catalogId,
+        int $limit = 10,
+        ?string $searchAfter = null,
+        ?string $updatedAfter = null,
+        ?string $updatedBefore = null
+    ): array {
+        $pimUrl = $this->getPimUrl();
+
+        $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/mapped-products";
+
+        $response = $this->getClient()->request('GET', $catalogEndpointUrl, [
+            'query' => [
+                'search_after' => $searchAfter,
+                'limit' => $limit,
+                'updated_after' => $updatedAfter,
+                'updated_before' => $updatedBefore,
+            ],
+        ]);
+
+        $this->throwOnErroneousResponse(200, $response->getStatusCode(), "Couldn't get mapped products");
+
+        $response = $response->toArray();
+
+        if (isset($response['message']) || isset($response['error'])) {
+            throw new CatalogDisabledException();
+        }
+
+        return $response['_embedded']['items'];
+    }
 }
