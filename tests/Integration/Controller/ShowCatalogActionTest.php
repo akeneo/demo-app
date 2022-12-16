@@ -23,7 +23,7 @@ class ShowCatalogActionTest extends AbstractIntegrationTest
     /**
      * @test
      */
-    public function itDisplaysTenProductsAndTheCurrentLocale(): void
+    public function itDisplaysTenProductsOfValueFilterCatalog(): void
     {
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
@@ -33,7 +33,22 @@ class ShowCatalogActionTest extends AbstractIntegrationTest
         $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
         $this->assertResponseIsSuccessful();
 
-        $this->assertSelectorTextContains('.current-locale', '🇺🇸 English (United States)');
+        $this->assertCount(10, $client->getCrawler()->filter('.product-card'));
+    }
+
+    /**
+     * @test
+     */
+    public function itDisplaysTenProductsOfAttributeMappingCatalog(): void
+    {
+        $client = $this->initializeClientWithSession([
+            'pim_url' => 'https://example.com',
+            'akeneo_pim_access_token' => 'random_access_token',
+        ]);
+
+        $client->request('GET', '/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c');
+        $this->assertResponseIsSuccessful();
+
         $this->assertCount(10, $client->getCrawler()->filter('.product-card'));
     }
 
@@ -75,16 +90,15 @@ class ShowCatalogActionTest extends AbstractIntegrationTest
      */
     public function itDisplaysAnEmptyListWithALinkForCatalogConfiguration(): void
     {
-        $catalogConfigurationUrl = 'https://example.com/connect/apps/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c';
+        $catalogConfigurationUrl = 'https://example.com/connect/apps/v1/catalogs/ad1f6e7a-e6d9-495f-b568-f4f473803679';
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
         ]);
 
-        $client->request('GET', '/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c');
+        $client->request('GET', '/catalogs/ad1f6e7a-e6d9-495f-b568-f4f473803679');
         $this->assertResponseIsSuccessful();
 
-        $this->assertSelectorTextContains('.current-locale', '🇺🇸 English (United States)');
         $this->assertCount(0, $client->getCrawler()->filter('.product-card'));
         $this->assertEquals($catalogConfigurationUrl, $client->getCrawler()->selectLink('Configure catalog')->attr('href'));
     }
@@ -120,7 +134,7 @@ class ShowCatalogActionTest extends AbstractIntegrationTest
             'akeneo_pim_access_token' => 'random_access_token',
         ]);
 
-        $client->request('GET', '/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c');
+        $client->request('GET', '/catalogs/ad1f6e7a-e6d9-495f-b568-f4f473803679');
         $this->assertResponseIsSuccessful();
 
         $translator = $this->container->get('translator');

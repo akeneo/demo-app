@@ -34,7 +34,7 @@ class ShowProductActionTest extends AbstractIntegrationTest
         $this->assertResponseIsSuccessful();
 
         $this->assertSelectorTextContains('.locale-switcher__language', '🇺🇸 English (United States)');
-        $this->assertSelectorTextContains('h1.product__title', 'Sunglasses');
+        $this->assertSelectorTextContains('h1.page-title', 'Sunglasses');
 
         $foundAttributes = $crawler->filter('.attribute');
         $this->assertEquals(3, $foundAttributes->count());
@@ -108,7 +108,7 @@ class ShowProductActionTest extends AbstractIntegrationTest
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token',
-            'akeneo_pim_catalog_id' => '8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
+            'akeneo_pim_catalog_id' => 'ad1f6e7a-e6d9-495f-b568-f4f473803679',
         ]);
 
         $client->request('GET', '/products/16467667-9a29-48c1-90b3-8a169b83e8e6');

@@ -214,7 +214,7 @@ class PimCatalogApiClientTest extends AbstractIntegrationTest
     public function itRetrievesMappedProducts(): void
     {
         $this->mockPimAPIResponse(
-            'get-catalogs-mapped-products.json',
+            'get-catalogs-three-mapped-products.json',
             'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products?limit=10',
         );
 

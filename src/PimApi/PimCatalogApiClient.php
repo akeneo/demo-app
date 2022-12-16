@@ -182,6 +182,13 @@ class PimCatalogApiClient
         return $response;
     }
 
+    /**
+     * @return array<array-key, mixed>
+     *
+     * @throws CatalogDisabledException
+     * @throws PimApiException
+     * @throws PimApiUnauthorizedException
+     */
     public function getMappedProducts(
         string $catalogId,
         int $limit = 10,
