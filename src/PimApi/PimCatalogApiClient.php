@@ -183,6 +183,32 @@ class PimCatalogApiClient
     }
 
     /**
+     * @return array<mixed>
+     */
+    public function getCatalogMappedProduct(string $catalogId, string $productUuid): array
+    {
+//        $pimUrl = $this->getPimUrl();
+//
+//        $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/mapped-products/$productUuid";
+//
+//        $response = $this->getClient()->request('GET', $catalogEndpointUrl)->toArray();
+//
+//        if (isset($response['message']) || isset($response['error'])) {
+//            throw new CatalogDisabledException();
+//        }
+
+        $response = json_decode('{
+  "uuid": "a5eed606-4f98-4d8c-b926-5b59f8fb0ee7",
+  "title": "Kodak i2600 for Govt",
+  "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam dui sit amet tellus varius lobortis. Morbi quis lacus tortor. Curabitur quis porttitor quam. Proin ultrices auctor lorem vitae fringilla. Suspendisse cursus sed erat sed molestie. Praesent placerat porttitor nisl, vel euismod lectus hendrerit vulputate. Phasellus suscipit sollicitudin leo, vitae posuere quam faucibus eu. Suspendisse quis sagittis ex.</p>",
+  "code": ""
+}
+', true);
+
+        return $response;
+    }
+
+    /**
      * @return array<array-key, mixed>
      *
      * @throws CatalogDisabledException

@@ -174,12 +174,20 @@ trait MockPimApiTrait
             'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products/554ed26b-b179-4058-9ff8-4e4a660dbd8a',
         );
         $this->mockPimAPIResponse(
+            'get-catalogs-store-us-mapped-product-scanner.json',
+            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/mapped-products/554ed26b-b179-4058-9ff8-4e4a660dbd8a',
+        );
+        $this->mockPimAPIResponse(
             'get-catalogs-store-us-product-sunglasses.json',
             'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products/16467667-9a29-48c1-90b3-8a169b83e8e6',
         );
         $this->mockPimAPIResponse(
             'get-catalogs-store-us-product-empty.json',
             'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products/empty',
+        );
+        $this->mockPimAPIResponse(
+            'get-catalogs-store-us-product-mapped-empty.json',
+            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/mapped-products/empty',
         );
     }
 }

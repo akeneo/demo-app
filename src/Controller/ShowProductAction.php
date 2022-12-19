@@ -10,6 +10,7 @@ use App\Exception\CatalogNotFoundException;
 use App\Exception\CatalogProductNotFoundException;
 use App\PimApi\Model\Catalog;
 use App\PimApi\PimCatalogApiClient;
+use App\Query\FetchMappedProductQuery;
 use App\Query\FetchProductQuery;
 use App\Query\GuessCurrentLocaleQuery;
 use App\Storage\CatalogIdStorageInterface;
@@ -26,20 +27,30 @@ final class ShowProductAction
         private TwigEnvironment $twig,
         private GuessCurrentLocaleQuery $guessCurrentLocaleQuery,
         private FetchProductQuery $fetchProductQuery,
+        private FetchMappedProductQuery $fetchMappedProductQuery,
         private readonly CatalogIdStorageInterface $catalogIdStorage,
         private readonly PimCatalogApiClient $catalogApiClient,
     ) {
     }
 
-    #[Route('/products/{uuid}', name: 'product', methods: ['GET'])]
-    public function __invoke(Request $request, string $uuid): Response
+    #[Route('/catalogs/{catalogId}/products/{uuid}', name: 'product', methods: ['GET'])]
+    public function __invoke(Request $request, string $catalogId, string $uuid): Response
     {
         try {
             $locale = $this->guessCurrentLocaleQuery->guess();
-            $catalog = $this->getDefaultCatalog();
+
+            try {
+                $catalog = $this->catalogApiClient->getCatalog($catalogId);
+            } catch (PimApiException) {
+                throw new NotFoundHttpException();
+            }
 
             if ($catalog->enabled) {
-                $product = $this->fetchProductQuery->fetch($catalog->id, $uuid, $locale);
+                if (Catalog::PRODUCT_VALUE_FILTERS_NAME === $catalog->name) {
+                    $product = $this->fetchProductQuery->fetch($catalog->id, $uuid, $locale);
+                } else {
+                    $product = $this->fetchMappedProductQuery->fetch($catalog->id, $uuid);
+                }
             } else {
                 throw new CatalogDisabledException();
             }

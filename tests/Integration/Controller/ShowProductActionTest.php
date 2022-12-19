@@ -30,7 +30,7 @@ class ShowProductActionTest extends AbstractIntegrationTest
             'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
         ]);
 
-        $crawler = $client->request('GET', '/products/16467667-9a29-48c1-90b3-8a169b83e8e6');
+        $crawler = $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products/16467667-9a29-48c1-90b3-8a169b83e8e6');
         $this->assertResponseIsSuccessful();
 
         $this->assertSelectorTextContains('.locale-switcher__language', '🇺🇸 English (United States)');
@@ -47,6 +47,39 @@ class ShowProductActionTest extends AbstractIntegrationTest
 
         $eanLabel = $foundAttributes->eq(2)->filter('.attribute__label')->text();
         $this->assertEquals('Description', $eanLabel);
+    }
+
+    /**
+     * @test
+     */
+    public function itDisplaysAMappedProduct(): void
+    {
+        $client = $this->initializeClientWithSession([
+            'pim_url' => 'https://example.com',
+            'akeneo_pim_access_token' => 'random_access_token',
+            'akeneo_pim_catalog_id' => '70313d30-8316-41c2-b298-8f9e7186fe9a',
+        ]);
+
+        $crawler = $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products/16467667-9a29-48c1-90b3-8a169b83e8e6');
+        $this->assertResponseIsSuccessful();
+
+        $this->assertSelectorTextContains('.locale-switcher__language', '🇺🇸 English (United States)');
+        $this->assertSelectorTextContains('h1.product__title', 'Sunglasses');
+
+        $foundAttributes = $crawler->filter('.attribute');
+        $this->assertEquals(3, $foundAttributes->count());
+
+        $eanLabel = $foundAttributes->eq(0)->filter('.attribute__label')->text();
+        $this->assertEquals('Product UUID', $eanLabel);
+
+        $eanLabel = $foundAttributes->eq(0)->filter('.attribute__label')->text();
+        $this->assertEquals('Title', $eanLabel);
+
+        $eanLabel = $foundAttributes->eq(1)->filter('.attribute__label')->text();
+        $this->assertEquals('Description', $eanLabel);
+
+        $eanLabel = $foundAttributes->eq(2)->filter('.attribute__label')->text();
+        $this->assertEquals('Code', $eanLabel);
     }
 
     /**

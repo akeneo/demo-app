@@ -92,3 +92,9 @@ page:
         illustration_alt: Page not found
         error_title: Page not found
         description: The requested page couldn't be located. Checkout for any URL misspelling.
+
+mapped_properties:
+    title: Title
+    description: Description
+    uuid: Product UUID
+    code: Code
