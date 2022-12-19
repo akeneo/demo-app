@@ -6,15 +6,13 @@ namespace App\Controller;
 
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException as AkeneoNotFoundHttpException;
 use App\Exception\CatalogDisabledException;
-use App\Exception\CatalogNotFoundException;
 use App\Exception\CatalogProductNotFoundException;
+use App\PimApi\Exception\PimApiException;
 use App\PimApi\Model\Catalog;
 use App\PimApi\PimCatalogApiClient;
 use App\Query\FetchMappedProductQuery;
 use App\Query\FetchProductQuery;
 use App\Query\GuessCurrentLocaleQuery;
-use App\Storage\CatalogIdStorageInterface;
-use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -28,7 +26,6 @@ final class ShowProductAction
         private GuessCurrentLocaleQuery $guessCurrentLocaleQuery,
         private FetchProductQuery $fetchProductQuery,
         private FetchMappedProductQuery $fetchMappedProductQuery,
-        private readonly CatalogIdStorageInterface $catalogIdStorage,
         private readonly PimCatalogApiClient $catalogApiClient,
     ) {
     }
@@ -54,8 +51,8 @@ final class ShowProductAction
             } else {
                 throw new CatalogDisabledException();
             }
-        } catch (AkeneoNotFoundHttpException|CatalogProductNotFoundException $e) {
-            throw new NotFoundHttpException('PIM API replied with a 404', $e);
+        } catch (AkeneoNotFoundHttpException|CatalogProductNotFoundException) {
+            throw new NotFoundHttpException();
         }
 
         return new Response(
@@ -65,22 +62,5 @@ final class ShowProductAction
                 'catalog' => $catalog,
             ])
         );
-    }
-
-    private function getDefaultCatalog(): Catalog
-    {
-        $catalogId = $this->catalogIdStorage->getCatalogId();
-
-        if (null === $catalogId) {
-            throw new CatalogNotFoundException();
-        }
-
-        try {
-            $catalog = $this->catalogApiClient->getCatalog($catalogId);
-        } catch (ClientException) {
-            throw new CatalogNotFoundException();
-        }
-
-        return $catalog;
     }
 }

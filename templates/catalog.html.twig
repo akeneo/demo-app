@@ -19,7 +19,7 @@
             <div class="product-grid__{{ products|length > 0 ? 'list' : 'no-products' }}">
                 {% for product in products %}
                     <article class="product-card">
-                        <a href="{{ path('product', {uuid: product.uuid}) }}">
+                        <a href="{{ path('product', {catalogId: catalog.id, uuid: product.uuid}) }}">
                             <div class="product-card__image">
                                 <div class="product-card__image__container">
                                     <img src="{{ asset('build/images/ziggy.png') }}" alt="{{ product.label }}"/>

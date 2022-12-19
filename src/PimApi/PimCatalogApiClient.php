@@ -54,7 +54,9 @@ class PimCatalogApiClient
      */
     private function throwOnErrorCode(int $expectedCode, int $actualCode, string $message): void
     {
+        dump($actualCode);
         if (401 === $actualCode) {
+            dd('yoooo');
             throw new PimApiUnauthorizedException();
         }
 
@@ -183,32 +185,6 @@ class PimCatalogApiClient
     }
 
     /**
-     * @return array<mixed>
-     */
-    public function getCatalogMappedProduct(string $catalogId, string $productUuid): array
-    {
-//        $pimUrl = $this->getPimUrl();
-//
-//        $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/mapped-products/$productUuid";
-//
-//        $response = $this->getClient()->request('GET', $catalogEndpointUrl)->toArray();
-//
-//        if (isset($response['message']) || isset($response['error'])) {
-//            throw new CatalogDisabledException();
-//        }
-
-        $response = json_decode('{
-  "uuid": "a5eed606-4f98-4d8c-b926-5b59f8fb0ee7",
-  "title": "Kodak i2600 for Govt",
-  "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam dui sit amet tellus varius lobortis. Morbi quis lacus tortor. Curabitur quis porttitor quam. Proin ultrices auctor lorem vitae fringilla. Suspendisse cursus sed erat sed molestie. Praesent placerat porttitor nisl, vel euismod lectus hendrerit vulputate. Phasellus suscipit sollicitudin leo, vitae posuere quam faucibus eu. Suspendisse quis sagittis ex.</p>",
-  "code": ""
-}
-', true);
-
-        return $response;
-    }
-
-    /**
      * @return array<array-key, mixed>
      *
      * @throws CatalogDisabledException
@@ -244,5 +220,31 @@ class PimCatalogApiClient
         }
 
         return $response['_embedded']['items'];
+    }
+
+    /**
+     * @return array<mixed>
+     *
+     * @throws CatalogDisabledException
+     * @throws PimApiException
+     * @throws PimApiUnauthorizedException
+     */
+    public function getMappedProduct(string $catalogId, string $productUuid): array
+    {
+        $pimUrl = $this->getPimUrl();
+
+        $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/mapped-products/$productUuid";
+
+        $response = $this->getClient()->request('GET', $catalogEndpointUrl);
+
+        $this->throwOnErroneousResponse(200, $response->getStatusCode(), "Couldn't get mapped product");
+
+        $response = $response->toArray();
+
+        if (isset($response['message']) || isset($response['error'])) {
+            throw new CatalogDisabledException();
+        }
+
+        return $response;
     }
 }

@@ -154,10 +154,6 @@ trait MockPimApiTrait
         );
 
         $this->mockPimAPIResponse(
-            'get-catalogs-store-us.json',
-            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a',
-        );
-        $this->mockPimAPIResponse(
             'get-catalogs-product-identifiers-store-us.json',
             'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/product-identifiers?limit=10',
         );
@@ -174,10 +170,6 @@ trait MockPimApiTrait
             'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products/554ed26b-b179-4058-9ff8-4e4a660dbd8a',
         );
         $this->mockPimAPIResponse(
-            'get-catalogs-store-us-mapped-product-scanner.json',
-            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/mapped-products/554ed26b-b179-4058-9ff8-4e4a660dbd8a',
-        );
-        $this->mockPimAPIResponse(
             'get-catalogs-store-us-product-sunglasses.json',
             'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products/16467667-9a29-48c1-90b3-8a169b83e8e6',
         );
@@ -186,8 +178,12 @@ trait MockPimApiTrait
             'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products/empty',
         );
         $this->mockPimAPIResponse(
-            'get-catalogs-store-us-product-mapped-empty.json',
-            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/mapped-products/empty',
+            'get-catalogs-mapped-product-scanner.json',
+            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products/a5eed606-4f98-4d8c-b926-5b59f8fb0ee7',
+        );
+        $this->mockPimAPIResponse(
+            'get-catalogs-mapped-product-catalog-disabled.json',
+            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products/disabled',
         );
     }
 }
