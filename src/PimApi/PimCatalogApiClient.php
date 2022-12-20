@@ -52,7 +52,7 @@ class PimCatalogApiClient
      * @throws PimApiUnauthorizedException
      * @throws PimApiException
      */
-    private function throwOnErroneousResponse(int $expectedCode, int $actualCode, string $message): void
+    private function throwOnErrorCode(int $expectedCode, int $actualCode, string $message): void
     {
         if (401 === $actualCode) {
             throw new PimApiUnauthorizedException();
@@ -70,7 +70,7 @@ class PimCatalogApiClient
         $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId";
         $response = $this->getClient()->request('GET', $catalogEndpointUrl);
 
-        $this->throwOnErroneousResponse(200, $response->getStatusCode(), "Couldn't get catalog");
+        $this->throwOnErrorCode(200, $response->getStatusCode(), "Couldn't get catalog");
 
         $response = $response->toArray();
 
@@ -91,7 +91,7 @@ class PimCatalogApiClient
         $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs";
         $response = $this->getClient()->request('GET', $catalogEndpointUrl);
 
-        $this->throwOnErroneousResponse(200, $response->getStatusCode(), "Couldn't get catalogs");
+        $this->throwOnErrorCode(200, $response->getStatusCode(), "Couldn't get catalogs");
 
         $response = $response->toArray();
 
@@ -116,7 +116,7 @@ class PimCatalogApiClient
             ],
         ]);
 
-        $this->throwOnErroneousResponse(201, $response->getStatusCode(), "Couldn't create catalog");
+        $this->throwOnErrorCode(201, $response->getStatusCode(), "Couldn't create catalog");
 
         $response = $response->toArray();
 
@@ -136,7 +136,7 @@ class PimCatalogApiClient
             'body' => $productMappingSchema,
         ]);
 
-        $this->throwOnErroneousResponse(204, $response->getStatusCode(), "Couldn't update product mapping schema");
+        $this->throwOnErrorCode(204, $response->getStatusCode(), "Couldn't update product mapping schema");
     }
 
     /**
@@ -209,7 +209,7 @@ class PimCatalogApiClient
             ],
         ]);
 
-        $this->throwOnErroneousResponse(200, $response->getStatusCode(), "Couldn't get mapped products");
+        $this->throwOnErrorCode(200, $response->getStatusCode(), "Couldn't get mapped products");
 
         $response = $response->toArray();
 

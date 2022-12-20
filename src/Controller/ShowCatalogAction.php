@@ -35,7 +35,7 @@ final class ShowCatalogAction
         $products = $this->getProductsFrom($catalog);
 
         return new Response(
-            $this->twig->render('products.html.twig', [
+            $this->twig->render('catalog.html.twig', [
                 'products' => $products,
                 'catalog' => $catalog,
             ])

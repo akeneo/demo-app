@@ -260,7 +260,7 @@ class PimCatalogApiClientTest extends AbstractIntegrationTest
     /**
      * @test
      */
-    public function itThrowsWhenAnErrorOccurOnMappedProductsRetrieval(): void
+    public function itThrowsWhenAnErrorOccursOnMappedProductsRetrieval(): void
     {
         $this->mockHttpResponse(
             'GET',
@@ -276,7 +276,7 @@ class PimCatalogApiClientTest extends AbstractIntegrationTest
     /**
      * @test
      */
-    public function itThrowsWhenCatalogDisablingErrorOccurOnMappedProductsRetrieval(): void
+    public function itThrowsWhenCatalogDisablingErrorOccursOnMappedProductsRetrieval(): void
     {
         $this->mockPimAPIResponse(
             'get-catalogs-disabled-catalog-error-message.json',

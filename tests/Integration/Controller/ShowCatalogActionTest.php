@@ -121,7 +121,7 @@ class ShowCatalogActionTest extends AbstractIntegrationTest
         $this->assertResponseIsSuccessful();
 
         $translator = $this->container->get('translator');
-        $this->assertEquals($translator->trans('page.products.no-products.title'), $client->getCrawler()->filter('.no-products__title')->first()->text());
+        $this->assertEquals($translator->trans('page.catalog.no-products.title'), $client->getCrawler()->filter('.no-products__title')->first()->text());
     }
 
     /**
@@ -138,7 +138,7 @@ class ShowCatalogActionTest extends AbstractIntegrationTest
         $this->assertResponseIsSuccessful();
 
         $translator = $this->container->get('translator');
-        $this->assertEquals($translator->trans('page.products.catalog-disabled.title'), $client->getCrawler()->filter('.no-products__title')->first()->text());
+        $this->assertEquals($translator->trans('page.catalog.catalog-disabled.title'), $client->getCrawler()->filter('.no-products__title')->first()->text());
     }
 
     /**

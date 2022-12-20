@@ -41,8 +41,8 @@ page:
             helpers:
                 value-filters: Use this catalog to get your product data as they are organized in the PIM
                 attribute-mapping: Use this catalog to get your product data in a format required by the Demo App
-    products:
-        title: Products | Akeneo App Demo
+    catalog:
+        title: Catalog | Akeneo App Demo
         product-filters:
             filters: Filters
             locale: Locale
