@@ -1,6 +1,6 @@
 {% extends 'connected-base.html.twig' %}
 
-{% block title %}{{ 'page.products.title' | trans }}{% endblock %}
+{% block title %}{{ 'page.catalogs.title' | trans }}{% endblock %}
 
 {% block content %}
     <div class="catalogs">
@@ -23,7 +23,7 @@
             {% for catalog in catalogs %}
                 <tr onclick="(event => {
                     if (this.querySelector('a.configure-link') !== event.target){
-                        window.location= '{{ path('catalog', {id: catalog.id}) }}';
+                        window.location= '{{ path('catalog', {catalogId: catalog.id}) }}';
                     }
                 })(event)">
                     <td>{{ catalog.name }}</td>

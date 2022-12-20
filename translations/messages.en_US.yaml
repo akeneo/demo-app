@@ -6,6 +6,7 @@ common:
             go-to-pim-url: Go to Akeneo PIM
         welcome: 'Welcome %user%'
         default_username: User
+    breadcrumb_root: Catalog list
 
 page:
     welcome:
@@ -40,8 +41,8 @@ page:
             helpers:
                 value-filters: Use this catalog to get your product data as they are organized in the PIM
                 attribute-mapping: Use this catalog to get your product data in a format required by the Demo App
-    products:
-        title: Products | Akeneo App Demo
+    catalog:
+        title: Catalog | Akeneo App Demo
         product-filters:
             filters: Filters
             locale: Locale
@@ -68,7 +69,6 @@ page:
             helper-title: Your product data
             content: Our App Demo only displays values it can access. If you use an Enterprise Edition (Flexibility or Serenity), these values depend on attribute groups and locales you selected in the step-by-step activation process. You can update these permissions in the connected app settings of your PIM.
             link: Set up connected app permissions
-        breadcrumb_root: Catalog
         locales: Locales
         attributes:
             default_attribute_group: Attributes

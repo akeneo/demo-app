@@ -1,0 +1,13 @@
+{
+  "_links":{
+    "self":{
+      "href":"https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/mapped-products?limit=10"
+    },
+    "first":{
+      "href":"https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/mapped-products?limit=10"
+    }
+  },
+  "_embedded":{
+    "items":[]
+  }
+}
