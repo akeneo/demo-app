@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Query;
 
+use App\Exception\CatalogProductNotFoundException;
+use App\PimApi\Exception\PimApiException;
 use App\PimApi\Model\Product;
 use App\PimApi\Model\ProductValue;
 use App\PimApi\PimCatalogApiClient;
@@ -25,8 +27,12 @@ final class FetchMappedProductQuery
 
     public function fetch(string $catalogId, string $productUuid): Product
     {
-        /** @var RawMappedProduct $rawMappedProduct */
-        $rawMappedProduct = $this->catalogApiClient->getMappedProduct($catalogId, $productUuid);
+        try {
+            /** @var RawMappedProduct $rawMappedProduct */
+            $rawMappedProduct = $this->catalogApiClient->getMappedProduct($catalogId, $productUuid);
+        } catch (PimApiException $e) {
+            throw new CatalogProductNotFoundException();
+        }
 
         $label = !empty($rawMappedProduct['title']) ? $rawMappedProduct['title'] : $rawMappedProduct['uuid'];
 

@@ -34,25 +34,24 @@ final class ShowProductAction
     public function __invoke(Request $request, string $catalogId, string $uuid): Response
     {
         try {
-            $locale = $this->guessCurrentLocaleQuery->guess();
-
-            try {
-                $catalog = $this->catalogApiClient->getCatalog($catalogId);
-            } catch (PimApiException) {
-                throw new NotFoundHttpException();
-            }
-
-            if ($catalog->enabled) {
-                if (Catalog::PRODUCT_VALUE_FILTERS_NAME === $catalog->name) {
-                    $product = $this->fetchProductQuery->fetch($catalog->id, $uuid, $locale);
-                } else {
-                    $product = $this->fetchMappedProductQuery->fetch($catalog->id, $uuid);
-                }
-            } else {
-                throw new CatalogDisabledException();
-            }
-        } catch (AkeneoNotFoundHttpException|CatalogProductNotFoundException) {
+            $catalog = $this->catalogApiClient->getCatalog($catalogId);
+        } catch (PimApiException) {
             throw new NotFoundHttpException();
+        }
+
+        if (!$catalog->enabled) {
+            throw new CatalogDisabledException();
+        }
+
+        try {
+            $locale = $this->guessCurrentLocaleQuery->guess();
+            if (Catalog::PRODUCT_VALUE_FILTERS_NAME === $catalog->name) {
+                $product = $this->fetchProductQuery->fetch($catalog->id, $uuid, $locale);
+            } else {
+                $product = $this->fetchMappedProductQuery->fetch($catalog->id, $uuid);
+            }
+        } catch (AkeneoNotFoundHttpException|CatalogProductNotFoundException $e) {
+            throw new NotFoundHttpException('PIM API replied with a 404', $e);
         }
 
         return new Response(

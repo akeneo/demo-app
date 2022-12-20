@@ -33,6 +33,11 @@ class FetchMappedProductQueryTest extends AbstractIntegrationTest
      */
     public function itFetchesAProduct(): void
     {
+        $this->mockPimAPIResponse(
+            'get-catalogs-mapped-product-scanner.json',
+            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products/a5eed606-4f98-4d8c-b926-5b59f8fb0ee7',
+        );
+
         $result = $this->query->fetch('8a8494d2-05cc-4b8f-942e-f5ea7591e89c', 'a5eed606-4f98-4d8c-b926-5b59f8fb0ee7');
 
         $expected = new Product('a5eed606-4f98-4d8c-b926-5b59f8fb0ee7', 'Kodak i2600 for Govt', [
@@ -67,8 +72,8 @@ class FetchMappedProductQueryTest extends AbstractIntegrationTest
     public function itThrowDisabledCatalogExceptionWhenCatalogIsDisabledWithMessageInThePayload(): void
     {
         $this->mockPimAPIResponse(
-            'get-catalogs-store-fr-products-catalog-disabled.json',
-            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products/16467667-9a29-48c1-90b3-8a169b83e8e6',
+            'get-catalogs-mapped-product-catalog-disabled.json',
+            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products/disabled',
         );
 
         $this->expectException(CatalogDisabledException::class);

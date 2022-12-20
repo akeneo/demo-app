@@ -35,16 +35,12 @@ class UnauthorizedHttpExceptionEventSubscriber implements EventSubscriberInterfa
 
     public function onException(ExceptionEvent $event): void
     {
-
         $exception = $event->getThrowable();
-        dump('onException');
-        dump($exception);
         if (!($exception instanceof UnauthorizedHttpException
             || $exception instanceof CatalogNotFoundException
             || $exception instanceof PimApiUnauthorizedException)) {
             return;
         }
-        dump('salut');
 
         $this->logger->warning('An unauthorized error was detected, destroy the session.');
 

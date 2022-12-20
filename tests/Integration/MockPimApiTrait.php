@@ -177,13 +177,5 @@ trait MockPimApiTrait
             'get-catalogs-store-us-product-empty.json',
             'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/products/empty',
         );
-        $this->mockPimAPIResponse(
-            'get-catalogs-mapped-product-scanner.json',
-            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products/a5eed606-4f98-4d8c-b926-5b59f8fb0ee7',
-        );
-        $this->mockPimAPIResponse(
-            'get-catalogs-mapped-product-catalog-disabled.json',
-            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products/disabled',
-        );
     }
 }

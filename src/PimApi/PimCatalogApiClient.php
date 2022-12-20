@@ -54,9 +54,7 @@ class PimCatalogApiClient
      */
     private function throwOnErrorCode(int $expectedCode, int $actualCode, string $message): void
     {
-        dump($actualCode);
         if (401 === $actualCode) {
-            dd('yoooo');
             throw new PimApiUnauthorizedException();
         }
 
@@ -175,7 +173,11 @@ class PimCatalogApiClient
 
         $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/products/$productUuid";
 
-        $response = $this->getClient()->request('GET', $catalogEndpointUrl)->toArray();
+        $response = $this->getClient()->request('GET', $catalogEndpointUrl);
+
+        $this->throwOnErroneousResponse(200, $response->getStatusCode(), "Couldn't get mapped products");
+
+        $response = $response->toArray();
 
         if (isset($response['message']) || isset($response['error'])) {
             throw new CatalogDisabledException();
