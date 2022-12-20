@@ -166,6 +166,10 @@ class PimCatalogApiClient
 
     /**
      * @return array<mixed>
+     *
+     * @throws CatalogDisabledException
+     * @throws PimApiException
+     * @throws PimApiUnauthorizedException
      */
     public function getCatalogProduct(string $catalogId, string $productUuid): array
     {
@@ -175,7 +179,7 @@ class PimCatalogApiClient
 
         $response = $this->getClient()->request('GET', $catalogEndpointUrl);
 
-        $this->throwOnErroneousResponse(200, $response->getStatusCode(), "Couldn't get mapped products");
+        $this->throwOnErrorCode(200, $response->getStatusCode(), "Couldn't get mapped products");
 
         $response = $response->toArray();
 
@@ -239,7 +243,7 @@ class PimCatalogApiClient
 
         $response = $this->getClient()->request('GET', $catalogEndpointUrl);
 
-        $this->throwOnErroneousResponse(200, $response->getStatusCode(), "Couldn't get mapped product");
+        $this->throwOnErrorCode(200, $response->getStatusCode(), "Couldn't get mapped product");
 
         $response = $response->toArray();
 
