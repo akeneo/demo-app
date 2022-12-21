@@ -6,12 +6,10 @@ namespace App\Service;
 
 use App\PimApi\Model\Catalog;
 use App\PimApi\PimCatalogApiClient;
-use App\Storage\CatalogIdStorageInterface;
 
 final class InitializeAppData
 {
     public function __construct(
-        private readonly CatalogIdStorageInterface $catalogIdStorage,
         private readonly PimCatalogApiClient $pimCatalogApiClient,
     ) {
     }
@@ -30,9 +28,6 @@ final class InitializeAppData
             $attributeMappingCatalog = $this->pimCatalogApiClient->createCatalog(Catalog::ATTRIBUTE_MAPPING_NAME);
             $this->pimCatalogApiClient->setProductMappingSchema($attributeMappingCatalog->id, $this->getProductMappingSchema());
         }
-
-        /* @TODO to remove along with its storage once product list and product details pages stop using it */
-        $this->catalogIdStorage->setCatalogId($valueFilterCatalog->id);
     }
 
     /**

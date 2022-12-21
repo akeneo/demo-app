@@ -8,7 +8,6 @@ use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use App\Exception\CatalogNotFoundException;
 use App\PimApi\Exception\PimApiUnauthorizedException;
 use App\Storage\AccessTokenStorageInterface;
-use App\Storage\CatalogIdStorageInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -20,7 +19,6 @@ class UnauthorizedHttpExceptionEventSubscriber implements EventSubscriberInterfa
 {
     public function __construct(
         private AccessTokenStorageInterface $accessTokenStorage,
-        private CatalogIdStorageInterface $catalogIdStorage,
         private RouterInterface $router,
         private LoggerInterface $logger,
     ) {
@@ -45,7 +43,6 @@ class UnauthorizedHttpExceptionEventSubscriber implements EventSubscriberInterfa
         $this->logger->warning('An unauthorized error was detected, destroy the session.');
 
         $this->accessTokenStorage->clear();
-        $this->catalogIdStorage->clear();
 
         $event->setResponse(new RedirectResponse($this->buildRedirectionUrl($event)));
     }
