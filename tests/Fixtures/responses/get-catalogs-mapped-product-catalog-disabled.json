@@ -1,0 +1,4 @@
+{
+  "message": "No products to synchronize. The catalog \"8a8494d2-05cc-4b8f-942e-f5ea7591e89c\" has been disabled on PIM side. Note that you can get catalogs status with the GET /api/rest/v1/catalogs endpoint.",
+  "error": "No products to synchronize. The catalog \"8a8494d2-05cc-4b8f-942e-f5ea7591e89c\" has been disabled on PIM side. Note that you can get catalogs status with the GET /api/rest/v1/catalogs endpoint."
+}

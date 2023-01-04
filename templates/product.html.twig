@@ -35,10 +35,9 @@
         </header>
         <section class="product__content">
             <section class="attribute-group">
-                <h2 class="attribute-group__title">{{ 'page.product.attributes.default_attribute_group' | trans }}</h2>
                 {% for attribute in product.attributes %}
                     <div class="attribute">
-                        <h3 class="attribute__label">{{ attribute.label }}</h3>
+                        <h3 class="attribute__label">{{ attribute.label | trans }}</h3>
                         <p class="attribute__value">{{ displayAttribute.value(attribute) }}</p>
                     </div>
                 {% endfor %}

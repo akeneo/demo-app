@@ -154,10 +154,6 @@ trait MockPimApiTrait
         );
 
         $this->mockPimAPIResponse(
-            'get-catalogs-store-us.json',
-            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a',
-        );
-        $this->mockPimAPIResponse(
             'get-catalogs-product-identifiers-store-us.json',
             'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/product-identifiers?limit=10',
         );

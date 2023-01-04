@@ -6,9 +6,7 @@ namespace App\Tests\Unit\EventListener;
 
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use App\EventListener\UnauthorizedHttpExceptionEventSubscriber;
-use App\Exception\CatalogNotFoundException;
 use App\Storage\AccessTokenStorageInterface;
-use App\Storage\CatalogIdStorageInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
@@ -28,7 +26,6 @@ class UnauthorizedHttpExceptionEventSubscriberTest extends TestCase
     private KernelInterface $kernel;
     private ?UnauthorizedHttpExceptionEventSubscriber $subscriber;
     private AccessTokenStorageInterface|MockObject $accessTokenStorage;
-    private CatalogIdStorageInterface|MockObject $catalogIdStorage;
     private RouterInterface|MockObject $router;
     private LoggerInterface|MockObject $logger;
     private RequestInterface|MockObject $request;
@@ -37,10 +34,6 @@ class UnauthorizedHttpExceptionEventSubscriberTest extends TestCase
     protected function setUp(): void
     {
         $this->accessTokenStorage = $this->getMockBuilder(AccessTokenStorageInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->catalogIdStorage = $this->getMockBuilder(CatalogIdStorageInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -64,7 +57,6 @@ class UnauthorizedHttpExceptionEventSubscriberTest extends TestCase
 
         $this->subscriber = new UnauthorizedHttpExceptionEventSubscriber(
             $this->accessTokenStorage,
-            $this->catalogIdStorage,
             $this->router,
             $this->logger,
         );
@@ -89,7 +81,6 @@ class UnauthorizedHttpExceptionEventSubscriberTest extends TestCase
     public function itListensOnlyToAccessDeniedHttpExceptions(): void
     {
         $this->accessTokenStorage->expects($this->never())->method('clear');
-        $this->catalogIdStorage->expects($this->never())->method('clear');
 
         $event = new ExceptionEvent($this->kernel, new Request(), HttpKernelInterface::MAIN_REQUEST, new \Exception());
 
@@ -111,30 +102,6 @@ class UnauthorizedHttpExceptionEventSubscriberTest extends TestCase
             new Request(),
             HttpKernelInterface::MAIN_REQUEST,
             new UnauthorizedHttpException('message', $this->request, $this->response)
-        );
-
-        $dispatcher = new EventDispatcher();
-        $dispatcher->addSubscriber($this->subscriber);
-        $dispatcher->dispatch($event, KernelEvents::EXCEPTION);
-
-        $eventResponse = $event->getResponse();
-        $this->assertInstanceOf(RedirectResponse::class, $eventResponse);
-        $this->assertEquals('welcome_url', $eventResponse->headers->get('location'));
-    }
-
-    /**
-     * @test
-     */
-    public function itRemovesCatalogIdAndRedirectsToWelcomePage(): void
-    {
-        $this->catalogIdStorage->expects($this->once())->method('clear');
-        $this->router->method('generate')->willReturn('welcome_url');
-
-        $event = new ExceptionEvent(
-            $this->kernel,
-            new Request(),
-            HttpKernelInterface::MAIN_REQUEST,
-            new CatalogNotFoundException(),
         );
 
         $dispatcher = new EventDispatcher();

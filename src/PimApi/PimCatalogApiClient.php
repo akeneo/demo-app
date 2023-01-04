@@ -166,6 +166,10 @@ class PimCatalogApiClient
 
     /**
      * @return array<mixed>
+     *
+     * @throws CatalogDisabledException
+     * @throws PimApiException
+     * @throws PimApiUnauthorizedException
      */
     public function getCatalogProduct(string $catalogId, string $productUuid): array
     {
@@ -173,7 +177,11 @@ class PimCatalogApiClient
 
         $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/products/$productUuid";
 
-        $response = $this->getClient()->request('GET', $catalogEndpointUrl)->toArray();
+        $response = $this->getClient()->request('GET', $catalogEndpointUrl);
+
+        $this->throwOnErrorCode(200, $response->getStatusCode(), "Couldn't get mapped products");
+
+        $response = $response->toArray();
 
         if (isset($response['message']) || isset($response['error'])) {
             throw new CatalogDisabledException();
@@ -218,5 +226,31 @@ class PimCatalogApiClient
         }
 
         return $response['_embedded']['items'];
+    }
+
+    /**
+     * @return array<mixed>
+     *
+     * @throws CatalogDisabledException
+     * @throws PimApiException
+     * @throws PimApiUnauthorizedException
+     */
+    public function getMappedProduct(string $catalogId, string $productUuid): array
+    {
+        $pimUrl = $this->getPimUrl();
+
+        $catalogEndpointUrl = "$pimUrl/api/rest/v1/catalogs/$catalogId/mapped-products/$productUuid";
+
+        $response = $this->getClient()->request('GET', $catalogEndpointUrl);
+
+        $this->throwOnErrorCode(200, $response->getStatusCode(), "Couldn't get mapped product");
+
+        $response = $response->toArray();
+
+        if (isset($response['message']) || isset($response['error'])) {
+            throw new CatalogDisabledException();
+        }
+
+        return $response;
     }
 }

@@ -286,4 +286,54 @@ class PimCatalogApiClientTest extends AbstractIntegrationTest
         $this->expectException(CatalogDisabledException::class);
         $this->pimCatalogApiClient->getMappedProducts('8a8494d2-05cc-4b8f-942e-f5ea7591e89c');
     }
+
+    /**
+     * @test
+     */
+    public function itRetrievesMappedProduct(): void
+    {
+        $this->mockPimAPIResponse(
+            'get-catalogs-mapped-product-scanner.json',
+            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products/a5eed606-4f98-4d8c-b926-5b59f8fb0ee7',
+        );
+
+        $result = $this->pimCatalogApiClient->getMappedProduct('8a8494d2-05cc-4b8f-942e-f5ea7591e89c', 'a5eed606-4f98-4d8c-b926-5b59f8fb0ee7');
+
+        $this->assertEquals([
+            'uuid' => 'a5eed606-4f98-4d8c-b926-5b59f8fb0ee7',
+            'title' => 'Kodak i2600 for Govt',
+            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'code' => '',
+        ], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function itThrowsWhenAnErrorOccurOnMappedProductRetrieval(): void
+    {
+        $this->mockHttpResponse(
+            'GET',
+            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products/a5eed606-4f98-4d8c-b926-5b59f8ERROR',
+            [],
+            new MockResponse('', ['http_code' => 400]),
+        );
+
+        $this->expectException(PimApiException::class);
+        $this->pimCatalogApiClient->getMappedProduct('8a8494d2-05cc-4b8f-942e-f5ea7591e89c', 'a5eed606-4f98-4d8c-b926-5b59f8ERROR');
+    }
+
+    /**
+     * @test
+     */
+    public function itThrowsWhenCatalogDisablingErrorOccurOnMappedProductRetrieval(): void
+    {
+        $this->mockPimAPIResponse(
+            'get-catalogs-mapped-product-catalog-disabled.json',
+            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products/a5eed606-4f98-4d8c-b926-5b5DISABLED',
+        );
+
+        $this->expectException(CatalogDisabledException::class);
+        $this->pimCatalogApiClient->getMappedProduct('8a8494d2-05cc-4b8f-942e-f5ea7591e89c', 'a5eed606-4f98-4d8c-b926-5b5DISABLED');
+    }
 }
