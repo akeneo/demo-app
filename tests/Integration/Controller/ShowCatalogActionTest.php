@@ -55,8 +55,10 @@ class ShowCatalogActionTest extends AbstractIntegrationTest
     /**
      * @test
      */
-    public function itRendersALinkThatTargetThePimUrl(): void
+    public function itRendersALinkThatTargetThePimConnectedAppUrl(): void
     {
+        $catalogId = '70313d30-8316-41c2-b298-8f9e7186fe9a';
+        $connectedAppId = '0d574774-7b11-4226-8e9f-7a7deb702600';
         $client = $this->initializeClientWithSession([
             'pim_url' => 'https://example.com',
             'akeneo_pim_access_token' => 'random_access_token_123456',
@@ -64,7 +66,7 @@ class ShowCatalogActionTest extends AbstractIntegrationTest
 
         $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
 
-        $this->assertEquals('https://example.com', $client->getCrawler()->selectLink('Go to Akeneo PIM')->attr('href'));
+        $this->assertEquals('https://example.com'.'/connect/apps/v1/connected_app/'.$connectedAppId, $client->getCrawler()->selectLink('Go to Akeneo PIM')->attr('href'));
     }
 
     /**
@@ -80,7 +82,7 @@ class ShowCatalogActionTest extends AbstractIntegrationTest
         $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
 
         $this->assertEquals(
-            'https://marketplace.akeneo.com/extension/akeneo-demo-app',
+            'https://apps.akeneo.com/extension/akeneo-demo-app',
             $client->getCrawler()->selectLink('Help')->attr('href')
         );
     }
