@@ -25,6 +25,7 @@ final class ShowCatalogAction
         private readonly GuessCurrentLocaleQuery $guessCurrentLocaleQuery,
         private readonly FetchProductsQuery $fetchProductsQuery,
         private readonly FetchMappedProductsQuery $fetchMappedProductsQuery,
+        private readonly string $akeneoClientId,
     ) {
     }
 
@@ -38,6 +39,7 @@ final class ShowCatalogAction
             $this->twig->render('catalog.html.twig', [
                 'products' => $products,
                 'catalog' => $catalog,
+                'connected_app_id' => $this->akeneoClientId,
             ])
         );
     }

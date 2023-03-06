@@ -60,6 +60,7 @@ final class ShowProductAction
                 'locale' => $locale,
                 'product' => $product,
                 'connected_app_id' => $this->akeneoClientId,
+                'catalog' => $catalog,
             ])
         );
     }

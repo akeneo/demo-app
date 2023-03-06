@@ -15,6 +15,7 @@ final class ListCatalogsAction
     public function __construct(
         private readonly TwigEnvironment $twig,
         private readonly PimCatalogApiClient $catalogApiClient,
+        private readonly string $akeneoClientId,
     ) {
     }
 
@@ -24,6 +25,7 @@ final class ListCatalogsAction
         return new Response(
             $this->twig->render('catalogs.html.twig', [
                 'catalogs' => $this->catalogApiClient->getCatalogs(),
+                'connected_app_id' => $this->akeneoClientId,
             ])
         );
     }
