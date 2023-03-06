@@ -13,9 +13,9 @@ use App\PimApi\PimCatalogApiClient;
 /**
  * @phpstan-type RawMappedProduct array{
  *      uuid: string,
- *      title: string,
- *      description: string,
- *      code: string,
+ *      title?: string,
+ *      description?: string,
+ *      code?: string,
  * }
  */
 final class FetchMappedProductQuery
@@ -35,12 +35,16 @@ final class FetchMappedProductQuery
         }
 
         $label = !empty($rawMappedProduct['title']) ? $rawMappedProduct['title'] : $rawMappedProduct['uuid'];
+        $uuid = $rawMappedProduct['uuid'];
+        $title = $rawMappedProduct['title'] ?? '';
+        $description = $rawMappedProduct['description'] ?? '';
+        $code = $rawMappedProduct['code'] ?? '';
 
         $values = [
-            new ProductValue('mapped_properties.uuid', 'string', $rawMappedProduct['uuid']),
-            new ProductValue('mapped_properties.title', 'string', $rawMappedProduct['title']),
-            new ProductValue('mapped_properties.description', 'string', $rawMappedProduct['description']),
-            new ProductValue('mapped_properties.code', 'string', $rawMappedProduct['code']),
+            new ProductValue('mapped_properties.uuid', 'string', $uuid),
+            new ProductValue('mapped_properties.title', 'string', $title),
+            new ProductValue('mapped_properties.description', 'string', $description),
+            new ProductValue('mapped_properties.code', 'string', $code),
         ];
 
         return new Product($productUuid, $label, $values);
