@@ -30,8 +30,9 @@ final class FetchMappedProductsQuery
 
         $products = [];
         foreach ($rawMappedProducts as $rawMappedProduct) {
-            $label = $rawMappedProduct['title'] ?? $rawMappedProduct['uuid'];
-            $label = '' === $label ? $rawMappedProduct['uuid'] : $label;
+            $label = isset($rawMappedProduct['title']) && '' !== $rawMappedProduct['title']
+                ? $rawMappedProduct['title']
+                : $rawMappedProduct['uuid'];
 
             $products[] = new Product($rawMappedProduct['uuid'], $label);
         }
