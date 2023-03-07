@@ -100,14 +100,13 @@ class CallbackActionTest extends AbstractIntegrationTest
         $this->client->request('GET', '/callback?code=code&state=random_state_123456789');
 
         $this->assertAccessTokenIsStored('random_access_token');
-        $this->assertCatalogIdIsStored('70313d30-8316-41c2-b298-8f9e7186fe9a');
-        $this->assertResponseRedirects('/products', Response::HTTP_FOUND);
+        $this->assertResponseRedirects('/catalogs', Response::HTTP_FOUND);
     }
 
     /**
      * @test
      */
-    public function itFetchesAccessTokenWithAuthenticationScopesAndRedirectsToProductsPage(): void
+    public function itFetchesAccessTokenWithAuthenticationScopesAndRedirectsToCatalogsPage(): void
     {
         ['private' => $privateKey, 'public' => $publicKey] = $this->getAsymmetricKeyPair();
         $idToken = $this->generateIdToken($privateKey, $publicKey);
@@ -136,8 +135,7 @@ class CallbackActionTest extends AbstractIntegrationTest
 
         $this->assertAccessTokenIsStored('random_access_token');
         $this->assertUserProfileIsStored('John Doe');
-        $this->assertCatalogIdIsStored('70313d30-8316-41c2-b298-8f9e7186fe9a');
-        $this->assertResponseRedirects('/products', Response::HTTP_FOUND);
+        $this->assertResponseRedirects('/catalogs', Response::HTTP_FOUND);
     }
 
     /**
@@ -165,15 +163,23 @@ class CallbackActionTest extends AbstractIntegrationTest
             [],
             new MockResponse(\json_encode([
                 'id' => '7e018bfd-00e1-4642-951e-4d45684b51f4',
-                'name' => 'Demo App catalog',
+                'name' => 'Catalog with product value filters',
                 'enabled' => true,
-            ]))
+            ], JSON_THROW_ON_ERROR),
+                ['http_code' => 201],
+            )
+        );
+
+        $this->mockHttpResponse(
+            'PUT',
+            'https://example.com/api/rest/v1/catalogs/7e018bfd-00e1-4642-951e-4d45684b51f4/mapping-schemas/product',
+            [],
+            new MockResponse('', ['http_code' => 204])
         );
 
         $this->client->request('GET', '/callback?code=code&state=random_state_123456789');
 
-        $this->assertCatalogIdIsStored('7e018bfd-00e1-4642-951e-4d45684b51f4');
-        $this->assertResponseRedirects('/products', Response::HTTP_FOUND);
+        $this->assertResponseRedirects('/catalogs', Response::HTTP_FOUND);
     }
 
     /**
@@ -347,11 +353,5 @@ class CallbackActionTest extends AbstractIntegrationTest
     {
         $savedUserProfile = $this->client?->getRequest()->getSession()->get('akeneo_pim_user_profile');
         $this->assertEquals($expectedUserProfile, $savedUserProfile);
-    }
-
-    private function assertCatalogIdIsStored(string $expectedCatalogId): void
-    {
-        $savedCatalogId = $this->client?->getRequest()->getSession()->get('akeneo_pim_catalog_id');
-        $this->assertEquals($expectedCatalogId, $savedCatalogId);
     }
 }

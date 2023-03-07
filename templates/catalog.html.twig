@@ -1,0 +1,51 @@
+{% extends 'connected-base.html.twig' %}
+{% from './macros/breadcrumb.html.twig' import breadcrumb %}
+
+{% block title %}{{ 'page.catalog.title' | trans }}{% endblock %}
+
+{% block content %}
+    <div class="products">
+        <section class="product-grid">
+            <header class="product-grid__header">
+                {{ breadcrumb(catalog) }}
+                <h1 class="page-title">{{ catalog.name }}</h1>
+                {% embed './commons/information.html.twig' with {helperTitle: 'page.catalog.information.helper-title' | trans({'%count%': products|length}) } %}
+                    {% block informationContent %}
+                        {{ 'page.catalog.information.content' | trans }}
+                    {% endblock %}
+                {% endembed %}
+            </header>
+
+            <div class="product-grid__{{ products|length > 0 ? 'list' : 'no-products' }}">
+                {% for product in products %}
+                    <article class="product-card">
+                        <a href="{{ path('product', {catalogId: catalog.id, uuid: product.uuid}) }}">
+                            <div class="product-card__image">
+                                <div class="product-card__image__container">
+                                    <img src="{{ asset('build/images/ziggy.png') }}" alt="{{ product.label }}"/>
+                                </div>
+                            </div>
+                            <p class="product-card__title">{{ product.label }}</p>
+                        </a>
+                    </article>
+                {% else %}
+                    <section class="no-products">
+                        <img class="no-products__illustration"
+                             src="{{ asset('build/images/draft.svg') }}"
+                             alt="{{ 'page.error.illustration_alt' | trans }}">
+                        {% set title = catalog.enabled ? 'page.catalog.no-products.title' : 'page.catalog.catalog-disabled.title' %}
+                        {% set description = catalog.enabled ? 'page.catalog.no-products.description' : 'page.catalog.catalog-disabled.description' %}
+                        {% set button = catalog.enabled ? 'page.catalog.no-products.catalog-button' : 'page.catalog.catalog-disabled.catalog-button' %}
+                        <h3 class="no-products__title"> {{ title | trans }}</h3>
+                        <p class="no-products__description">{{ description | trans }}</p>
+                        <a href="{{ app.session.get('pim_url') }}/connect/apps/v1/catalogs/{{ catalog.id }}"
+                           target="_blank"
+                           class="no-products__catalog-button">
+                            {{ button | trans }}
+                        </a>
+                    </section>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+{% endblock %}

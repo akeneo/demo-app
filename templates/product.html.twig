@@ -1,8 +1,9 @@
 {% extends 'connected-base.html.twig' %}
 {% import './macros/localeToFlag.html.twig' as localeToFlag %}
 {% import './macros/displayAttribute.html.twig' as displayAttribute %}
+{% from './macros/breadcrumb.html.twig' import breadcrumb %}
 
-{% block title %}{{ 'page.products.title' | trans }}{% endblock %}
+{% block title %}{{ 'page.product.title' | trans }}{% endblock %}
 
 {% block content %}
     <div class="product">
@@ -14,12 +15,8 @@
         {% endembed %}
         <header class="product__header">
             <div class="product__header__infos">
-                <nav class="breadcrumb__container">
-                    <a href="{{ path('products') }}" class="breadcrumb__step">{{ 'page.product.breadcrumb_root' | trans }}</a>
-                    <span class="breadcrumb__separator" aria-hidden="true">/</span>
-                    <span class="breadcrumb__step">{{ product.label }}</span>
-                </nav>
-                <h1 class="product__title">{{ product.label }}</h1>
+                {{ breadcrumb(catalog, product.label) }}
+                <h1 class="page-title">{{ product.label }}</h1>
             </div>
             <div class="locale-switcher">
                 <button id="locales" class="locale-switcher__button">
@@ -38,10 +35,9 @@
         </header>
         <section class="product__content">
             <section class="attribute-group">
-                <h2 class="attribute-group__title">{{ 'page.product.attributes.default_attribute_group' | trans }}</h2>
                 {% for attribute in product.attributes %}
                     <div class="attribute">
-                        <h3 class="attribute__label">{{ attribute.label }}</h3>
+                        <h3 class="attribute__label">{{ attribute.label | trans }}</h3>
                         <p class="attribute__value">{{ displayAttribute.value(attribute) }}</p>
                     </div>
                 {% endfor %}

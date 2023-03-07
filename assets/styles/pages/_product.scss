@@ -11,32 +11,6 @@
     }
   }
 
-  .breadcrumb {
-    &__container {
-      color: variables.$color-grey-120;
-    }
-
-    &__separator {
-      margin: 0 0.5rem;
-    }
-
-    &__step {
-      color: variables.$color-grey-120;
-      text-transform: uppercase;
-
-      &:last-child {
-        color: variables.$color-grey-100;
-        cursor: initial;
-      }
-    }
-  }
-
-  &__title {
-    font-size: variables.$font-size-title;
-    font-weight: normal;
-    color: variables.$color-demo-blue;
-  }
-
   &__content {
     margin-top: 30px;
   }

@@ -127,18 +127,32 @@ trait MockPimApiTrait
             'get-attribute-options-tag.json',
             'https://example.com/api/rest/v1/attributes/tag/options?limit=100&with_count=false',
         );
+
         $this->mockPimAPIResponse(
             'get-catalogs.json',
             'https://example.com/api/rest/v1/catalogs',
         );
         $this->mockPimAPIResponse(
-            'get-catalogs-store-fr.json',
+            'get-catalog-product-value-filters.json',
+            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a',
+        );
+        $this->mockPimAPIResponse(
+            'get-catalog-attribute-mapping.json',
             'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c',
         );
         $this->mockPimAPIResponse(
-            'get-catalogs-store-us.json',
-            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a',
+            'get-catalog-disabled.json',
+            'https://example.com/api/rest/v1/catalogs/ad1f6e7a-e6d9-495f-b568-f4f473803679',
         );
+        $this->mockPimAPIResponse(
+            'get-catalogs-mapped-products.json',
+            'https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products?limit=10',
+        );
+        $this->mockPimAPIResponse(
+            'get-catalogs-mapped-products-empty-list.json',
+            'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/mapped-products?limit=10',
+        );
+
         $this->mockPimAPIResponse(
             'get-catalogs-product-identifiers-store-us.json',
             'https://example.com/api/rest/v1/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a/product-identifiers?limit=10',

@@ -1,0 +1,21 @@
+@use "../base/variables";
+
+.breadcrumb {
+  color: variables.$color-grey-120;
+  text-transform: uppercase;
+
+  &__link {
+    text-decoration: none;
+    color: variables.$color-grey-120;
+  }
+
+  &__tail {
+    color: variables.$color-grey-100;
+  }
+
+  & > *:not(:last-child)::after {
+    display: inline-block;
+    margin: 0 5px;
+    content: "/";
+  }
+}

@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Query\FetchOrCreateDefaultDemoCatalogQuery;
+use App\Service\InitializeAppData;
 use App\Storage\AccessTokenStorageInterface;
-use App\Storage\CatalogIdStorageInterface;
 use App\Storage\UserProfileStorageInterface;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
@@ -29,9 +28,8 @@ final class CallbackAction
         private readonly HttpClientInterface $client,
         private readonly AccessTokenStorageInterface $accessTokenStorage,
         private readonly UserProfileStorageInterface $userProfileStorage,
-        private readonly FetchOrCreateDefaultDemoCatalogQuery $fetchOrCreateDefaultDemoCatalogQuery,
-        private readonly CatalogIdStorageInterface $catalogIdStorage,
         private readonly RouterInterface $router,
+        private readonly InitializeAppData $initializeAppData,
     ) {
     }
 
@@ -63,10 +61,9 @@ final class CallbackAction
             $this->userProfileStorage->setUserProfile($userProfile);
         }
 
-        $catalogId = $this->fetchOrCreateDefaultDemoCatalogQuery->fetch();
-        $this->catalogIdStorage->setCatalogId($catalogId);
+        ($this->initializeAppData)();
 
-        return new RedirectResponse($this->router->generate('products'));
+        return new RedirectResponse($this->router->generate('catalogs'));
     }
 
     /**

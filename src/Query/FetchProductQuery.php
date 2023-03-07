@@ -8,8 +8,8 @@ use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException as AkeneoNotFoundHttpException;
 use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
-use App\Exception\CatalogDisabledException;
 use App\Exception\CatalogProductNotFoundException;
+use App\PimApi\Exception\PimApiException;
 use App\PimApi\Model\Product;
 use App\PimApi\Model\ProductValue;
 use App\PimApi\PimCatalogApiClient;
@@ -33,9 +33,7 @@ final class FetchProductQuery
         try {
             /** @var RawProduct $rawProduct */
             $rawProduct = $this->catalogApiClient->getCatalogProduct($catalogId, $productUuid);
-        } catch (CatalogDisabledException $e) {
-            throw $e;
-        } catch (\Exception $e) {
+        } catch (PimApiException $e) {
             throw new CatalogProductNotFoundException();
         }
 

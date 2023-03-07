@@ -6,14 +6,13 @@ namespace App\Controller;
 
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException as AkeneoNotFoundHttpException;
 use App\Exception\CatalogDisabledException;
-use App\Exception\CatalogNotFoundException;
 use App\Exception\CatalogProductNotFoundException;
+use App\PimApi\Exception\PimApiException;
 use App\PimApi\Model\Catalog;
 use App\PimApi\PimCatalogApiClient;
+use App\Query\FetchMappedProductQuery;
 use App\Query\FetchProductQuery;
 use App\Query\GuessCurrentLocaleQuery;
-use App\Storage\CatalogIdStorageInterface;
-use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -26,22 +25,31 @@ final class ShowProductAction
         private TwigEnvironment $twig,
         private GuessCurrentLocaleQuery $guessCurrentLocaleQuery,
         private FetchProductQuery $fetchProductQuery,
-        private readonly CatalogIdStorageInterface $catalogIdStorage,
+        private FetchMappedProductQuery $fetchMappedProductQuery,
         private readonly PimCatalogApiClient $catalogApiClient,
+        private readonly string $akeneoClientId,
     ) {
     }
 
-    #[Route('/products/{uuid}', name: 'product', methods: ['GET'])]
-    public function __invoke(Request $request, string $uuid): Response
+    #[Route('/catalogs/{catalogId}/products/{uuid}', name: 'product', methods: ['GET'])]
+    public function __invoke(Request $request, string $catalogId, string $uuid): Response
     {
         try {
-            $locale = $this->guessCurrentLocaleQuery->guess();
-            $catalog = $this->getDefaultCatalog();
+            $catalog = $this->catalogApiClient->getCatalog($catalogId);
+        } catch (PimApiException) {
+            throw new NotFoundHttpException();
+        }
 
-            if ($catalog->enabled) {
+        if (!$catalog->enabled) {
+            throw new CatalogDisabledException();
+        }
+
+        try {
+            $locale = $this->guessCurrentLocaleQuery->guess();
+            if (Catalog::PRODUCT_VALUE_FILTERS_NAME === $catalog->name) {
                 $product = $this->fetchProductQuery->fetch($catalog->id, $uuid, $locale);
             } else {
-                throw new CatalogDisabledException();
+                $product = $this->fetchMappedProductQuery->fetch($catalog->id, $uuid);
             }
         } catch (AkeneoNotFoundHttpException|CatalogProductNotFoundException $e) {
             throw new NotFoundHttpException('PIM API replied with a 404', $e);
@@ -51,24 +59,9 @@ final class ShowProductAction
             $this->twig->render('product.html.twig', [
                 'locale' => $locale,
                 'product' => $product,
+                'connected_app_id' => $this->akeneoClientId,
+                'catalog' => $catalog,
             ])
         );
-    }
-
-    private function getDefaultCatalog(): Catalog
-    {
-        $catalogId = $this->catalogIdStorage->getCatalogId();
-
-        if (null === $catalogId) {
-            throw new CatalogNotFoundException();
-        }
-
-        try {
-            $catalog = $this->catalogApiClient->getCatalog($catalogId);
-        } catch (ClientException) {
-            throw new CatalogNotFoundException();
-        }
-
-        return $catalog;
     }
 }

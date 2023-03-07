@@ -17,7 +17,7 @@
           }
         },
         "id" : "70313d30-8316-41c2-b298-8f9e7186fe9a",
-        "name" : "Store US",
+        "name" : "Catalog with product value filters",
         "enabled" : true
       },
       {
@@ -27,7 +27,7 @@
           }
         },
         "id": "8a8494d2-05cc-4b8f-942e-f5ea7591e89c",
-        "name": "Store FR",
+        "name": "Catalog with attribute mapping",
         "enabled": false
       }
     ]

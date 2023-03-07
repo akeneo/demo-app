@@ -2,7 +2,12 @@
 @use "base/base";
 @use "components/header";
 @use "components/information";
+@use "components/table";
+@use "components/badge";
+@use "components/button";
+@use "components/breadcrumb";
 @use "pages/welcome";
 @use "pages/error";
 @use "pages/products";
 @use "pages/product";
+@use "pages/catalogs";

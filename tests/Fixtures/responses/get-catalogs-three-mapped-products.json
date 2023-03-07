@@ -1,0 +1,32 @@
+{
+  "_links":{
+    "self":{
+      "href":"https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products?limit=10"
+    },
+    "first":{
+      "href":"https://example.com/api/rest/v1/catalogs/8a8494d2-05cc-4b8f-942e-f5ea7591e89c/mapped-products?limit=10"
+    }
+  },
+  "_embedded":{
+    "items":[
+      {
+        "uuid": "a5eed606-4f98-4d8c-b926-5b59f8fb0ee7",
+        "title": "Kodak i2600 for Govt",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "code": ""
+      },
+      {
+        "uuid": "16467667-9a29-48c1-90b3-8a169b83e8e6",
+        "title": "Sunglasses",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam",
+        "code": "1234567890316"
+      },
+      {
+        "uuid": "5b8381e2-a97a-4120-87da-1ef8b9c53988",
+        "title": "",
+        "description": "",
+        "code": ""
+      }
+    ]
+  }
+}
