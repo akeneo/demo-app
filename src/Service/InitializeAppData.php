@@ -49,7 +49,7 @@ final class InitializeAppData
         return <<<'JSON_WRAP'
         {
            "$id":"https://example.com/product",
-           "$schema":"https://api.akeneo.com/mapping/product/0.0.2/schema",
+           "$schema":"https://api.akeneo.com/mapping/product/0.0.10/schema",
            "$comment":"We give you an example of product mapping schema!",
            "title":"Demo app - Product Mapping Schema",
            "description":"JSON Schema describing the structure of products expected by the Demo App",
@@ -74,7 +74,8 @@ final class InitializeAppData
                  "title":"Product UUID",
                  "type":"string"
               }
-           }
+           },
+           "required": ["title"]
         }
         JSON_WRAP;
     }
