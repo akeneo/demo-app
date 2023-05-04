@@ -22,10 +22,10 @@ make up
 - You have a [PIM developer sandbox](https://api.akeneo.com/apps/overview.html#app-developer-starter-kit)
 
 **Steps:**
-- Create a [public url](https://api.akeneo.com/apps/apps-getting-started.html#step-2-get-a-public-url-for-your-in-development-app) for your app
-- Register your test app to [receive the credentials](https://api.akeneo.com/apps/apps-getting-started.html#step-3-get-your-test-app-credentials)
-- Update `AKENEO_CLIENT_ID` & `AKENEO_CLIENT_SECRET` in `.env` with the credentials
-- [Connect your app](https://api.akeneo.com/apps/apps-getting-started.html#step-4-connect-your-test-app-and-access-its-settings)
+- Create a [public url](https://api.akeneo.com/tutorials/how-to-get-your-app-token.html#step-2-create-a-tunnel-to-expose-your-local-app) for your app
+- Register your test app to [receive the credentials](https://api.akeneo.com/tutorials/how-to-get-your-app-token.html#step-3-declare-your-local-app-as-a-custom-app-in-your-sandbox-to-generate-credentials)
+- Update `AKENEO_CLIENT_ID` & `AKENEO_CLIENT_SECRET` in `.env` with the credentials, then redo a `make up` to take into account these new environment variables
+- [Connect your app](https://api.akeneo.com/tutorials/how-to-get-your-app-token.html#step-4-run-your-local-app)
 
 ### Useful commands
 
