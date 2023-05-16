@@ -12,6 +12,29 @@ use App\Storage\AccessTokenStorageInterface;
 use App\Storage\PimURLStorageInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+/**
+ * @phpstan-type RawMappedProduct array{
+ *      uuid: string,
+ *      sku: string,
+ *      name: string,
+ *      type?: string,
+ *      body_html?: string,
+ *      main_image?: string,
+ *      main_color?: string,
+ *      colors?: array<string>,
+ *      available?: boolean,
+ *      price?: int|float,
+ *      publication_date?: string,
+ *      certification_number?: string,
+ *      size_letter?: string,
+ *      size_number?: int|float,
+ *      weight?: int|float,
+ * }
+ * @phpstan-type ErrorResponse array{
+ *      error?: string,
+ *      message?: string,
+ * }
+ */
 class PimCatalogApiClient
 {
     public function __construct(
@@ -191,7 +214,7 @@ class PimCatalogApiClient
     }
 
     /**
-     * @return array<array-key, mixed>
+     * @return array<array-key, RawMappedProduct>
      *
      * @throws CatalogDisabledException
      * @throws PimApiException
@@ -229,7 +252,7 @@ class PimCatalogApiClient
     }
 
     /**
-     * @return array<mixed>
+     * @return RawMappedProduct
      *
      * @throws CatalogDisabledException
      * @throws PimApiException
@@ -245,12 +268,16 @@ class PimCatalogApiClient
 
         $this->throwOnErrorCode(200, $response->getStatusCode(), "Couldn't get mapped product");
 
+        /** @var RawMappedProduct|ErrorResponse $response */
         $response = $response->toArray();
 
         if (isset($response['message']) || isset($response['error'])) {
             throw new CatalogDisabledException();
         }
 
-        return $response;
+        /** @var RawMappedProduct $rawMappedProduct */
+        $rawMappedProduct = $response;
+
+        return $rawMappedProduct;
     }
 }

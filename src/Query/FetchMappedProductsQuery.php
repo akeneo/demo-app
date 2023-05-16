@@ -8,12 +8,7 @@ use App\PimApi\Model\Product;
 use App\PimApi\PimCatalogApiClient;
 
 /**
- * @phpstan-type RawMappedProduct array{
- *      uuid: string,
- *      title: string,
- *      description: string,
- *      code: string,
- * }
+ * @phpstan-import-type RawMappedProduct from PimCatalogApiClient
  */
 final class FetchMappedProductsQuery
 {
@@ -26,12 +21,13 @@ final class FetchMappedProductsQuery
      */
     public function fetch(string $catalogId): array
     {
+        /** @var array<RawMappedProduct> $rawMappedProducts */
         $rawMappedProducts = $this->catalogApiClient->getMappedProducts($catalogId);
 
         $products = [];
         foreach ($rawMappedProducts as $rawMappedProduct) {
-            $label = isset($rawMappedProduct['title']) && '' !== $rawMappedProduct['title']
-                ? $rawMappedProduct['title']
+            $label = '' !== $rawMappedProduct['name']
+                ? $rawMappedProduct['name']
                 : $rawMappedProduct['uuid'];
 
             $products[] = new Product($rawMappedProduct['uuid'], $label);

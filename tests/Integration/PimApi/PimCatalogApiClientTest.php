@@ -301,9 +301,20 @@ class PimCatalogApiClientTest extends AbstractIntegrationTest
 
         $this->assertEquals([
             'uuid' => 'a5eed606-4f98-4d8c-b926-5b59f8fb0ee7',
-            'title' => 'Kodak i2600 for Govt',
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'code' => '',
+            'name' => 'Kodak i2600 for Govt',
+            'body_html' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'sku' => '1234567890317',
+            'type' => 'scanner',
+            'main_image' => 'https://www.example.com/kodak-i2600.jpg',
+            'main_color' => 'navy blue',
+            'colors' => ['grey', 'black', 'navy blue'],
+            'available' => true,
+            'price' => '269',
+            'publication_date' => '2023-02-01T14:41:36+02:00',
+            'certification_number' => '213-451-2154-124',
+            'size_letter' => 'M',
+            'size_number' => 36,
+            'weight' => 1452,
         ], $result);
     }
 

@@ -187,19 +187,52 @@ class ShowProductActionTest extends AbstractIntegrationTest
         $this->assertSelectorTextContains('h1.page-title', 'Kodak i2600 for Govt');
 
         $foundAttributes = $crawler->filter('.attribute');
-        $this->assertEquals(4, $foundAttributes->count());
+        $this->assertEquals(15, $foundAttributes->count());
 
-        $eanLabel = $foundAttributes->eq(0)->filter('.attribute__label')->text();
-        $this->assertEquals('Product UUID', $eanLabel);
+        $label0 = $foundAttributes->eq(0)->filter('.attribute__label')->text();
+        $this->assertEquals('Product UUID', $label0);
 
-        $eanLabel = $foundAttributes->eq(1)->filter('.attribute__label')->text();
-        $this->assertEquals('Title', $eanLabel);
+        $label1 = $foundAttributes->eq(1)->filter('.attribute__label')->text();
+        $this->assertEquals('SKU (Stock Keeping Unit)', $label1);
 
-        $eanLabel = $foundAttributes->eq(2)->filter('.attribute__label')->text();
-        $this->assertEquals('Description', $eanLabel);
+        $label2 = $foundAttributes->eq(2)->filter('.attribute__label')->text();
+        $this->assertEquals('Product name', $label2);
 
-        $eanLabel = $foundAttributes->eq(3)->filter('.attribute__label')->text();
-        $this->assertEquals('Code', $eanLabel);
+        $label3 = $foundAttributes->eq(3)->filter('.attribute__label')->text();
+        $this->assertEquals('Product type', $label3);
+
+        $label4 = $foundAttributes->eq(4)->filter('.attribute__label')->text();
+        $this->assertEquals('Description', $label4);
+
+        $label5 = $foundAttributes->eq(5)->filter('.attribute__label')->text();
+        $this->assertEquals('Main image', $label5);
+
+        $label6 = $foundAttributes->eq(6)->filter('.attribute__label')->text();
+        $this->assertEquals('Main color', $label6);
+
+        $label7 = $foundAttributes->eq(7)->filter('.attribute__label')->text();
+        $this->assertEquals('Colors', $label7);
+
+        $label8 = $foundAttributes->eq(8)->filter('.attribute__label')->text();
+        $this->assertEquals('Is available', $label8);
+
+        $label9 = $foundAttributes->eq(9)->filter('.attribute__label')->text();
+        $this->assertEquals('Price (€)', $label9);
+
+        $label10 = $foundAttributes->eq(10)->filter('.attribute__label')->text();
+        $this->assertEquals('Publication date', $label10);
+
+        $label11 = $foundAttributes->eq(11)->filter('.attribute__label')->text();
+        $this->assertEquals('Certification number', $label11);
+
+        $label12 = $foundAttributes->eq(12)->filter('.attribute__label')->text();
+        $this->assertEquals('Size (letter)', $label12);
+
+        $label13 = $foundAttributes->eq(13)->filter('.attribute__label')->text();
+        $this->assertEquals('Size', $label13);
+
+        $label14 = $foundAttributes->eq(14)->filter('.attribute__label')->text();
+        $this->assertEquals('Weight (grams)', $label14);
     }
 
     /**
