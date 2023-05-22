@@ -207,7 +207,7 @@ class ShowProductActionTest extends AbstractIntegrationTest
             'Weight (grams)',
         ];
 
-        foreach($expectedAttributeLabels as $index => $expectedAttributeLabel) {
+        foreach ($expectedAttributeLabels as $index => $expectedAttributeLabel) {
             $this->assertEquals(
                 $expectedAttributeLabel,
                 $foundAttributes->eq($index)->filter('.attribute__label')->text(),
