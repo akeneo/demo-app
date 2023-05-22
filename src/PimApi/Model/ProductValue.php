@@ -12,7 +12,7 @@ class ProductValue
     public function __construct(
         public readonly string $label,
         public readonly string $type,
-        public readonly null|string|bool|int|float|array $value,
+        public readonly string|bool|int|float|array|null $value,
     ) {
     }
 }
