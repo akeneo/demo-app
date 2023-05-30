@@ -1,10 +1,19 @@
-{% macro value(attribute) %}
-    {% set displayValue = attribute.value %}
-    {% if attribute.type is same as('pim_catalog_boolean') %}
-        {% set trueValueTrans = 'page.product.attributes.boolean_values.yes' | trans %}
-        {% set falseValueTrans = 'page.product.attributes.boolean_values.no' | trans %}
-        {% set displayValue = displayValue ? trueValueTrans : falseValueTrans %}
+{% macro formatValue(value, type) %}
+    {% if value is not null %}
+        {% if type is same as('boolean') %}
+            {{ value
+                ? 'page.product.attributes.boolean_values.yes' | trans
+                : 'page.product.attributes.boolean_values.no' | trans
+            }}
+        {% elseif type is same as('string+uri') %}
+            <a href="{{ value }}" target="_blank">{{ value }}</a>
+        {% elseif type matches '{^array<.+>$}' %}
+            {% set itemType = type|slice(6, type|length - 7) %}
+            {% for itemValue in value %}
+                {{ _self.formatValue(itemValue, itemType) }}{% if not loop.last %}<br />{% endif %}
+            {% endfor %}
+        {% else %}
+            {{ value }}
+        {% endif %}
     {% endif %}
-
-    {{ displayValue }}
 {% endmacro %}

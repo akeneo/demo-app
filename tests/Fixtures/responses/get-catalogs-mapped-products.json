@@ -11,60 +11,63 @@
     "items":[
       {
         "uuid": "a5eed606-4f98-4d8c-b926-5b59f8fb0ee7",
-        "title": "Kodak i2600 for Govt",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        "code": ""
+        "name": "Kodak i2600 for Govt",
+        "body_html": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "sku": "1234567890317"
       },
       {
         "uuid": "16467667-9a29-48c1-90b3-8a169b83e8e6",
-        "title": "Sunglasses",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam",
-        "code": "1234567890316"
+        "name": "Sunglasses",
+        "body_html": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam",
+        "sku": "1234567890316"
       },
       {
         "uuid": "5b8381e2-a97a-4120-87da-1ef8b9c53988",
-        "title": "",
-        "description": "",
-        "code": ""
+        "name": "Sunglasses 2",
+        "body_html": "",
+        "sku": "1234567890318"
       },
       {
         "uuid": "e5442b25-683d-4ea4-bab3-d31a240d3a1a",
-        "title": "",
-        "description": "",
-        "code": "10649473"
+        "name": "Sunglasses 3",
+        "body_html": "",
+        "sku": "10649473"
       },
       {
-        "uuid": "08e92c31-375a-414f-86ce-f146dc180727"
+        "uuid": "08e92c31-375a-414f-86ce-f146dc180727",
+        "name": "Sunglasses 4",
+        "body_html": "",
+        "sku": "1234567890319"
       },
       {
         "uuid": "bee7ad24-f08b-4603-9d88-1a80f099640e",
-        "title": "Canon imageFormula DR-C125",
-        "description": "The Canon imageFORMULA DR-C125 Document Scanner's innovative space-saving design makes it a standout in any office environment for improving information accessibility, management, and collaboration. Its flexibility and high image quality are only surpassed by its easy use, making it ideal for converting and capturing paper-based documents to digital format.\n\nThe DR-C125 scanner is ideal for general purpose distributed scanning of a variety of document types. In corporate or remote offices, this scanner is well-suited for use by individuals or small workgroups to modernize paper-based processes, increasing efficiency and productivity. Legal services, financial services, healthcare, government, and other industries can benefit from its small size and easy use.\n\n- Space Saving\n- Easy Use\n- Flexibility\n- High Image Quality\n- Environment In Mind\n- Customer Care",
-        "code": "10655470"
+        "name": "Canon imageFormula DR-C125",
+        "body_html": "The Canon imageFORMULA DR-C125 Document Scanner's innovative space-saving design makes it a standout in any office environment for improving information accessibility, management, and collaboration. Its flexibility and high image quality are only surpassed by its easy use, making it ideal for converting and capturing paper-based documents to digital format.\n\nThe DR-C125 scanner is ideal for general purpose distributed scanning of a variety of document types. In corporate or remote offices, this scanner is well-suited for use by individuals or small workgroups to modernize paper-based processes, increasing efficiency and productivity. Legal services, financial services, healthcare, government, and other industries can benefit from its small size and easy use.\n\n- Space Saving\n- Easy Use\n- Flexibility\n- High Image Quality\n- Environment In Mind\n- Customer Care",
+        "sku": "10655470"
       },
       {
         "uuid": "554ed26b-b179-4058-9ff8-4e4a660dbd8a",
-        "title": "Kodak i2600 for Govt",
-        "description": "Energize your information for a competitive edge\n\nTodayu2019s business runs on information. But when that information is on paper, it can slow you down. Get things flowing faster with the KODAK i2600 Scanner. It lets you extract critical information from documents at the point of entry, for quick distribution to decision-makers who need it. So money to be gained isnu2019t left waiting for choices to be made.\n\nNo matter what size your business or department is, the reliable performance of the KODAK i2600 Scanner can enable collaboration right from your desktop. It decreases processing time for information that needs to be shared for review, reference, approval, and legal and compliance reasons. This helps increase both internal and external customer satisfaction, and saves your company time and money. Plus, if your business has branch offices or field agents, distributed capture allows document images to be immediately sent to a central location for easy access.\n\nHelp your company get ahead with a scanning solution that can bring you increased security, faster internal processes, better teamwork, and a host of other business benefitsu2014the KODAK i2600 Scanner.",
-        "code": "10661721"
+        "name": "Kodak i2600 for Govt",
+        "body_html": "Energize your information for a competitive edge\n\nTodayu2019s business runs on information. But when that information is on paper, it can slow you down. Get things flowing faster with the KODAK i2600 Scanner. It lets you extract critical information from documents at the point of entry, for quick distribution to decision-makers who need it. So money to be gained isnu2019t left waiting for choices to be made.\n\nNo matter what size your business or department is, the reliable performance of the KODAK i2600 Scanner can enable collaboration right from your desktop. It decreases processing time for information that needs to be shared for review, reference, approval, and legal and compliance reasons. This helps increase both internal and external customer satisfaction, and saves your company time and money. Plus, if your business has branch offices or field agents, distributed capture allows document images to be immediately sent to a central location for easy access.\n\nHelp your company get ahead with a scanning solution that can bring you increased security, faster internal processes, better teamwork, and a host of other business benefitsu2014the KODAK i2600 Scanner.",
+        "sku": "10661721"
       },
       {
         "uuid": "032a9ced-134c-41eb-9bb2-ee2089e3496a",
-        "title": "Kodak Scanner upgrade kit I640 TO I660",
-        "description": "Through the years, Kodak has led the way with an abundance of new products and processes that have made photography simpler, more useful and more enjoyable. Today, the company's work increasingly involves digital technology, combining the power and convenience of electronics with the quality of traditional photography to produce systems that bring levels of utility and fun to the taking, making and utilization of images.",
-        "code": "1211614"
+        "name": "Kodak Scanner upgrade kit I640 TO I660",
+        "body_html": "Through the years, Kodak has led the way with an abundance of new products and processes that have made photography simpler, more useful and more enjoyable. Today, the company's work increasingly involves digital technology, combining the power and convenience of electronics with the quality of traditional photography to produce systems that bring levels of utility and fun to the taking, making and utilization of images.",
+        "sku": "1211614"
       },
       {
         "uuid": "ab88bd1a-a944-49f8-b633-33a972a4efce",
-        "title": "HP Scanjet G4050",
-        "description": "Scan multiple photos, slides, film and negatives and get superior[1] colour accuracy with 6-colour, 96-bit scanning u2013 exclusive to HP. Capture every detail with 4800 x 9600-dpi hardware resolution[2]. Get infrared-based dust ",
-        "code": "12239052"
+        "name": "HP Scanjet G4050",
+        "body_html": "Scan multiple photos, slides, film and negatives and get superior[1] colour accuracy with 6-colour, 96-bit scanning u2013 exclusive to HP. Capture every detail with 4800 x 9600-dpi hardware resolution[2]. Get infrared-based dust ",
+        "sku": "12239052"
       },
       {
         "uuid": "4c40f7c5-416d-48af-8635-e4e5f0915092",
-        "title": "HP Scanjet G4010",
-        "description": "World's first 6-colour photo scanner for industry-leading colour accuracy. Enjoy high-definition scan quality that delivers vivid and realistic images with each scan.\n\n- Capture true-to-original colour for your creative projects with HPu2019s exclusive, 6-colour, 96-bit photo scanning. Get high-definition detail with 4800 x 9600-dpi resolution[1].\n- Easily restore colours to old, faded photos, and remove dust or scratches with HP Real Life technologies' scanning software. Give photos a more vibrant, realistic quality with HP Adaptive Lighting which brighten darker areas and bring out details.\n- Easily convert documents and images to digital files using the 4 one-touch buttons: Scan, Scan Film, Copy and HP Photosmart Instant Share. Archive or share via email and edit text from scanned documents.\n\n[1] Not available for scanning negatives in 6-colour; maximum resolution may be affected by PC system factors",
-        "code": "12239064"
+        "name": "HP Scanjet G4010",
+        "body_html": "World's first 6-colour photo scanner for industry-leading colour accuracy. Enjoy high-definition scan quality that delivers vivid and realistic images with each scan.\n\n- Capture true-to-original colour for your creative projects with HPu2019s exclusive, 6-colour, 96-bit photo scanning. Get high-definition detail with 4800 x 9600-dpi resolution[1].\n- Easily restore colours to old, faded photos, and remove dust or scratches with HP Real Life technologies' scanning software. Give photos a more vibrant, realistic quality with HP Adaptive Lighting which brighten darker areas and bring out details.\n- Easily convert documents and images to digital files using the 4 one-touch buttons: Scan, Scan Film, Copy and HP Photosmart Instant Share. Archive or share via email and edit text from scanned documents.\n\n[1] Not available for scanning negatives in 6-colour; maximum resolution may be affected by PC system factors",
+        "sku": "12239064"
       }
     ]
   }

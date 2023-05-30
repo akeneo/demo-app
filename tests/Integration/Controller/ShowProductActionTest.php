@@ -187,19 +187,32 @@ class ShowProductActionTest extends AbstractIntegrationTest
         $this->assertSelectorTextContains('h1.page-title', 'Kodak i2600 for Govt');
 
         $foundAttributes = $crawler->filter('.attribute');
-        $this->assertEquals(4, $foundAttributes->count());
+        $this->assertEquals(15, $foundAttributes->count());
 
-        $eanLabel = $foundAttributes->eq(0)->filter('.attribute__label')->text();
-        $this->assertEquals('Product UUID', $eanLabel);
+        $expectedAttributeLabels = [
+            'Product UUID',
+            'SKU (Stock Keeping Unit)',
+            'Product name',
+            'Product type',
+            'Description',
+            'Main image',
+            'Main color',
+            'Colors',
+            'Is available',
+            'Price (€)',
+            'Publication date',
+            'Certification number',
+            'Size (letter)',
+            'Size',
+            'Weight (grams)',
+        ];
 
-        $eanLabel = $foundAttributes->eq(1)->filter('.attribute__label')->text();
-        $this->assertEquals('Title', $eanLabel);
-
-        $eanLabel = $foundAttributes->eq(2)->filter('.attribute__label')->text();
-        $this->assertEquals('Description', $eanLabel);
-
-        $eanLabel = $foundAttributes->eq(3)->filter('.attribute__label')->text();
-        $this->assertEquals('Code', $eanLabel);
+        foreach ($expectedAttributeLabels as $index => $expectedAttributeLabel) {
+            $this->assertEquals(
+                $expectedAttributeLabel,
+                $foundAttributes->eq($index)->filter('.attribute__label')->text(),
+            );
+        }
     }
 
     /**

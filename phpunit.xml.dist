@@ -7,7 +7,6 @@
          colors="true"
          bootstrap="tests/bootstrap.php"
          convertDeprecationsToExceptions="false"
-         testdox="true"
          executionOrder="random"
          beStrictAboutTestsThatDoNotTestAnything="true"
 >

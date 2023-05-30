@@ -38,7 +38,7 @@
                 {% for attribute in product.attributes %}
                     <div class="attribute">
                         <h3 class="attribute__label">{{ attribute.label | trans }}</h3>
-                        <p class="attribute__value">{{ displayAttribute.value(attribute) }}</p>
+                        <p class="attribute__value">{{ displayAttribute.formatValue(attribute.value, attribute.type) }}</p>
                     </div>
                 {% endfor %}
             </section>

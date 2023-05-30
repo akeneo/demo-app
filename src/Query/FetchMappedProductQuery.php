@@ -11,12 +11,7 @@ use App\PimApi\Model\ProductValue;
 use App\PimApi\PimCatalogApiClient;
 
 /**
- * @phpstan-type RawMappedProduct array{
- *      uuid: string,
- *      title?: string,
- *      description?: string,
- *      code?: string,
- * }
+ * @phpstan-import-type RawMappedProduct from PimCatalogApiClient
  */
 final class FetchMappedProductQuery
 {
@@ -30,21 +25,28 @@ final class FetchMappedProductQuery
         try {
             /** @var RawMappedProduct $rawMappedProduct */
             $rawMappedProduct = $this->catalogApiClient->getMappedProduct($catalogId, $productUuid);
-        } catch (PimApiException $e) {
+        } catch (PimApiException) {
             throw new CatalogProductNotFoundException();
         }
 
-        $label = !empty($rawMappedProduct['title']) ? $rawMappedProduct['title'] : $rawMappedProduct['uuid'];
-        $uuid = $rawMappedProduct['uuid'];
-        $title = $rawMappedProduct['title'] ?? '';
-        $description = $rawMappedProduct['description'] ?? '';
-        $code = $rawMappedProduct['code'] ?? '';
+        $label = !empty($rawMappedProduct['name']) ? $rawMappedProduct['name'] : $rawMappedProduct['uuid'];
 
         $values = [
-            new ProductValue('mapped_properties.uuid', 'string', $uuid),
-            new ProductValue('mapped_properties.title', 'string', $title),
-            new ProductValue('mapped_properties.description', 'string', $description),
-            new ProductValue('mapped_properties.code', 'string', $code),
+            new ProductValue('mapped_properties.uuid', 'string', $rawMappedProduct['uuid']),
+            new ProductValue('mapped_properties.sku', 'string', $rawMappedProduct['sku']),
+            new ProductValue('mapped_properties.name', 'string', $rawMappedProduct['name']),
+            new ProductValue('mapped_properties.type', 'string', $rawMappedProduct['type'] ?? null),
+            new ProductValue('mapped_properties.body_html', 'string', $rawMappedProduct['body_html'] ?? null),
+            new ProductValue('mapped_properties.main_image', 'string+uri', $rawMappedProduct['main_image'] ?? null),
+            new ProductValue('mapped_properties.main_color', 'string', $rawMappedProduct['main_color'] ?? null),
+            new ProductValue('mapped_properties.colors', 'array<string>', $rawMappedProduct['colors'] ?? null),
+            new ProductValue('mapped_properties.available', 'boolean', $rawMappedProduct['available'] ?? null),
+            new ProductValue('mapped_properties.price', 'number', $rawMappedProduct['price'] ?? null),
+            new ProductValue('mapped_properties.publication_date', 'string', $rawMappedProduct['publication_date'] ?? null),
+            new ProductValue('mapped_properties.certification_number', 'string', $rawMappedProduct['certification_number'] ?? null),
+            new ProductValue('mapped_properties.size_letter', 'string', $rawMappedProduct['size_letter'] ?? null),
+            new ProductValue('mapped_properties.size_number', 'number', $rawMappedProduct['size_number'] ?? null),
+            new ProductValue('mapped_properties.weight', 'number', $rawMappedProduct['weight'] ?? null),
         ];
 
         return new Product($productUuid, $label, $values);

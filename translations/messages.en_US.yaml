@@ -94,7 +94,18 @@ page:
         description: The requested page couldn't be located. Checkout for any URL misspelling.
 
 mapped_properties:
-    title: Title
-    description: Description
     uuid: Product UUID
-    code: Code
+    sku: SKU (Stock Keeping Unit)
+    name: Product name
+    type: Product type
+    body_html: Description
+    main_image: Main image
+    main_color: Main color
+    colors: Colors
+    available: Is available
+    price: Price (€)
+    publication_date: Publication date
+    certification_number: Certification number
+    size_letter: Size (letter)
+    size_number: Size
+    weight: Weight (grams)
