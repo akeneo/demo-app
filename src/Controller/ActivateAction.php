@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Validator\ReachableUrl;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class ActivateAction
 {
@@ -25,6 +28,7 @@ final class ActivateAction
 
     public function __construct(
         private string $akeneoClientId,
+        private ValidatorInterface $validator,
     ) {
     }
 
@@ -35,7 +39,16 @@ final class ActivateAction
 
         $pimUrl = $session->get('pim_url');
         if (empty($pimUrl)) {
-            throw new \LogicException('Can\'t retrieve PIM url, please restart the authorization process.');
+            $pimUrl = $request->query->get('pim_url');
+            if (empty($pimUrl)) {
+                throw new \LogicException('Can\'t retrieve PIM url, please restart the authorization process.');
+            } else {
+                $violations = $this->validator->validate($pimUrl, new ReachableUrl());
+                if ($violations->count() > 0) {
+                    throw new BadRequestHttpException('PIM url is not valid.');
+                }
+                $session->set('pim_url', \rtrim((string)$pimUrl, '/'));
+            }
         }
 
         $state = \bin2hex(\random_bytes(10));
