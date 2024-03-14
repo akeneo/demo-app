@@ -11,6 +11,7 @@ class Kernel extends BaseKernel
 
     private ?string $projectDir = null;
 
+    // test
     public function getProjectDir(): string
     {
         return $this->projectDir ??= dirname(__DIR__);
