@@ -66,7 +66,7 @@ class ShowCatalogActionTest extends AbstractIntegrationTest
 
         $client->request('GET', '/catalogs/70313d30-8316-41c2-b298-8f9e7186fe9a');
 
-        $this->assertEquals('https://example.com'.'/connect/apps/v1/connected_app/'.$connectedAppId, $client->getCrawler()->selectLink('Go to Akeneo PIM')->attr('href'));
+        $this->assertEquals('https://example.com/connect/apps/v1/connected_app/'.$connectedAppId, $client->getCrawler()->selectLink('Go to Akeneo PIM')->attr('href'));
     }
 
     /**

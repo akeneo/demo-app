@@ -143,7 +143,7 @@ class PimCatalogApiClientTest extends AbstractIntegrationTest
                 'name' => 'Demo App catalog',
                 'enabled' => false,
             ], JSON_THROW_ON_ERROR),
-            ['http_code' => 201]
+                ['http_code' => 201]
             )
         );
 

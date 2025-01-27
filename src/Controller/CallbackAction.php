@@ -53,7 +53,7 @@ final class CallbackAction
             throw new \LogicException('Missing authorization code');
         }
 
-        ['access_token' => $accessToken, 'user_profile' => $userProfile ] = $this->fetchAccessTokenPayload($pimUrl, $authorizationCode);
+        ['access_token' => $accessToken, 'user_profile' => $userProfile] = $this->fetchAccessTokenPayload($pimUrl, $authorizationCode);
 
         $this->accessTokenStorage->setAccessToken($accessToken);
 
@@ -67,7 +67,7 @@ final class CallbackAction
     }
 
     /**
-     * @return array{'access_token': string, "user_profile": null | string}
+     * @return array{'access_token': string, "user_profile": string|null}
      */
     private function fetchAccessTokenPayload(mixed $pimUrl, float|bool|int|string $authorizationCode): array
     {
@@ -114,6 +114,8 @@ final class CallbackAction
 
     /**
      * @return array<string, mixed>
+     *
+     * @psalm-suppress DeprecatedMethod
      */
     private function extractClaimsFromSignedToken(string $idToken, string $signature, string $issuer): array
     {
@@ -121,9 +123,11 @@ final class CallbackAction
         $token = $jwtConfig->parser()->parse($idToken);
         \assert($token instanceof UnencryptedToken);
 
-        $jwtConfig->setValidationConstraints(new IssuedBy($issuer), new SignedWith(new Sha256(), InMemory::plainText($signature)));
-        $constraints = $jwtConfig->validationConstraints();
-        $jwtConfig->validator()->assert($token, ...$constraints);
+        if (!empty($signature)) {
+            $jwtConfig->setValidationConstraints(new IssuedBy($issuer), new SignedWith(new Sha256(), InMemory::plainText($signature)));
+            $constraints = $jwtConfig->validationConstraints();
+            $jwtConfig->validator()->assert($token, ...$constraints);
+        }
 
         return $token->claims()->all();
     }

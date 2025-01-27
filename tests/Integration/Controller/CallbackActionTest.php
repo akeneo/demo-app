@@ -296,7 +296,7 @@ class CallbackActionTest extends AbstractIntegrationTest
         B2zNzvrlgRmgBrklMTrMYgm1NPcW+bRLGcwgW2PTvNM=
         -----END RSA PRIVATE KEY-----
         EOD,
-        'public' => <<<EOD
+            'public' => <<<EOD
         -----BEGIN PUBLIC KEY-----
         MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8kGa1pSjbSYZVebtTRBLxBz5H
         4i2p/llLCrEeQhta5kaQu/RnvuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t
@@ -313,7 +313,7 @@ class CallbackActionTest extends AbstractIntegrationTest
     private function generateIdToken(
         string $privateKey,
         string $publicKey,
-        array $withClaims = ['firstname' => 'John', 'lastname' => 'Doe']
+        array $withClaims = ['firstname' => 'John', 'lastname' => 'Doe'],
     ): string {
         $jwtConfig = Configuration::forAsymmetricSigner(
             new Sha256(),

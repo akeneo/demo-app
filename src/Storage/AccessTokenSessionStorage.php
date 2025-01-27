@@ -19,7 +19,7 @@ class AccessTokenSessionStorage implements AccessTokenStorageInterface
     private const ACCESS_TOKEN_SESSION_KEY = 'akeneo_pim_access_token';
 
     public function __construct(
-        private RequestStack $requestStack
+        private RequestStack $requestStack,
     ) {
     }
 
