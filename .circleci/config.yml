@@ -17,7 +17,7 @@ parameters:
 jobs:
   checkout:
     machine:
-      image: ubuntu-2204:2024.11.1
+      image: ubuntu-2404:2024.11.1
     steps:
       - checkout
       - persist_to_workspace:
@@ -27,7 +27,7 @@ jobs:
 
   run_tests:
     machine:
-      image: ubuntu-2204:2024.11.1
+      image: ubuntu-2404:2024.11.1
       docker_layer_caching: true
     environment:
       BUILDKIT_PROGRESS: "plain"
@@ -46,7 +46,7 @@ jobs:
 
   validate_deployment:
     machine:
-      image: ubuntu-2204:2024.11.1
+      image: ubuntu-2404:2024.11.1
     steps:
       - attach_workspace:
           at: ~/
@@ -62,7 +62,7 @@ jobs:
 
   deploy_dev:
     machine:
-      image: ubuntu-2204:2024.11.1
+      image: ubuntu-2404:2024.11.1
       docker_layer_caching: true
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
@@ -94,7 +94,7 @@ jobs:
 
   upgrade_dev_infrastructure:
     machine:
-      image: ubuntu-2204:2024.11.1
+      image: ubuntu-2404:2024.11.1
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
       GCP_PROJECT: ${DEV_GCP_PROJECT}
@@ -119,7 +119,7 @@ jobs:
 
   deploy_prod:
     machine:
-      image: ubuntu-2204:2024.11.1
+      image: ubuntu-2404:2024.11.1
       docker_layer_caching: true
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
@@ -151,7 +151,7 @@ jobs:
 
   upgrade_prod_infrastructure:
     machine:
-      image: ubuntu-2204:2024.11.1
+      image: ubuntu-2404:2024.11.1
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
       GCP_PROJECT: ${PROD_GCP_PROJECT}
