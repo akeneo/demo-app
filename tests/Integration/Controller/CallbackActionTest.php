@@ -213,19 +213,31 @@ class CallbackActionTest extends AbstractIntegrationTest
 
         $alteredPrivateKey = <<<EOD
         -----BEGIN RSA PRIVATE KEY-----
-        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
+        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
         -----END RSA PRIVATE KEY-----
         EOD;
 
@@ -280,28 +292,44 @@ class CallbackActionTest extends AbstractIntegrationTest
     {
         return [
             'private' => <<<EOD
-        -----BEGIN RSA PRIVATE KEY-----
-        MIICXAIBAAKBgQC8kGa1pSjbSYZVebtTRBLxBz5H4i2p/llLCrEeQhta5kaQu/Rn
-        vuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t0tyazyZ8JXw+KgXTxldMPEL9
-        5+qVhgXvwtihXC1c5oGbRlEDvDF6Sa53rcFVsYJ4ehde/zUxo6UvS7UrBQIDAQAB
-        AoGAb/MXV46XxCFRxNuB8LyAtmLDgi/xRnTAlMHjSACddwkyKem8//8eZtw9fzxz
-        bWZ/1/doQOuHBGYZU8aDzzj59FZ78dyzNFoF91hbvZKkg+6wGyd/LrGVEB+Xre0J
-        Nil0GReM2AHDNZUYRv+HYJPIOrB0CRczLQsgFJ8K6aAD6F0CQQDzbpjYdx10qgK1
-        cP59UHiHjPZYC0loEsk7s+hUmT3QHerAQJMZWC11Qrn2N+ybwwNblDKv+s5qgMQ5
-        5tNoQ9IfAkEAxkyffU6ythpg/H0Ixe1I2rd0GbF05biIzO/i77Det3n4YsJVlDck
-        ZkcvY3SK2iRIL4c9yY6hlIhs+K9wXTtGWwJBAO9Dskl48mO7woPR9uD22jDpNSwe
-        k90OMepTjzSvlhjbfuPN1IdhqvSJTDychRwn1kIJ7LQZgQ8fVz9OCFZ/6qMCQGOb
-        qaGwHmUK6xzpUbbacnYrIM6nLSkXgOAwv7XXCojvY614ILTK3iXiLBOxPu5Eu13k
-        eUz9sHyD6vkgZzjtxXECQAkp4Xerf5TGfQXGXhxIX52yH+N2LtujCdkQZjXAsGdm
-        B2zNzvrlgRmgBrklMTrMYgm1NPcW+bRLGcwgW2PTvNM=
-        -----END RSA PRIVATE KEY-----
+        -----BEGIN PRIVATE KEY-----
+        MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDTvwE87MtgREYL
+        TL4aHhQo3ZzogmxxvMUsKnPzyxRs1YrXOSOpwN0npsXarBKKVIUMNLfFODp/vnQn
+        2Zp06N8XG59WAOKwvC4MfxLDQkA+JXggzHlkbVoTN+dUkdYIFqSKuAPGwiWToRK2
+        SxEhij3rE2FON8jQZvDxZkiP9a4vxJO3OTPQwKredXFiObsXD/c3RtLFhKctjCyH
+        OIrP0bQEsee/m7JNtG4ry6BPusN6wb+vJo5ieBYPa3c19akNq6q/nYWhplhkkJSu
+        aOrL5xXEFzI5TvcvnXR568GVcxK8YLfFkdxpsXGt5rAbeh0h/U5kILEAqv8P9PGT
+        ZpicKbrnAgMBAAECggEAd3yTQEQHR91/ASVfKPHMQns77eCbPVtekFusbugsMHYY
+        EPdHbqVMpvFvOMRc+f5Tzd15ziq6qBdbCJm8lThLm4iU0z1QrpaiDZ8vgUvDYM5Y
+        CXoZDli+uZWUTp60/n94fmb0ipZIChScsI2PrzOJWTvobvD/uso8MJydWc8zafQm
+        uqYzygOfjFZvU4lSfgzpefhpquy0JUy5TiKRmGUnwLb3TtcsVavjsn4QmNwLYgOF
+        2OE+R12ex3pAKTiRE6FcnE1xFIo1GKhBa2Otgw3MDO6Gg+kn8Q4alKz6C6RRlgaH
+        R7sYzEfJhsk/GGFTYOzXKQz2lSaStKt9wKCor04RcQKBgQDzPOu5jCTfayUo7xY2
+        jHtiogHyKLLObt9l3qbwgXnaD6rnxYNvCrA0OMvT+iZXsFZKJkYzJr8ZOxOpPROk
+        10WdOaefiwUyL5dypueSwlIDwVm+hI4Bs82MajHtzOozh+73wA+aw5rPs84Uix9w
+        VbbwaVR6qP/BV09yJYS5kQ7fmwKBgQDe2xjywX2d2MC+qzRr+LfU+1+gq0jjhBCX
+        WHqRN6IECB0xTnXUf9WL/VCoI1/55BhdbbEja+4btYgcXSPmlXBIRKQ4VtFfVmYB
+        kPXeD8oZ7LyuNdCsbKNe+x1IHXDe6Wfs3L9ulCfXxeIE84wy3fd66mQahyXV9iD9
+        CkuifMqUpQKBgQCiydHlY1LGJ/o9tA2Ewm5Na6mrvOs2V2Ox1NqbObwoYbX62eiF
+        53xX5u8bVl5U75JAm+79it/4bd5RtKux9dUETbLOhwcaOFm+hM+VG/IxyzRZ2nMD
+        1qcpY2U5BpxzknUvYF3RMTop6edxPk7zKpp9ubCtSu+oINvtxAhY/SkcIwKBgGP1
+        upcImyO2GZ5shLL5eNubdSVILwV+M0LveOqyHYXZbd6z5r5OKKcGFKuWUnJwEU22
+        6gGNY9wh7M9sJ7JBzX9c6pwqtPcidda2AtJ8GpbOTUOG9/afNBhiYpv6OKqD3w2r
+        ZmJfKg/qvpqh83zNezgy8nvDqwDxyZI2j/5uIx/RAoGBAMWRmxtv6H2cKhibI/aI
+        MTJM4QRjyPNxQqvAQsv+oHUbid06VK3JE+9iQyithjcfNOwnCaoO7I7qAj9QEfJS
+        MZQc/W/4DHJebo2kd11yoXPVTXXOuEwLSKCejBXABBY0MPNuPUmiXeU0O3Tyi37J
+        TUKzrgcd7NvlA41Y4xKcOqEA
+        -----END PRIVATE KEY-----
         EOD,
             'public' => <<<EOD
         -----BEGIN PUBLIC KEY-----
-        MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8kGa1pSjbSYZVebtTRBLxBz5H
-        4i2p/llLCrEeQhta5kaQu/RnvuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t
-        0tyazyZ8JXw+KgXTxldMPEL95+qVhgXvwtihXC1c5oGbRlEDvDF6Sa53rcFVsYJ4
-        ehde/zUxo6UvS7UrBQIDAQAB
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA078BPOzLYERGC0y+Gh4U
+        KN2c6IJscbzFLCpz88sUbNWK1zkjqcDdJ6bF2qwSilSFDDS3xTg6f750J9madOjf
+        FxufVgDisLwuDH8Sw0JAPiV4IMx5ZG1aEzfnVJHWCBakirgDxsIlk6EStksRIYo9
+        6xNhTjfI0Gbw8WZIj/WuL8STtzkz0MCq3nVxYjm7Fw/3N0bSxYSnLYwshziKz9G0
+        BLHnv5uyTbRuK8ugT7rDesG/ryaOYngWD2t3NfWpDauqv52FoaZYZJCUrmjqy+cV
+        xBcyOU73L510eevBlXMSvGC3xZHcabFxreawG3odIf1OZCCxAKr/D/Txk2aYnCm6
+        5wIDAQAB
         -----END PUBLIC KEY-----
         EOD,
         ];
