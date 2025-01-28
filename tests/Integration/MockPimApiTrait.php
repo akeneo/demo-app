@@ -15,7 +15,7 @@ trait MockPimApiTrait
         string $filename,
         string $url,
         string $method = 'GET',
-        array $options = []
+        array $options = [],
     ): void {
         assert($this instanceof AbstractIntegrationTest);
 

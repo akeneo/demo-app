@@ -9,7 +9,7 @@ use App\Storage\AccessTokenStorageInterface;
 class AccessTokenInMemoryStorage implements AccessTokenStorageInterface
 {
     public function __construct(
-        private ?string $accessToken = null
+        private ?string $accessToken = null,
     ) {
     }
 

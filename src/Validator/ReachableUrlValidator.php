@@ -20,11 +20,9 @@ class ReachableUrlValidator extends ConstraintValidator
     }
 
     /**
-     * @param mixed $value
-     *
      * @return void
      */
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint)
     {
         if (!$constraint instanceof ReachableUrl) {
             throw new UnexpectedTypeException($constraint, ReachableUrl::class);
