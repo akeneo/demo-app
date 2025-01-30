@@ -20,7 +20,7 @@ class UserProfileSessionStorage implements UserProfileStorageInterface
     private const USER_PROFILE_SESSION_KEY = 'akeneo_pim_user_profile';
 
     public function __construct(
-        private RequestStack $requestStack
+        private RequestStack $requestStack,
     ) {
     }
 

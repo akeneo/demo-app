@@ -1,4 +1,4 @@
-FROM php:8.1.1-apache AS core
+FROM php:8.1.31-apache AS core
 
 RUN apt-get update \
     && apt-get install -y \

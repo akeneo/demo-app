@@ -225,7 +225,7 @@ class PimCatalogApiClient
         int $limit = 10,
         ?string $searchAfter = null,
         ?string $updatedAfter = null,
-        ?string $updatedBefore = null
+        ?string $updatedBefore = null,
     ): array {
         $pimUrl = $this->getPimUrl();
 

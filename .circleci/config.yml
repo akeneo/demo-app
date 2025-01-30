@@ -17,7 +17,7 @@ parameters:
 jobs:
   checkout:
     machine:
-      image: ubuntu-2004:202101-01
+      image: ubuntu-2404:2024.11.1
     steps:
       - checkout
       - persist_to_workspace:
@@ -27,11 +27,11 @@ jobs:
 
   run_tests:
     machine:
-      image: ubuntu-2004:202101-01
+      image: ubuntu-2404:2024.11.1
       docker_layer_caching: true
     environment:
       BUILDKIT_PROGRESS: "plain"
-      DOCKER_UID: "1000" # The circleci user has uid 1000
+      DOCKER_UID: "1001" # The circleci user has uid 1001
     steps:
       - attach_workspace:
           at: ~/
@@ -46,7 +46,7 @@ jobs:
 
   validate_deployment:
     machine:
-      image: ubuntu-2004:202101-01
+      image: ubuntu-2404:2024.11.1
     steps:
       - attach_workspace:
           at: ~/
@@ -54,15 +54,15 @@ jobs:
           name: Install terraform
           command: |
             curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-            sudo apt-get update && sudo apt-get install terraform
+            sudo apt-add-repository -y "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            sudo apt-get update && sudo apt-get install -y terraform
       - run:
           name: Terraform lint
           command: make terraform.lint
 
   deploy_dev:
     machine:
-      image: ubuntu-2004:202101-01
+      image: ubuntu-2404:2024.11.1
       docker_layer_caching: true
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
@@ -80,8 +80,8 @@ jobs:
           name: Install terraform
           command: |
             curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-            sudo apt-get update && sudo apt-get install terraform
+            sudo apt-add-repository -y "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            sudo apt-get update && sudo apt-get install -y terraform
       - run:
           name: Deploy
           command: |
@@ -94,7 +94,7 @@ jobs:
 
   upgrade_dev_infrastructure:
     machine:
-      image: ubuntu-2004:202101-01
+      image: ubuntu-2404:2024.11.1
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
       GCP_PROJECT: ${DEV_GCP_PROJECT}
@@ -111,15 +111,15 @@ jobs:
           name: Install terraform
           command: |
             curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-            sudo apt-get update && sudo apt-get install terraform
+            sudo apt-add-repository -y "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            sudo apt-get update && sudo apt-get install -y terraform
       - run:
           name: Upgrade infrastructure
           command: make terraform.deploy.infrastructure
 
   deploy_prod:
     machine:
-      image: ubuntu-2004:202101-01
+      image: ubuntu-2404:2024.11.1
       docker_layer_caching: true
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
@@ -137,8 +137,8 @@ jobs:
           name: Install terraform
           command: |
             curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-            sudo apt-get update && sudo apt-get install terraform
+            sudo apt-add-repository -y "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            sudo apt-get update && sudo apt-get install -y terraform
       - run:
           name: Deploy
           command: |
@@ -151,7 +151,7 @@ jobs:
 
   upgrade_prod_infrastructure:
     machine:
-      image: ubuntu-2004:202101-01
+      image: ubuntu-2404:2024.11.1
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp-service-key.json"
       GCP_PROJECT: ${PROD_GCP_PROJECT}
@@ -168,8 +168,8 @@ jobs:
           name: Install terraform
           command: |
             curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-            sudo apt-get update && sudo apt-get install terraform
+            sudo apt-add-repository -y -y "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            sudo apt-get update && sudo apt-get install -y terraform
       - run:
           name: Upgrade infrastructure
           command: make terraform.deploy.infrastructure

@@ -9,7 +9,7 @@ use App\Storage\PimURLStorageInterface;
 class PimURLInMemoryStorage implements PimURLStorageInterface
 {
     public function __construct(
-        private string $url
+        private string $url,
     ) {
     }
 

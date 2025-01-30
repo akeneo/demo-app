@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class PimURLSessionStorage implements PimURLStorageInterface
 {
     public function __construct(
-        private RequestStack $requestStack
+        private RequestStack $requestStack,
     ) {
     }
 
