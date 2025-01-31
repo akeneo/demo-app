@@ -29,7 +29,7 @@ class FetchProductsQueryTest extends AbstractIntegrationTest
     public function itFetchesProducts(): void
     {
         $query = static::getContainer()->get(FetchProductsQuery::class);
-        $result = $query?->fetch('en_US', '70313d30-8316-41c2-b298-8f9e7186fe9a');
+        $result = $query->fetch('en_US', '70313d30-8316-41c2-b298-8f9e7186fe9a');
 
         $expected = [
             new Product('5b8381e2-a97a-4120-87da-1ef8b9c53988', 'Kodak i1410', []),
@@ -58,7 +58,7 @@ class FetchProductsQueryTest extends AbstractIntegrationTest
         );
 
         $query = static::getContainer()->get(FetchProductsQuery::class);
-        $result = $query?->fetch('en_US', 'catalog_store_us_products_empty_list');
+        $result = $query->fetch('en_US', 'catalog_store_us_products_empty_list');
 
         $expected = [];
 

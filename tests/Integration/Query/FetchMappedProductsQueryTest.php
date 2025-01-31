@@ -13,7 +13,7 @@ class FetchMappedProductsQueryTest extends AbstractIntegrationTest
 {
     use MockPimApiTrait;
 
-    private ?FetchMappedProductsQuery $query;
+    private ?FetchMappedProductsQuery $query = null;
 
     public function setUp(): void
     {
