@@ -16,7 +16,7 @@ class PimCatalogApiClientTest extends AbstractIntegrationTest
 {
     use MockPimApiTrait;
 
-    private ?PimCatalogApiClient $pimCatalogApiClient;
+    private ?PimCatalogApiClient $pimCatalogApiClient = null;
 
     public function setUp(): void
     {
@@ -188,6 +188,7 @@ class PimCatalogApiClientTest extends AbstractIntegrationTest
         $this->pimCatalogApiClient->setProductMappingSchema($catalogId, 'mapping_json_content');
 
         // expect no exception to occur
+        // @phpstan-ignore method.alreadyNarrowedType
         $this->assertTrue(true);
     }
 

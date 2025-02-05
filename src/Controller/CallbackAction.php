@@ -8,7 +8,6 @@ use App\Service\InitializeAppData;
 use App\Storage\AccessTokenStorageInterface;
 use App\Storage\UserProfileStorageInterface;
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Signer\Blake2b;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\UnencryptedToken;
@@ -115,6 +114,8 @@ final class CallbackAction
 
     /**
      * @return array<string, mixed>
+     *
+     * @psalm-suppress DeprecatedMethod
      */
     private function extractClaimsFromSignedToken(string $idToken, string $signature, string $issuer): array
     {
@@ -122,11 +123,7 @@ final class CallbackAction
             throw new \InvalidArgumentException('the parameter "signature" must be non-empty string.');
         }
 
-        $jwtConfig = Configuration::forSymmetricSigner(
-            new Blake2b(),
-            InMemory::base64Encoded('MpQd6dDPiqnzFSWmpUfLy4+Rdls90Ca4C8e0QD0IxqY=')
-        );
-
+        $jwtConfig = Configuration::forUnsecuredSigner();
         $token = $jwtConfig->parser()->parse($idToken);
         \assert($token instanceof UnencryptedToken);
 
