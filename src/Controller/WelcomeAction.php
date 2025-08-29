@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Storage\AccessTokenSessionStorage;
+use App\Storage\AccessTokenStorageInterface;
 use App\Validator\ReachableUrl;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +20,7 @@ final class WelcomeAction
     public function __construct(
         private TwigEnvironment $twig,
         private RouterInterface $router,
-        private AccessTokenSessionStorage $accessTokenSessionStorage,
+        private AccessTokenStorageInterface $accessTokenStorage,
         private ValidatorInterface $validator,
     ) {
     }
@@ -42,7 +42,7 @@ final class WelcomeAction
 
         $session->set('pim_url', \rtrim((string) $pimUrl, '/'));
 
-        $accessToken = $this->accessTokenSessionStorage->getAccessToken();
+        $accessToken = $this->accessTokenStorage->getAccessToken();
         if (null !== $accessToken) {
             return new RedirectResponse($this->router->generate('catalogs'));
         }
