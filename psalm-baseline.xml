@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="6.20.1@376425b8e67b79773add388e16b4f6be5693dc87">
+  <file src="src/Controller/ActivateAction.php">
+    <UnusedClass>
+      <code><![CDATA[ActivateAction]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Controller/CallbackAction.php">
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[empty($authorizationCode)]]></code>
+      <code><![CDATA[empty($state)]]></code>
+    </RiskyTruthyFalsyComparison>
+    <UnusedClass>
+      <code><![CDATA[CallbackAction]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Controller/ListCatalogsAction.php">
+    <UnusedClass>
+      <code><![CDATA[ListCatalogsAction]]></code>
+    </UnusedClass>
+    <UnusedParam>
+      <code><![CDATA[$request]]></code>
+    </UnusedParam>
+  </file>
+  <file src="src/Controller/ShowCatalogAction.php">
+    <UnusedClass>
+      <code><![CDATA[ShowCatalogAction]]></code>
+    </UnusedClass>
+    <UnusedParam>
+      <code><![CDATA[$request]]></code>
+    </UnusedParam>
+  </file>
+  <file src="src/Controller/ShowProductAction.php">
+    <UnusedClass>
+      <code><![CDATA[ShowProductAction]]></code>
+    </UnusedClass>
+    <UnusedParam>
+      <code><![CDATA[$request]]></code>
+    </UnusedParam>
+  </file>
+  <file src="src/Controller/WelcomeAction.php">
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[empty($pimUrl)]]></code>
+    </RiskyTruthyFalsyComparison>
+    <UnusedClass>
+      <code><![CDATA[WelcomeAction]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/EventListener/CatalogDisabledExceptionEventSubscriber.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[CatalogDisabledExceptionEventSubscriber]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public static function getSubscribedEvents(): array]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[CatalogDisabledExceptionEventSubscriber]]></code>
+    </UnusedClass>
+    <UnusedParam>
+      <code><![CDATA[$event]]></code>
+    </UnusedParam>
+  </file>
+  <file src="src/EventListener/CookieSessionEventSubscriber.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[CookieSessionEventSubscriber]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public static function getSubscribedEvents(): array]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[CookieSessionEventSubscriber]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/EventListener/MissingPimApiAccessTokenExceptionEventSubscriber.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[MissingPimApiAccessTokenExceptionEventSubscriber]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public static function getSubscribedEvents(): array]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[MissingPimApiAccessTokenExceptionEventSubscriber]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/EventListener/MissingPimUrlExceptionEventSubscriber.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[MissingPimUrlExceptionEventSubscriber]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public static function getSubscribedEvents(): array]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[MissingPimUrlExceptionEventSubscriber]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/EventListener/UnauthorizedHttpExceptionEventSubscriber.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[UnauthorizedHttpExceptionEventSubscriber]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public static function getSubscribedEvents(): array]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[UnauthorizedHttpExceptionEventSubscriber]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Exception/CatalogNotFoundException.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Kernel.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Kernel]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getProjectDir(): string]]></code>
+    </MissingOverrideAttribute>
+  </file>
+  <file src="src/PimApi/Exception/PimApiException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[PimApiException]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/PimApi/Exception/PimApiUnauthorizedException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[PimApiUnauthorizedException]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/PimApi/Model/Catalog.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Catalog]]></code>
+    </ClassMustBeFinal>
+    <MissingClassConstType>
+      <code><![CDATA[ATTRIBUTE_MAPPING_NAME = 'Catalog with attribute mapping']]></code>
+      <code><![CDATA[PRODUCT_VALUE_FILTERS_NAME = 'Catalog with product value filters']]></code>
+    </MissingClassConstType>
+  </file>
+  <file src="src/PimApi/Model/Product.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Product]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedProperty>
+      <code><![CDATA[$attributes]]></code>
+      <code><![CDATA[$label]]></code>
+      <code><![CDATA[$uuid]]></code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="src/PimApi/Model/ProductValue.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ProductValue]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedProperty>
+      <code><![CDATA[$label]]></code>
+      <code><![CDATA[$type]]></code>
+      <code><![CDATA[$value]]></code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="src/PimApi/PimApiClientFactory.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[PimApiClientFactory]]></code>
+    </ClassMustBeFinal>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[empty($accessToken)]]></code>
+      <code><![CDATA[empty($pimURL)]]></code>
+    </RiskyTruthyFalsyComparison>
+    <UnusedClass>
+      <code><![CDATA[PimApiClientFactory]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/PimApi/PimCatalogApiClient.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[PimCatalogApiClient]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/PimApi/ProductValueDenormalizer.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ProductValueDenormalizer]]></code>
+    </ClassMustBeFinal>
+    <MissingClassConstType>
+      <code><![CDATA[PIM_CATALOG_BOOLEAN = 'pim_catalog_boolean']]></code>
+      <code><![CDATA[PIM_CATALOG_DATE = 'pim_catalog_date']]></code>
+      <code><![CDATA[PIM_CATALOG_IDENTIFIER = 'pim_catalog_identifier']]></code>
+      <code><![CDATA[PIM_CATALOG_NUMBER = 'pim_catalog_number']]></code>
+      <code><![CDATA[PIM_CATALOG_PRICE_COLLECTION = 'pim_catalog_price_collection']]></code>
+      <code><![CDATA[PIM_CATALOG_TEXT = 'pim_catalog_text']]></code>
+      <code><![CDATA[PIM_CATALOG_TEXTAREA = 'pim_catalog_textarea']]></code>
+      <code><![CDATA[SUPPORTED_ATTRIBUTE_TYPES = [
+        self::PIM_CATALOG_IDENTIFIER,
+        self::PIM_CATALOG_TEXT,
+        self::PIM_CATALOG_TEXTAREA,
+        self::PIM_CATALOG_NUMBER,
+        self::PIM_CATALOG_BOOLEAN,
+        self::PIM_CATALOG_DATE,
+        self::PIM_CATALOG_PRICE_COLLECTION,
+    ]]]></code>
+    </MissingClassConstType>
+  </file>
+  <file src="src/Query/FetchMappedProductQuery.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[empty($rawMappedProduct['name'])]]></code>
+    </RiskyTruthyFalsyComparison>
+    <UnnecessaryVarAnnotation>
+      <code><![CDATA[RawMappedProduct]]></code>
+    </UnnecessaryVarAnnotation>
+  </file>
+  <file src="src/Query/FetchMappedProductsQuery.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+    <UnnecessaryVarAnnotation>
+      <code><![CDATA[array<RawMappedProduct>]]></code>
+    </UnnecessaryVarAnnotation>
+  </file>
+  <file src="src/Query/FetchProductQuery.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Query/FetchProductsQuery.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Query/GuessCurrentLocaleQuery.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Security/Decrypt.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Decrypt]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[$clearText]]></code>
+      <code><![CDATA[\openssl_cipher_iv_length($this->method)]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/Security/Encrypt.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Encrypt]]></code>
+    </ClassMustBeFinal>
+    <PossiblyFalseOperand>
+      <code><![CDATA[$cipherText]]></code>
+      <code><![CDATA[$cipherText]]></code>
+    </PossiblyFalseOperand>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[\openssl_cipher_iv_length($this->method)]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/Service/DnsLookup.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[DnsLookup]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function ip(string $host): ?string]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[DnsLookup]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Service/InitializeAppData.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Session/CookieSessionHandler.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[CookieSessionHandler]]></code>
+    </ClassMustBeFinal>
+    <MissingClassConstType>
+      <code><![CDATA[COOKIE_NAME = 'demo_app_session_cookie']]></code>
+    </MissingClassConstType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function close(): bool]]></code>
+      <code><![CDATA[public function destroy($id): bool]]></code>
+      <code><![CDATA[public function gc($max_lifetime): int|false]]></code>
+      <code><![CDATA[public function open($path, $name): bool]]></code>
+      <code><![CDATA[public function read($id): string]]></code>
+      <code><![CDATA[public function write($id, $data): bool]]></code>
+    </MissingOverrideAttribute>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+      <code><![CDATA[close]]></code>
+      <code><![CDATA[destroy]]></code>
+      <code><![CDATA[gc]]></code>
+      <code><![CDATA[open]]></code>
+      <code><![CDATA[read]]></code>
+      <code><![CDATA[setCookie]]></code>
+      <code><![CDATA[write]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Storage/AccessTokenSessionStorage.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[AccessTokenSessionStorage]]></code>
+    </ClassMustBeFinal>
+    <MissingClassConstType>
+      <code><![CDATA[ACCESS_TOKEN_SESSION_KEY = 'akeneo_pim_access_token']]></code>
+    </MissingClassConstType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function clear(): void]]></code>
+      <code><![CDATA[public function getAccessToken(): ?string]]></code>
+      <code><![CDATA[public function setAccessToken(string $accessToken): void]]></code>
+    </MissingOverrideAttribute>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Storage/PimURLSessionStorage.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[PimURLSessionStorage]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getPimURL(): ?string]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[PimURLSessionStorage]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Storage/UserProfileSessionStorage.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[UserProfileSessionStorage]]></code>
+    </ClassMustBeFinal>
+    <MissingClassConstType>
+      <code><![CDATA[USER_PROFILE_SESSION_KEY = 'akeneo_pim_user_profile']]></code>
+    </MissingClassConstType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getUserProfile(): ?string]]></code>
+      <code><![CDATA[public function setUserProfile(string $userProfile): void]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[UserProfileSessionStorage]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Storage/UserProfileStorageInterface.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getUserProfile]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Validator/ReachableUrl.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ReachableUrl]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Validator/ReachableUrlValidator.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ReachableUrlValidator]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function validate(mixed $value, Constraint $constraint)]]></code>
+    </MissingOverrideAttribute>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[empty($host)]]></code>
+    </RiskyTruthyFalsyComparison>
+    <UnusedClass>
+      <code><![CDATA[ReachableUrlValidator]]></code>
+    </UnusedClass>
+  </file>
+</files>

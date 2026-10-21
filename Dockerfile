@@ -1,4 +1,4 @@
-FROM php:8.1.31-apache AS core
+FROM php:8.4.27-apache AS core
 
 RUN apt-get update \
     && apt-get install -y \
@@ -95,10 +95,14 @@ FROM dev-tools as development
 
 ARG USER=www-data
 
-RUN pecl install \
-        xdebug \
-        pcov  \
-    && docker-php-ext-enable \
+# Built from GitHub release archives: pecl.php.net returns HTTP 500 (2026-10-21).
+# Switch back to `pecl install xdebug pcov` once it is reliable again.
+RUN mkdir -p /usr/src/php/ext/xdebug /usr/src/php/ext/pcov \
+    && curl -fsSL https://github.com/xdebug/xdebug/archive/refs/tags/3.5.3.tar.gz \
+        | tar xz --strip-components=1 -C /usr/src/php/ext/xdebug \
+    && curl -fsSL https://github.com/krakjoe/pcov/archive/refs/tags/v1.0.12.tar.gz \
+        | tar xz --strip-components=1 -C /usr/src/php/ext/pcov \
+    && docker-php-ext-install \
         xdebug \
         pcov
 
