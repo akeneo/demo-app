@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa216b8d45b4e22eb59fc53c959f0d5b",
+    "content-hash": "9e3a7e61739f50de5b84b63dd5a301d0",
     "packages": [
         {
             "name": "akeneo/api-php-client",
@@ -139,6 +139,7 @@
                 "issues": "https://github.com/doctrine/annotations/issues",
                 "source": "https://github.com/doctrine/annotations/tree/1.14.4"
             },
+            "abandoned": true,
             "time": "2024-09-05T10:15:52+00:00"
         },
         {
@@ -12255,7 +12256,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "8.4.26",
+        "php": "8.4.27",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
