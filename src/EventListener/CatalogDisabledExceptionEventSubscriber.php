@@ -28,7 +28,7 @@ class CatalogDisabledExceptionEventSubscriber implements EventSubscriberInterfac
     public function onException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-        if (!($exception instanceof CatalogDisabledException)) {
+        if (!$exception instanceof CatalogDisabledException) {
             return;
         }
 

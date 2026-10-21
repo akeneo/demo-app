@@ -8,9 +8,6 @@
     "amphp/byte-stream": {
         "version": "v1.8.1"
     },
-    "composer/package-versions-deprecated": {
-        "version": "1.11.99.4"
-    },
     "composer/pcre": {
         "version": "1.0.0"
     },
@@ -35,6 +32,15 @@
             "config/routes/annotations.yaml"
         ]
     },
+    "doctrine/deprecations": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "fdd756167454623e21f1d769c5b814b243782a67"
+        }
+    },
     "doctrine/inflector": {
         "version": "2.0.4"
     },
@@ -43,9 +49,6 @@
     },
     "doctrine/lexer": {
         "version": "1.2.2"
-    },
-    "felixfbecker/advanced-json-rpc": {
-        "version": "v3.2.1"
     },
     "felixfbecker/language-server-protocol": {
         "version": "1.5.1"
@@ -94,9 +97,6 @@
         "files": [
             "config/packages/nyholm_psr7.yaml"
         ]
-    },
-    "openlss/lib-array2xml": {
-        "version": "1.0.0"
     },
     "phar-io/manifest": {
         "version": "2.0.3"
@@ -626,8 +626,5 @@
     },
     "webmozart/assert": {
         "version": "1.10.0"
-    },
-    "webmozart/path-util": {
-        "version": "2.3.0"
     }
 }
