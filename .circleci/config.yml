@@ -36,6 +36,9 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
+          name: Build production image
+          command: DOCKER_IMAGE_NAME=test DOCKER_IMAGE_VERSION=latest make docker-image
+      - run:
           name: Build docker images, install dependencies, warmup cache & start containers
           command: make up
       - run:
